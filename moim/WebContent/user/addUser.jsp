@@ -68,18 +68,20 @@ $(function(){
 		
 			//핸드폰 번호 합치기
 			
+
 			var value = "";
-			if ($("input:text[name='phone2']").val() != ""
-					&& $("input:text[name='phone3']").val() != "") {
-				var value = $("option:selected").val() + "-"
-						+ $("input[name='phone2']").val() + "-"
-						+ $("input[name='phone3']").val();
+			
+			if ($("input:text[name='phone1']").val() != ""
+					&& $("input:text[name='phone2']").val() != "") {
+			
+				var value = "010"
+						+ $("input[name='phone1']").val()
+						+ $("input[name='phone2']").val();
 			}
+			
 			$("input:hidden[name='phone']").val(value);
 	
-			
-			$("form").attr("method", "POST").attr("action", "/user/addUser")
-					.submit();
+			$("form").attr("method", "POST").attr("action", "/user/addUser").submit();
 		}
 	
 
@@ -187,9 +189,9 @@ $(function(){
   <label class="control-label" for="phone">핸드폰 번호</label>
   <div class="controls">
 010-
-    <input id="phone1" name="phone"  class="input-small" type="text">
+    <input id="phone1" name="phone1"  class="input-small" type="text">
     -
-    <input id="phone2" name="phone"  class="input-small" type="text">
+    <input id="phone2" name="phone2"  class="input-small" type="text">
      <button id="confirmPhone" name="confirmPhone" class="btn btn-default">인증</button>
     <input type="hidden" name="phone"/>
     
@@ -214,7 +216,7 @@ $(function(){
   <div class="controls">
     <div class="input-append">
   
-    <input id="birthYear" name="birthYear" class="input-small" placeholder="년도" type="text">
+    <input id="birth" name="birth" class="input-small" placeholder="년도" type="text">
     
     <select id="birthMonth" name="birthMonth" class="input-small">
       <option>01</option>
@@ -267,6 +269,7 @@ $(function(){
       <option>31</option>
     </select>
 
+    
     </div>
   </div>
 </div>
@@ -277,7 +280,7 @@ $(function(){
   <label class="control-label" for="interest">관심사</label>
   <div class="controls">
     <label class="checkbox" for="interestNo1">
-      <input name="interest" id="interestNo1" value="ok" type="checkbox">
+      <input name="interestNo1" id="interestNo1" value="ok" type="checkbox">
     ok 
     </label>    
   </div>

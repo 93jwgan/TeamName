@@ -1,19 +1,23 @@
 package com.moim.mvc.domain;
 
+import java.sql.Date;
+
 public class User {
 
-	String userId;
-	String name;
-	String password;
-	String birth;
-	String address;
-	String phone;
-	String profileImg;
-	String onOff;
-	String role;
-	String interestNo1;
-	String interestNo2;
-	String interestNo3;
+	private String userId;
+	private String name;
+	private String password;
+	private Date birth;
+	private String address;
+	private String phone;
+
+
+	private String profileImg;
+	private String onOff;
+	private String role;
+	private String interestNo1;
+	private String interestNo2;
+	private String interestNo3;
 	
 	public String getUserId() {
 		return userId;
@@ -23,6 +27,14 @@ public class User {
 		this.userId = userId;
 	}
 
+	public Date getBirth() {
+		return birth;
+	}
+
+	public void setBirth(Date birth) {
+		this.birth = birth;
+	}
+	
 	public String getPassword() {
 		return password;
 	}
@@ -40,13 +52,6 @@ public class User {
 		this.password = password;
 	}
 
-	public String getBirth() {
-		return birth;
-	}
-
-	public void setBirth(String birth) {
-		this.birth = birth;
-	}
 
 	public String getAddress() {
 		return address;
@@ -112,8 +117,12 @@ public class User {
 		this.interestNo3 = interestNo3;
 	}
 
-	public User() {
-		// TODO Auto-generated constructor stub
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", name=" + name + ", password=" + password + ", birth=" + birth
+				+ ", address=" + address + ", phone=" + phone + ", profileImg=" + profileImg + ", onOff=" + onOff
+				+ ", role=" + role + ", interestNo1=" + interestNo1 + ", interestNo2=" + interestNo2 + ", interestNo3="
+				+ interestNo3 + "]";
 	}
 
 }

@@ -17,12 +17,12 @@ import com.moim.mvc.service.user.UserService;
 public class UserController {
 	
 	//필드
-	@Autowired
-	@Qualifier("userServiceImpl")
+	@Autowired 
+    @Qualifier("userServiceImpl")
 	private UserService userService;
 	
-	@Value("#{commonProperties['interest']}")
-	String interest;
+//	@Value("#{commonProperties['interest']}")
+//	String interest;
 	
 	@RequestMapping( value="addUserView", method=RequestMethod.GET )
 	public String addUserView() throws Exception{
@@ -32,10 +32,13 @@ public class UserController {
 	
 	@RequestMapping( value="addUser", method=RequestMethod.POST )
 	public String addUser( @ModelAttribute("user") User user ) throws Exception {
-
-		userService.addUser(user);
 		
-		return "redirect:/index.jsp";
+		System.out.println("11111111111111                "   + user );	
+		System.out.println("왜?");
+		userService.addUser(user);
+		System.out.println("아이쿠");
+		
+		return "/index.jsp"; 
 	}
 	
 

@@ -30,6 +30,7 @@ public class UserDaoImpl implements UserDao{
 	}
 	
 	public void addUser(User user) throws Exception {
+		System.out.println("::::::::::DaoImpl"+user);
 		sqlSession.insert("UserMapper.addUser", user);
 	}
 	
