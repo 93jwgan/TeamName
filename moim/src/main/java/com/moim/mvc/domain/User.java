@@ -1,6 +1,6 @@
 package com.moim.mvc.domain;
 
-public class Users {
+public class User {
 
 	String userId;
 	String password;
@@ -102,7 +102,7 @@ public class Users {
 		this.interestNo3 = interestNo3;
 	}
 
-	public Users() {
+	public User() {
 		// TODO Auto-generated constructor stub
 	}
 
