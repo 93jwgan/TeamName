@@ -3,6 +3,7 @@ package com.moim.mvc.domain;
 public class User {
 
 	String userId;
+	String name;
 	String password;
 	String birth;
 	String address;
@@ -26,6 +27,15 @@ public class User {
 		return password;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}

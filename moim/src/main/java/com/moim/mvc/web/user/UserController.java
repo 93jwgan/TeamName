@@ -2,28 +2,43 @@ package com.moim.mvc.web.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.moim.mvc.domain.User;
 import com.moim.mvc.service.user.UserService;
 
 //컨트롤러 시작
 @Controller
-@RequestMapping
+@RequestMapping("/user/*")
 public class UserController {
 	
 	//필드
 	@Autowired
 	@Qualifier("userServiceImpl")
-	private UserService userSerivce;
+	private UserService userService;
 	
-	/*
-	@RequestMapping( value="addUser" )
-	public String addUser() throws Exception{
-			
-		return "redirect:/user/addUserView.jsp";
+	@Value("#{commonProperties['interest']}")
+	String interest;
+	
+	@RequestMapping( value="addUserView", method=RequestMethod.GET )
+	public String addUserView() throws Exception{
+	
+		return "redirect:/user/addUser.jsp";
+	}
+	
+	@RequestMapping( value="addUser", method=RequestMethod.POST )
+	public String addUser( @ModelAttribute("user") User user ) throws Exception {
+
+		userService.addUser(user);
 		
-	}*/
+		return "redirect:/index.jsp";
+	}
+	
+
 	
 /*	@RequestMapping( value="addUser", method=RequestMethod.POST )
 	public String addUser( @ModelAttribute("user") User user ) throws Exception {

@@ -15,10 +15,11 @@
 <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet"> 
 
 <!--  CSS 넣을곳 -->
 <style>
+*{font-family: 'Nanum Gothic', sans-serif;}
 </style>
 
 <!--  JavaScript 넣을곳 -->
@@ -65,13 +66,56 @@ $(function(){
 				return;
 			}
 		
+			//핸드폰 번호 합치기
+			
+			var value = "";
+			if ($("input:text[name='phone2']").val() != ""
+					&& $("input:text[name='phone3']").val() != "") {
+				var value = $("option:selected").val() + "-"
+						+ $("input[name='phone2']").val() + "-"
+						+ $("input[name='phone3']").val();
+			}
+			$("input:hidden[name='phone']").val(value);
+	
+			
 			$("form").attr("method", "POST").attr("action", "/user/addUser")
 					.submit();
 		}
+	
+
+	
+	//------------- ID 중복확인---------------------
+	$(function() {
+
+		$("#userId").bind("keyup", function() {
+				
+			if($("#userId").val().length == 0){
+				$("#checkId").text("ID를 입력하세요.");
+			}
+		else  if ($("#userId").val().length > 6) {
+						$.post("/user/json/checkId/", {
+							userId : $("#userId").val(),
+						},
 		
-
+						function(JSONData, status) {
+							if (JSONData == "") {
+								$("#checkId").text("사용할 수 있는 ID 입니다.");
+		
+							} else {
+								$("#checkId").text("이미 존재하는 ID 입니다.");
+		
+							}
+						});
+		
+					}
+						else  {
+							$("#checkId").text("ID는 6글자 이상으로 입력해주세요.");
+						}
+			
+		});
 	});
-
+	
+	
 </script>
 
 
@@ -90,14 +134,14 @@ $(function(){
 <fieldset>
 
 <!-- Form Name -->
-<legend>::: 회원가입</legend>
+<h1><legend>::: 회원가입</legend></h1>
 
 <!-- Text input-->
 <div class="control-group">
   <label class="control-label" for="userId">ID</label>
   <div class="controls">
     <input id="userId" name="userId" placeholder="ID를 입력하세요" class="input-xlarge" type="text">
-    <p class="help-block">Error</p>
+    <p class="help-block" id="checkId">ID를 입력하세요.</p>
   </div>
 </div>
 
@@ -115,7 +159,6 @@ $(function(){
   <label class="control-label" for="name">이름</label>
   <div class="controls">
     <input id="name" name="name" placeholder="이름을 입력하세요." class="input-xlarge" type="text">
-    <p class="help-block">Error</p>
   </div>
 </div>
 
@@ -143,17 +186,26 @@ $(function(){
 <div class="control-group">
   <label class="control-label" for="phone">핸드폰 번호</label>
   <div class="controls">
-    <input id="phone" name="phone" placeholder="핸드폰번호를 입력하세요." class="input-xlarge" type="text">
+010-
+    <input id="phone1" name="phone"  class="input-small" type="text">
+    -
+    <input id="phone2" name="phone"  class="input-small" type="text">
+     <button id="confirmPhone" name="confirmPhone" class="btn btn-default">인증</button>
+    <input type="hidden" name="phone"/>
+    
     <p class="help-block">Error</p>
   </div>
 </div>
 
 <!-- Textarea -->
 <div class="control-group">
-  <label class="control-label" for="Address">주소</label>
-  <div class="controls">                     
-    <textarea id="Address" name="Address">주소를 입력하세요.</textarea>
-  </div>
+  <label class="control-label" for="address">주소</label>
+  <div class="controls">              
+  
+      <input id="address" name="address" placeholder="주소를 입력하세요." class="input-xlarge" type="text"> 
+          <button id="findAddress" name="findAddress" class="btn btn-default">찾기</button>
+          
+      </div>
 </div>
 
 <!-- Appended Input-->
@@ -161,10 +213,61 @@ $(function(){
   <label class="control-label" for="birthdate">생년월일</label>
   <div class="controls">
     <div class="input-append">
-      <input id="birthdate" name="birthdate" class="input-large" placeholder="생년월일을 입력하세요." type="text">
-      <span class="add-on">DOB</span>
+  
+    <input id="birthYear" name="birthYear" class="input-small" placeholder="년도" type="text">
+    
+    <select id="birthMonth" name="birthMonth" class="input-small">
+      <option>01</option>
+      <option>02</option>
+      <option>03</option>
+      <option>04</option>
+      <option>05</option>
+      <option>06</option>
+      <option>07</option>
+      <option>08</option>
+      <option>09</option>
+      <option>10</option>
+      <option>11</option>
+      <option>12</option>
+    </select>
+    
+    
+    
+    <select id="birthDay" name="birthDay" class="input-small">
+      <option>01</option>
+      <option>02</option>
+      <option>03</option>
+      <option>04</option>
+      <option>05</option>
+      <option>06</option>
+      <option>07</option>
+      <option>08</option>
+      <option>09</option>
+      <option>10</option>
+      <option>11</option>
+      <option>12</option>
+      <option>13</option>
+      <option>14</option>
+      <option>15</option>
+      <option>16</option>
+      <option>17</option>
+      <option>18</option>
+      <option>19</option>
+      <option>20</option>
+      <option>21</option>
+      <option>22</option>
+      <option>23</option>
+      <option>24</option>
+      <option>25</option>
+      <option>26</option>
+      <option>27</option>
+      <option>28</option>
+      <option>29</option>
+      <option>30</option>
+      <option>31</option>
+    </select>
+
     </div>
-    <p class="help-block">Error</p>
   </div>
 </div>
 
@@ -173,36 +276,20 @@ $(function(){
 <div class="control-group">
   <label class="control-label" for="interest">관심사</label>
   <div class="controls">
-    <label class="checkbox" for="interest-0">
-      <input name="interest" id="interest-0" value="ok" type="checkbox">
+    <label class="checkbox" for="interestNo1">
+      <input name="interest" id="interestNo1" value="ok" type="checkbox">
     ok 
-    </label>
-    
+    </label>    
   </div>
 </div>
-
-<!-- Select Basic -->
-<div class="control-group">
-  <label class="control-label" for="course">Apply For</label>
-  <div class="controls">
-    <select id="course" name="course" class="input-xlarge">
-      <option>Select Course</option>
-      <option>Computer Course</option>
-      <option>University Course</option>
-      <option>Other Course</option>
-    </select>
-  </div>
-</div>
-
 
 
 <!-- Button -->
-<div class="control-group">
-  <label class="control-label" for="submit"></label>
+
   <div class="controls">
-    <button id="join" name="join" class="btn btn-primary">가입</button>
+    <button id="join" name="join" class="btn btn-default">가입</button>
   </div>
-</div>
+
 
 </fieldset>
 </form>
