@@ -13,16 +13,21 @@
 	</settings>	
 	
 	<!-- FQCN(Full Qualified Class Name) Alias(별칭관리) -->
-	<typeAliases>
-		<typeAlias alias="user" type="com.model2.mvc.service.domain.User" />
 
+	<typeAliases>
+		<typeAlias alias="user" type="com.moim.mvc.domain.Users" />
+		<typeAlias alias="groups" type="com.moim.mvc.domain.Groups" />
+		<typeAlias alias="friend" type="com.moim.mvc.domain.Friend" />
+		<typeAlias alias="board" type="com.moim.mvc.domain.Board" />
 	</typeAliases>
+
 	
 	 <!-- SQL Definition :: file include -->
 	<mappers>
 		<mapper resource="sql/UserMapper.xml"/>
-		<mapper resource="sql/ProductMapper.xml"/>
-		<mapper resource="sql/PurchaseMapper.xml"/>
+		<mapper resource="sql/GroupMapper.xml"/>
+		<mapper resource="sql/BoardMapper.xml"/>
+		<mapper resource="sql/FriendMapper.xml"/>
 	</mappers>
 
 </configuration>
