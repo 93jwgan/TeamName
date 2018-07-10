@@ -26,18 +26,17 @@ public class UserController {
 	
 	@RequestMapping( value="addUserView", method=RequestMethod.GET )
 	public String addUserView() throws Exception{
-	
+		System.out.println("1234");
 		return "redirect:/user/addUser.jsp";
 	}
 	
 	@RequestMapping( value="addUser", method=RequestMethod.POST )
-	public String addUser( @ModelAttribute("user") User user ) throws Exception {
-		
-		System.out.println("11111111111111                "   + user );	
-		System.out.println("ø÷?");
+	public String addUser(@ModelAttribute("user") User user ) throws Exception {
+
+		System.out.println("11111111111111   "  );	
 		userService.addUser(user);
 		System.out.println("æ∆¿ÃƒÌ");
-		
+		System.out.println("1231432132");
 		return "/index.jsp"; 
 	}
 	

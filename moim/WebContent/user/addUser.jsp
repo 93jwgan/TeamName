@@ -26,19 +26,11 @@
 <script type="text/javascript">
 
 
-// ----- join 버튼 클릭 -----------
-$(function(){
 
-		$("#join").on("click", function() {
-		 addUser();
-		});
-		
-});
-		
 // ------ join 클릭 시 유효성검사 로직 ------
 	function addUser() {
 
-			var id = $("input[name='userId']").val();
+			 var id = $("input[name='userId']").val();
 			var pw = $("input[name='password']").val();
 			var pw_confirm = $("input[name='password2']").val();
 			var name = $("input[name='name']").val();
@@ -80,16 +72,27 @@ $(function(){
 			}
 			
 			$("input:hidden[name='phone']").val(value);
-	
-			$("form").attr("method", "POST").attr("action", "/user/addUser").submit();
-		}
-	
 
+			$("#form").attr("method", "POST").attr("action", "/user/addUser").submit();
+			
+	};
 	
-	//------------- ID 중복확인---------------------
+				
 	$(function() {
 
-		$("#userId").bind("keyup", function() {
+		// ----- join 버튼 클릭 -----------
+		
+		$("#join").bind("click", function() {
+			 	 
+			addUser();
+		});
+		
+
+		
+		//------------- ID 중복확인---------------------
+		
+		
+		 $("#userId").bind("keyup", function() {
 				
 			if($("#userId").val().length == 0){
 				$("#checkId").text("ID를 입력하세요.");
@@ -114,7 +117,7 @@ $(function(){
 							$("#checkId").text("ID는 6글자 이상으로 입력해주세요.");
 						}
 			
-		});
+		}); 
 	});
 	
 	
@@ -132,10 +135,11 @@ $(function(){
 
 <div class="container">
 	<div class="row">
-	<form class="form-horizontal">
-<fieldset>
+	
+	<form id="form" class="form-horizontal" >
+ <fieldset>
 
-<!-- Form Name -->
+
 <h1><legend>::: 회원가입</legend></h1>
 
 <!-- Text input-->
@@ -143,11 +147,11 @@ $(function(){
   <label class="control-label" for="userId">ID</label>
   <div class="controls">
     <input id="userId" name="userId" placeholder="ID를 입력하세요" class="input-xlarge" type="text">
-    <p class="help-block" id="checkId">ID를 입력하세요.</p>
+     <p class="help-block" id="checkId">ID를 입력하세요.</p>
   </div>
 </div>
 
-<!-- File Button --> 
+
 <div class="control-group">
   <label class="control-label" for="profileImg">프로필 사진</label>
   <div class="controls">
@@ -156,7 +160,7 @@ $(function(){
 </div>
 
 
-<!-- Text input-->
+
 <div class="control-group">
   <label class="control-label" for="name">이름</label>
   <div class="controls">
@@ -164,7 +168,7 @@ $(function(){
   </div>
 </div>
 
-<!-- Text input-->
+
 <div class="control-group">
   <label class="control-label" for="password">비밀번호</label>
   <div class="controls">
@@ -175,7 +179,7 @@ $(function(){
 
 
 
-<!-- Text input-->
+
 <div class="control-group">
   <label class="control-label" for="password2">비밀번호 확인</label>
   <div class="controls">
@@ -184,7 +188,7 @@ $(function(){
   </div>
 </div>
 
-<!-- Text input-->
+
 <div class="control-group">
   <label class="control-label" for="phone">핸드폰 번호</label>
   <div class="controls">
@@ -199,7 +203,7 @@ $(function(){
   </div>
 </div>
 
-<!-- Textarea -->
+
 <div class="control-group">
   <label class="control-label" for="address">주소</label>
   <div class="controls">              
@@ -210,7 +214,7 @@ $(function(){
       </div>
 </div>
 
-<!-- Appended Input-->
+
 <div class="control-group">
   <label class="control-label" for="birthdate">생년월일</label>
   <div class="controls">
@@ -275,7 +279,7 @@ $(function(){
 </div>
 
 
-<!-- Multiple Radios (inline) -->
+
 <div class="control-group">
   <label class="control-label" for="interest">관심사</label>
   <div class="controls">
@@ -287,17 +291,17 @@ $(function(){
 </div>
 
 
-<!-- Button -->
-
-  <div class="controls">
-    <button id="join" name="join" class="btn btn-default">가입</button>
-  </div>
 
 
-</fieldset>
+  <div class="controls"> 
+    <input id="join" name="join" class="btn btn-default" type="button" value="가입">
+  </div> 
+
+
+ </fieldset> 
 </form>
 
-	</div>
+</div>
 </div>
 
 

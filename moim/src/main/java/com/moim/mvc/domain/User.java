@@ -1,13 +1,12 @@
 package com.moim.mvc.domain;
 
-import java.sql.Date;
 
 public class User {
 
 	private String userId;
 	private String name;
 	private String password;
-	private Date birth;
+	private String birth;
 	private String address;
 	private String phone;
 
@@ -27,11 +26,11 @@ public class User {
 		this.userId = userId;
 	}
 
-	public Date getBirth() {
+	public String getBirth() {
 		return birth;
 	}
 
-	public void setBirth(Date birth) {
+	public void setBirth(String birth) {
 		this.birth = birth;
 	}
 	

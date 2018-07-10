@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService{
 	
 
 	public void addUser(User user) throws Exception {
-		System.out.println("::::::::::serviceImpl"+user);
+		System.out.println("::::::::ServiceImpl");
 		userDao.addUser(user);
 	}
 	
