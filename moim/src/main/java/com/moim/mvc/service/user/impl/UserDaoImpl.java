@@ -28,6 +28,7 @@ public class UserDaoImpl implements UserDao{
 		String check=sqlSession.selectOne("UserMapper.checkId", userId);
 		return check;	
 	}
+
 	
 	public void addUser(User user) throws Exception {
 		

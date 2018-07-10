@@ -60,11 +60,14 @@ public class UserRestController {
 		String password = userService.getPassword(userId, userName, phone);
 		return password;
 	}*/
+	
 	@RequestMapping( value="json/checkId", method=RequestMethod.POST )
 	public String checkId(@RequestParam("userId") String userId)throws Exception{
 		String result = userService.checkId(userId);
 		return result;
 	}
+	
+
 	
 	
 	/*@RequestMapping(value="json/checkPhone" )

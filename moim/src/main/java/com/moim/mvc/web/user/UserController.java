@@ -1,5 +1,9 @@
 package com.moim.mvc.web.user;
 
+import java.io.File;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.moim.mvc.domain.User;
 import com.moim.mvc.service.user.UserService;
@@ -31,12 +37,23 @@ public class UserController {
 	}
 	
 	@RequestMapping( value="addUser", method=RequestMethod.POST )
-	public String addUser(@ModelAttribute("user") User user ) throws Exception {
+	public String addUser(@ModelAttribute("user") User user,  HttpServletRequest request) throws Exception {
 
-		System.out.println("11111111111111   "  );	
-		userService.addUser(user);
-		System.out.println("æ∆¿ÃƒÌ");
-		System.out.println("1231432132");
+		//@RequestParam("profileImg") MultipartFile profileImg
+		String path = request.getSession().getServletContext().getRealPath("/")+"images\\user\\";
+		
+		System.out.println(path);
+		//C:\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\moim\images
+		
+		/*if(profileImg.getOriginalFilename()!="") {
+			File f= new File(path + profileImg.getOriginalFilename());
+			profileImg.transferTo(f);
+		}*/
+		
+		System.out.println("::::  " + user);
+		
+		//userService.addUser(user);
+
 		return "/index.jsp"; 
 	}
 	
