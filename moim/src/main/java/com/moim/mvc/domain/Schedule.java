@@ -2,22 +2,23 @@ package com.moim.mvc.domain;
 
 public class Schedule {
 
-	int ScheduleNo;
+	int scheduleNo;
 	String title;
 	String contents;
 	int maxMember;
 	int fee;
-	String scheduleDate;
+	String startDay;
+	String endDay;
 	String lat;
 	String lng;
 	int groupNo;
 	
 	public int getScheduleNo() {
-		return ScheduleNo;
+		return scheduleNo;
 	}
 
 	public void setScheduleNo(int scheduleNo) {
-		ScheduleNo = scheduleNo;
+		scheduleNo = scheduleNo;
 	}
 
 	public String getTitle() {
@@ -44,6 +45,7 @@ public class Schedule {
 		this.maxMember = maxMember;
 	}
 
+
 	public int getFee() {
 		return fee;
 	}
@@ -52,12 +54,21 @@ public class Schedule {
 		this.fee = fee;
 	}
 
-	public String getScheduleDate() {
-		return scheduleDate;
+
+	public String getStartDay() {
+		return startDay;
 	}
 
-	public void setScheduleDate(String scheduleDate) {
-		this.scheduleDate = scheduleDate;
+	public void setStartDay(String startDay) {
+		this.startDay = startDay;
+	}
+
+	public String getEndDay() {
+		return endDay;
+	}
+
+	public void setEndDay(String endDay) {
+		this.endDay = endDay;
 	}
 
 	public String getLat() {
@@ -88,4 +99,8 @@ public class Schedule {
 		// TODO Auto-generated constructor stub
 	}
 
+	public String toString() {
+		return "Schedule : [title] : "+title+" [contents] : "+contents+" [maxMember] : "+maxMember+" [fee] : "+fee+
+				" [startDay] : "+startDay+" [endDay] : "+endDay+" [lat] : "+lat+" [lng] : "+lng+" [groupNo] : "+groupNo;
+	}
 }
