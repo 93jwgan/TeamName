@@ -31,9 +31,9 @@ public class ScheduleServiceImpl implements ScheduleService{
 	}
 
 	@Override
-	public List<Schedule> getScheduleList(String groupNo) throws Exception {
+	public List<Schedule> getScheduleList(Schedule schedule) throws Exception {
 		// TODO Auto-generated method stub
-		return scheduleDao.getScheduleList(groupNo);
+		return scheduleDao.getScheduleList(schedule);
 	}
 
 

@@ -1,16 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>»óÇ°µî·Ï</title>
+<title>ìƒí’ˆë“±ë¡</title>
 
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+<meta charset="utf-8">    
+<style>
+	html,
+	body {
+	  height: 100%;
+	}
+	#map {
+	  height: 50%;
+	  width: 50%;
+	}
+</style>
+ 
+ 
      <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
     
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -26,6 +38,10 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="../javascript/datetimepicker.js"></script>
     <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    
+       
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfkFqWArB8a77fiEJuJN80OW9TFtfoJhY&callback=initMap"
+    async defer></script>
 <script type="text/javascript">
 $(function(){
 	
@@ -34,18 +50,45 @@ $(function(){
 	$('#picker1').dateTimePicker({
 	});
 
-	$( "button.btn.btn-info:contains('Ãë¼ÒÇÏ±â')" ).on("click" , function() {
+	$( "button.btn.btn-info:contains('ì·¨ì†Œí•˜ê¸°')" ).on("click" , function() {
 		 $("form")[0].reset();
 	})
-	$( "button.btn.btn-info:contains('µÚ·Î°¡±â')" ).on("click" , function() {
+	$( "button.btn.btn-info:contains('ë’¤ë¡œê°€ê¸°')" ).on("click" , function() {
 		 javascript:history.go(-1);
 	})
 	
-	$( "button.btn.btn-info:contains('µî·ÏÇÏ±â')" ).on("click" , function() {
+	$( "button.btn.btn-info:contains('ë“±ë¡í•˜ê¸°')" ).on("click" , function() {
+		
+		
 		$("form").attr("method","POST").attr("action","/schedule/addSchedule").submit();
 	})	
 })
 
+
+ var map;
+ function initMap() {
+  var myOptions = {
+      zoom: 15,
+      center: new google.maps.LatLng(37.502508, 127.030576)
+    },
+    map = new google.maps.Map(document.getElementById('map'), myOptions),
+    marker = new google.maps.Marker({
+      map: map,
+    }),
+    infowindow = new google.maps.InfoWindow;
+  
+    map.addListener('rightclick', function(e) {
+    map.setCenter(e.latLng);
+    marker.setPosition(e.latLng);
+    
+    $('#lat').val(e.latLng.lat());
+    $('#lng').val(e.latLng.lng());
+    
+    infowindow.setContent("Latitude: " + e.latLng.lat() +
+      "<br>" + "Longitude: " + e.latLng.lng());
+    infowindow.open(map, marker);
+  });
+}
 </script>
 </head>
 
@@ -54,14 +97,14 @@ $(function(){
 <div class="container">
 
 	<div class="page-header text-center">
-		<h3 class=" text-info">ÀÏÁ¤µî·Ï</h3>
+		<h3 class=" text-info">ì¼ì •ë“±ë¡</h3>
 	</div>
 
 
 	<form class="form-horizontal" name="detailForm" >
 
 		<div class="form-group">
-			<label for="title" class="col-sm-offset-1 col-sm-3 control-label">ÀÏÁ¤Á¦¸ñ</label>
+			<label for="title" class="col-sm-offset-1 col-sm-3 control-label">ì¼ì •ì œëª©</label>
 			<div class="col-sm-4">
 			<input type="text" class="form-control" id="title" name="title" >
 			</div>
@@ -85,48 +128,40 @@ $(function(){
 		</div>
 		
 		<div class="form-group">
-			<label for="maxMember" class="col-sm-offset-1 col-sm-3 control-label">ÃÑ¿ø</label>
+			<label for="maxMember" class="col-sm-offset-1 col-sm-3 control-label">ì´ì›</label>
 			<div class="col-sm-4">
 			<input type="text" class="form-control" id="maxMember" name="maxMember" >
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label for="fee" class="col-sm-offset-1 col-sm-3 control-label">È¸ºñ</label>
+			<label for="fee" class="col-sm-offset-1 col-sm-3 control-label">íšŒë¹„</label>
 			<div class="col-sm-4">
 			<input type="text" class="form-control" id="fee" name="fee" >
 			</div>
 		</div>
 		
 		<div class="form-group">
-			<label for="contents" class="col-sm-offset-1 col-sm-3 control-label">³»¿ë</label>
+			<label for="contents" class="col-sm-offset-1 col-sm-3 control-label">ë‚´ìš©</label>
 			<div class="col-sm-4">
 			<textarea name=contents cols=50 rows=10></textarea>
 			</div>
 		</div>
+	<input type="hidden" id="calendarId" name="calendarId" value="">
+	<input type="hidden" id="lng" name="lng" value="">
+	<input type="hidden" id="lat" name="lat" value="">
 
 	</form>
 
 
-	<button type="button" class="btn btn-info">µî·ÏÇÏ±â</button>
-	<button type="button" class="btn btn-info">Ãë¼ÒÇÏ±â</button>
-	<button type="button" class="btn btn-info">µÚ·Î°¡±â</button>
+	<button type="button" class="btn btn-info">ë“±ë¡í•˜ê¸°</button>
+	<button type="button" class="btn btn-info">ì·¨ì†Œí•˜ê¸°</button>
+	<button type="button" class="btn btn-info">ë’¤ë¡œê°€ê¸°</button>
 	
 
 
+
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
+<div id="map"></div>
 </body>
 </html>

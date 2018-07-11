@@ -24,13 +24,19 @@
  	<insert id="addSchedule" parameterType="schedule"> 	
  		INSERT
  		INTO schedule(schedule_no,title,contents,max_member,fee,start_date,end_date,lat,lng,group_no)
- 		VALUES(seq_schedule_schedule_no.nextval,#{title},#{contents},#{maxMember},#{fee},to_date(#{startDay},'YYYY/MM/DD HH:MI'),to_date(#{endDay},'YYYY/MM/DD HH:MI'),#{lat:VARCHAR},#{lng:VARCHAR},#{groupNo})
+ 		VALUES(seq_schedule_schedule_no.nextval,#{title},#{contents},#{maxMember},#{fee},to_date(#{startDay},'YYYY/MM/DD HH24:MI'),to_date(#{endDay},'YYYY/MM/DD HH24:MI'),#{lat:VARCHAR},#{lng:VARCHAR},#{groupNo})
  	</insert>
  	
- 	<select id="getScheduleList" parameterType="int" resultMap="schedlueSelectMap">
- 		SELECT group_no,title,to_char(start_date,'YYYY/MM/DD HH:MI') AS start_date,to_char(end_date,'YYYY/MM/DD HH:MI') AS end_date
- 		FROM schedule
- 		WHERE group_no =#{value}
+ 	<select id="getScheduleList" parameterType="schedule" resultMap="schedlueSelectMap">
+	 	
+	 	SELECT schedule_no,title,contents,max_member,fee,start_date,end_date,lat,lng,group_no
+	 	FROM schedule
+	 	WHERE group_no=#{groupNo}	 	
+	 		<if test="scheduleNo != 0">
+	 			AND schedule_no=#{scheduleNo}
+	 		</if>
  	</select>
+ 	
+
 	 
 </mapper>

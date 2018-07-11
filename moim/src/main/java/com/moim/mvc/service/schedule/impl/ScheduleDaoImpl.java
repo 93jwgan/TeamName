@@ -32,9 +32,9 @@ public class ScheduleDaoImpl implements ScheduleDao{
 	}
 
 	@Override
-	public List<Schedule> getScheduleList(String groupNo) throws Exception {
+	public List<Schedule> getScheduleList(Schedule schedule) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("ScheduleMapper.getScheduleList",groupNo);
+		return sqlSession.selectList("ScheduleMapper.getScheduleList",schedule);
 	}
 
 

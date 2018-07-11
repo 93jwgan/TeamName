@@ -9,6 +9,6 @@ public interface ScheduleService {
 	
 	public void addSchedule(Schedule schedule) throws Exception;
 	
-	public List<Schedule> getScheduleList(String groupNo) throws Exception;
+	public List<Schedule> getScheduleList(Schedule schedule) throws Exception;
 	
 }

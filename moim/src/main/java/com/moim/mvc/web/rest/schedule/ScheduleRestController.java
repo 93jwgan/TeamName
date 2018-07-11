@@ -32,10 +32,12 @@ public class ScheduleRestController {
 	@RequestMapping(value="/json/getScheduleList/{groupNo}")
 	public List<Schedule> getScheduleList(@PathVariable String groupNo) throws Exception {
 		System.out.println(this.getClass()+".getSchedulList()");
-		
 		System.out.println("groupNo = "+groupNo);
-
-		return scheduleService.getScheduleList(groupNo);
+		
+		Schedule schedule = new Schedule();
+		schedule.setGroupNo(Integer.parseInt(groupNo));
+		
+		return scheduleService.getScheduleList(schedule);
 	}
 	
 }

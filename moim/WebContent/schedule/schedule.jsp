@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ko">
 <head>
@@ -15,15 +15,18 @@
 	<script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
 	<script src="../javascript/calendar.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 	
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 
 <script type="text/javascript">
 
+var calendar;
+
 
 function calendar(options){
-	var calendar = new tui.Calendar(document.getElementById('calendar'), {
+		calendar = new tui.Calendar(document.getElementById('calendar'), {
 	    defaultView: 'month',
 	    taskView: true,    // can be also ['milestone', 'task']
 	    scheduleView: true,  // can be also ['allday', 'time']
@@ -62,23 +65,28 @@ function calendar(options){
 	    }
 	});
 	
-		calendar.on('clickSchedule', function(event) {
-			
-			alert("aaaaaaaaaa");
+	calendar.on('clickSchedule', function(event) {
+		 var schedule = event.schedule;
 
-		});
+		 self.location="/schedule/detailSchedule?groupNo="+schedule.id+"&scheduleNo="+schedule.calendarId;
+	});
+	
+	
 	
 	$.ajax({
 		type:"POST",
 		dataType:"json",
 		url:"/schedule/json/getScheduleList/0",
 		success:function(JSONData,status){
-			
+// 			alert("JSONData.length : "+JSONData.length);
+// 			alert("JSONData.toString : "+JSON.stringify(JSONData) );
 			for(var i=0;i<JSONData.length;i++){
+				
+				
 				calendar.createSchedules([
 				    {			 
-				        id: JSONData[i].gtoupNo,
-				        calendarId: i,
+				        id: String(JSONData[i].groupNo),
+				        calendarId: String(JSONData[i].scheduleNo),
 				        title: JSONData[i].title,
 				        location : 'Incheon',
 				        category: 'time',
@@ -93,22 +101,62 @@ function calendar(options){
 
 	
 }
-
-
-
 $(function(){
 
 	
 	calendar();
 	
-	$( "button.btn.btn-info:contains('¿œ¡§√ﬂ∞°')" ).on("click" , function() {
+	setRenderRangeText();
+	
+	$( "button.btn.btn-info:contains('ÏùºÏ†ïÏ∂îÍ∞Ä')" ).on("click" , function() {
 		self.location = "/schedule/addScheduleView";
 	})
-
 	
-	
+	$( "button.btn.btn-info:contains('Weekly')" ).on("click" , function() {
+		calendar.setOptions({week: {startDayOfWeek: 1}}, true);
+		calendar.changeView('week', true);
+	})
+	$( "button.btn.btn-info:contains('Daily')" ).on("click" , function() {
+		calendar.changeView('day', true);
+	})
+	$( "button.btn.btn-info:contains('Monthly')" ).on("click" , function() {
+		calendar.changeView('month', true);
+	})	
+	$('#prev').on('click',function(){
+		calendar.prev();
+		setRenderRangeText()
+	})
+	$('#next').on('click',function(){
+		calendar.next();
+		setRenderRangeText()
+	})
+		$('#toDay').on('click',function(){
+		calendar.today();
+		setRenderRangeText()
+	})
 })
 
+
+
+function setRenderRangeText() {
+    var renderRange = $('#time');
+    var options = calendar.getOptions();
+    
+    var viewName = calendar.getViewName();
+    var html = [];
+    if (viewName === 'day') {
+        html.push(moment(calendar.getDate().getTime()).format('YYYY.MM.DD'));
+    } else if (viewName === 'month' &&
+        (!options.month.visibleWeeksCount || options.month.visibleWeeksCount > 4)) {
+        html.push(moment(calendar.getDate().getTime()).format('YYYY.MM'));
+    } else {
+        html.push(moment(calendar.getDateRangeStart().getTime()).format('YYYY.MM.DD'));
+        html.push(' ~ ');
+        html.push(moment(calendar.getDateRangeEnd().getTime()).format(' MM.DD'));
+    }
+    
+    renderRange.val(html);
+}
 
 </script>
 
@@ -117,12 +165,23 @@ $(function(){
 
 
 <body>
+	<span id="menu-navi">
+	
 	<button type="button" class="btn btn-info">Monthly</button>
 	<button type="button" class="btn btn-info">Weekly</button>
 	<button type="button" class="btn btn-info">Daily</button>
+		<button type="button" id="toDay">ToDay</button>
+		<button type="button" id="prev" >
+        	<img src="../images/ic-arrow-line-left.png">
+	 	</button>
+		<button type="button" id="next" >
+			<img src="../images/ic-arrow-line-right.png">
+        </button>
+	</span>
+	<input type="text" id="time" name="time" value="">
 
 	<div id="calendar" style="height: 800px;"></div>
 	
-<button type="button" class="btn btn-info">¿œ¡§√ﬂ∞°</button>
+<button type="button" class="btn btn-info">ÏùºÏ†ïÏ∂îÍ∞Ä</button>
 </body>
 </html>

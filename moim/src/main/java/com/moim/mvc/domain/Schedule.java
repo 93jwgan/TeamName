@@ -12,13 +12,13 @@ public class Schedule {
 	String lat;
 	String lng;
 	int groupNo;
-	
+
 	public int getScheduleNo() {
 		return scheduleNo;
 	}
 
 	public void setScheduleNo(int scheduleNo) {
-		scheduleNo = scheduleNo;
+		this.scheduleNo = scheduleNo;
 	}
 
 	public String getTitle() {
@@ -100,7 +100,7 @@ public class Schedule {
 	}
 
 	public String toString() {
-		return "Schedule : [title] : "+title+" [contents] : "+contents+" [maxMember] : "+maxMember+" [fee] : "+fee+
+		return "Schedule : [scheduleNo]"+scheduleNo+" [title] : "+title+" [contents] : "+contents+" [maxMember] : "+maxMember+" [fee] : "+fee+
 				" [startDay] : "+startDay+" [endDay] : "+endDay+" [lat] : "+lat+" [lng] : "+lng+" [groupNo] : "+groupNo;
 	}
 }

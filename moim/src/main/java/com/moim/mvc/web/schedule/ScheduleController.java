@@ -1,8 +1,11 @@
 package com.moim.mvc.web.schedule;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,12 +26,12 @@ public class ScheduleController {
 	public ScheduleController() {
 		super();
 		System.out.println(this.getClass());
-	}
+	} 
 
 
 	@RequestMapping(value="addScheduleView")
 	public String addScheduleView() {	
-		System.out.println("Navigation");
+		System.out.println("addScheduleView Navigation");
 		return "forward:/schedule/addschedule.jsp";
 	}
 	
@@ -41,6 +44,19 @@ public class ScheduleController {
 		scheduleService.addSchedule(schedule);
 		
 		return "forward:/schedule/schedule.jsp";
+	}
+	
+	@RequestMapping(value="detailSchedule")
+	public String detailSchedule(@ModelAttribute("schedule")Schedule schedule,Model model) throws Exception{
+		System.out.println("detailScheduleView Navigation");
+		
+		System.out.println(schedule);
+		
+		List<Schedule> list =scheduleService.getScheduleList(schedule);
+		
+		model.addAttribute("list",list);
+		
+		return "forward:/schedule/detailSchedule.jsp";
 	}
 	
 }
