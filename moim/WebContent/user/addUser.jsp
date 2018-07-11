@@ -45,7 +45,7 @@ img{
   margin-top:20px;
 }
 
-
+body{padding-top:50px;}
 
 </style>
 
@@ -320,7 +320,7 @@ $(function() {
 	
 	
 	
-	<!---- 주소찾기------>
+	<!---- 주소찾------>
 	function goPopup(){
 	    var pop = window.open("/common/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
 	}
@@ -346,21 +346,22 @@ $(function() {
 
 <div class="container">
 	<div class="form-group">
-<form id="form" class="form-horizontal" enctype="multipart/form-data" >
+<form id="form" class="form-horizontal"  >
  <fieldset>
 <legend>::: 회원가입</legend>
 
 <div class="form-group">
-<label class="col-md-4 control-label" for="profileImg">프로필 사진</label>
+<label class="col-md-4 control-label" >프로필 사진</label>
   <div class="col-xs-12 col-sm-6 col-md-6">
   <img id="blah" src="http://placehold.it/180" alt="your image" class="img-thumbnail">
 
-  
+   
 <div>
  <input id="profileImg" name="profileImg" class="form-control-file" type="file" onchange="readURL(this);">
  </div>  
   </div>
      </div>
+
 
 <div class="form-group">
   <label class="col-md-4 control-label" for="userId">ID</label>
@@ -511,7 +512,7 @@ $(function() {
 	<input type="checkbox" class="form-check-input"  value="건강" onClick=CountChecked(this)> 건강 
  	<input type="checkbox" class="form-check-input"  value="음식" onClick=CountChecked(this)> 음식 
 	<input type="checkbox" class="form-check-input"  value="고민" onClick=CountChecked(this)> 고민
-	<input type="checkbox" class="form-check-input"  value="자유주제" onClick=CountChecked(this)> 자유주제
+	<input type="checkbox" class="form-check-input"  value="자유주제" onClick=CountChecked(this)>자유주제
 	
 	
 	<input type="hidden" id="address_hidden" name="address" value=""/>

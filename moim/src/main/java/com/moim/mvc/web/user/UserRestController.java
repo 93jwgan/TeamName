@@ -1,12 +1,16 @@
 package com.moim.mvc.web.user;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.moim.mvc.domain.User;
 import com.moim.mvc.service.user.UserService;
 
 //==> 회원관리 RestController
@@ -22,6 +26,38 @@ public class UserRestController {
     @Qualifier("userServiceImpl")
 	private UserService userService;
 	
+	
+	@RequestMapping( value="json/login", method=RequestMethod.POST )
+	public String login(@RequestParam("userId") String userId, @RequestParam("password") String password, HttpSession session) throws Exception{
+		System.out.println("User"+userId+password);
+		
+		User dbUser = userService.getUser(userId);
+		
+		System.out.println("dbUser 입니다"+dbUser);
+
+	
+		if(dbUser==null){	
+			return "0";	
+			}else {
+				if( password.equals(dbUser.getPassword())){
+					session.setAttribute("user", dbUser);
+					return "2";
+					
+					}	else{
+						return "1";
+					}	
+			}
+		
+		}
+		
+		
+		//dbUser -- 값이 없으면 id가없는거 return "0";
+		//dbUser에 값이 있어 User에 있는 password 비교해서 같으면 return "2" 로그인성공
+		//틀리면 return "1" 비밀번호가 틀린거
+		
+	
+	
+	
 	/*@RequestMapping( value="json/getUser/{userId}", method=RequestMethod.GET )
 	public User getUser( @PathVariable String userId ) throws Exception{
 		
@@ -31,21 +67,7 @@ public class UserRestController {
 		return userService.getUser(userId);
 	}
 
-	@RequestMapping( value="json/login", method=RequestMethod.POST )
-	public User login(	@RequestBody User user,
-									HttpSession session ) throws Exception{
 	
-		System.out.println("/user/json/login : POST");
-		//Business Logic
-		System.out.println("::"+user);
-		User dbUser=userService.getUser(user.getUserId());
-		
-		if( user.getPassword().equals(dbUser.getPassword())){
-			session.setAttribute("user", dbUser);
-		}
-		
-		return dbUser;
-	}
 	
 	@RequestMapping( value="json/findId", method=RequestMethod.POST )
 	public String findId(@RequestParam("phone") String phone, @RequestParam("userName") String userName)throws Exception{

@@ -9,6 +9,9 @@ public interface UserDao {
 
 	public void addUser(User user) throws Exception ;
 
+	// 내정보확인 / 로그인
+	public User getUser(String userId) throws Exception;
+	
 	
 	
 }

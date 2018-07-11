@@ -10,4 +10,7 @@ public interface UserService {
 	//ID중복체크
 	public String checkId(String userId) throws Exception ;
 	
+	public User getUser(String userId) throws Exception ;
+
+	
 }

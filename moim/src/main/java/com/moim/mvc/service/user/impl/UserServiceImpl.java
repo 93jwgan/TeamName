@@ -29,8 +29,13 @@ public class UserServiceImpl implements UserService{
 	}
 	
 
-	
+	public User getUser(String userId) throws Exception {
+		
+		System.out.println(":::::serviceImpl :::: getUser");
+		return userDao.getUser(userId);
+	}
 
+	
 	public void addUser(User user) throws Exception {
 		System.out.println("::::::::ServiceImpl");
 		userDao.addUser(user);

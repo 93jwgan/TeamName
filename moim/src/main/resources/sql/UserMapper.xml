@@ -21,7 +21,14 @@
 		<result property="interestNo3" 		column="interest_no3" 			jdbcType="CHAR" />
 	</resultMap>
 
-
+	 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
+		SELECT
+		user_id , name , password , birth ,  address ,  phone , profile_img , on_off, role, interest_no1, interest_no2, interest_no3 		
+		FROM users 
+		WHERE user_id = #{value}
+	 </select>
+	 
+	 
  	 	 <select 	id="checkId"	parameterType="map"  resultType="string" >
 		SELECT
 		user_id 

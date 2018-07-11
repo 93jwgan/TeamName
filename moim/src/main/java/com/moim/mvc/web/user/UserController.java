@@ -3,11 +3,13 @@ package com.moim.mvc.web.user;
 import java.io.File;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,24 +39,65 @@ public class UserController {
 	}
 	
 	@RequestMapping( value="addUser", method=RequestMethod.POST )
-	public String addUser(@ModelAttribute("user") User user,  HttpServletRequest request) throws Exception {
-
-		//@RequestParam("profileImg") MultipartFile profileImg
-		String path = request.getSession().getServletContext().getRealPath("/")+"images\\user\\";
-		
-		System.out.println(path);
-		//C:\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\moim\images
-		
-		/*if(profileImg.getOriginalFilename()!="") {
-			File f= new File(path + profileImg.getOriginalFilename());
-			profileImg.transferTo(f);
-		}*/
-		
-		System.out.println("::::  " + user);
-		
-		//userService.addUser(user);
-
+	public String addUser(@ModelAttribute("user") User user) throws Exception {
+		userService.addUser(user);
 		return "/index.jsp"; 
+		
+	}
+	
+
+	@RequestMapping( value="login", method=RequestMethod.GET )
+	public String login() throws Exception{
+
+		return "redirect:/user/loginView.jsp";
+	}
+	
+	@RequestMapping( value="login", method=RequestMethod.POST )
+	public String login(@ModelAttribute("user") User user , HttpSession session)  throws Exception{
+		
+		System.out.println(user);
+		
+		User dbUser=userService.getUser(user.getUserId());
+		
+		System.out.println("가지온온 user :::: " + dbUser);
+		
+		
+		if( user.getPassword().equals( dbUser.getPassword() ))
+		{
+			session.setAttribute("user", dbUser);
+		}
+		
+		System.out.println("user"+user);
+		
+		return "redirect:/index.jsp";
+	}
+		
+	
+	@RequestMapping( value="logout", method=RequestMethod.GET )
+	public String logout(HttpSession session) throws Exception{
+	
+		session.invalidate();
+		
+		return "redirect:/index.jsp";
+	}
+	
+	@RequestMapping( value="getMyInfo", method=RequestMethod.GET )
+	public String getMyInfo( ) throws Exception {
+		/*
+		@RequestParam("userId") String userId , Model model 
+		User user = userService.getUser(userId);
+		model.addAttribute("user", user);
+		*/
+		System.out.println("123");
+		return "forward:/user/getMyinfo.jsp";
+
+	}
+	@RequestMapping( value="getMyGroup", method=RequestMethod.GET )
+	public String getMyGroup( ) throws Exception {
+	
+		System.out.println("getMyGroup");
+		return "forward:/user/getMyGroup.jsp";
+		
 	}
 	
 
