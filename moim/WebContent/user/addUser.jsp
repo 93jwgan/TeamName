@@ -429,7 +429,7 @@ $(function() {
 
 <div class="form-group">
   <label class="col-md-4 control-label" for="birthdate">생년월일</label>
-  <div class="col-md-4">
+  <div class="col-md-2">
 
   <input type="hidden" id="birth" name="birth" value=""/>
     <select id="birthYear" name="birthYear" class="form-control input-md" >
@@ -437,8 +437,9 @@ $(function() {
 					<option value="${i}">${i}</option>
 		</c:forEach>
     </select>년
+</div>
     
-    
+      <div class="col-md-2">
     <select id="birthMonth" name="birthMonth" class="form-control input-md">
       <option>01</option>
       <option>02</option>
@@ -455,8 +456,9 @@ $(function() {
     </select>
     
     월
+    </div>
     
-    
+      <div class="col-md-2">
     <select id="birthDay" name="birthDay" class="form-control input-md">
       <option>01</option>
       <option>02</option>
@@ -492,7 +494,7 @@ $(function() {
     </select>
     
     일
-
+</div>
   </div>
     </div>
   

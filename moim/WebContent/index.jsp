@@ -84,7 +84,13 @@
 	//============= 회원원가입 화면이동 =============
 	$( function() {
 		$("a[href='#' ]:contains('모임생성')").bind("click" , function() {
-			self.location = "/group/addGroup"
+			self.location = "/group/addGroupView"
+		});
+	});
+	 
+	$( function() {
+		$("a[href='#' ]:contains('모임검색')").bind("click" , function() {
+			self.location = "/group/listGroupAdmin"
 		});
 	});
 	

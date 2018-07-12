@@ -6,6 +6,33 @@
 
 <mapper namespace="GroupMapper">
  	
-
+ 	<resultMap id="GroupSelectMap" type="groups">
+ 		<result property="groupNo" 			column="GROUP_NO" 			jdbcType="NUMERIC"/>
+		<result property="groupName" 			column="GROUP_NAME" 			jdbcType="VARCHAR"/>
+		<result property="groupInfo"	column="GROUP_INFO" 		jdbcType="CLOB" />
+		<result property="memberLimit" 				column="MEMBER_LIMIT" 					jdbcType="VARCHAR" />
+		<result property="visitCount" 				column="VISIT_COUNT" 					jdbcType="NUMERIC" />
+		<result property="point" 			column="POINT" 		jdbcType="NUMERIC" />
+		<result property="birthDate" 				column="BIRTH_DATE" 					jdbcType="DATE" />	
+		<result property="mainImg" 			column="MAIN_IMG" 		jdbcType="VARCHAR" />
+		<result property="infoImg" 				column="INFO_IMG" 					jdbcType="VARCHAR" />
+		<result property="ageLimitStart" 			column="AGE_LIMIT_START" 		jdbcType="NUMERIC"/>
+		<result property="ageLimitEnd" 			column="AGE_LIMIT_END" 		jdbcType="NUMERIC"/>
+		<result property="interestNo1" 			column="INTEREST_NO1" 		jdbcType="CHAR"/>
+		<result property="interestNo2" 			column="INTEREST_NO2" 		jdbcType="CHAR"/>
+		<result property="interestNo3" 			column="INTEREST_NO3" 		jdbcType="CHAR"/>
+		<result property="hashTag" 			column="HASHTAG" 		jdbcType="CLOB"/>
+	</resultMap>
+ 	
+	<select id="checkedGroupName" parameterType="string" resultType="string">
+		SELECT group_name FROM groups WHERE group_name like #{value}
+	</select>
 	 
+	<insert id="addGroups" parameterType="groups"> 
+		
+		INSERT INTO groups
+		(GROUP_NO, GROUP_NAME, GROUP_INFO, MEMBER_LIMIT, VISIT_COUNT, POINT, BIRTH_DATE, MAIN_IMG, INFO_IMG, AGE_LIMIT_START, AGE_LIMIT_END, INTEREST_NO1, INTEREST_NO2, INTEREST_NO3,hashTag)
+		VALUES (SEQ_GROUP_NO.NEXTVAL, #{groupName},	#{groupInfo}, #{memberLimit}, 0, 0,	SYSDATE, #{mainImg}, null, #{ageLimitStart}, #{ageLimitEnd}, #{interestNo1}, #{interestNo2}, #{interestNo3}, #{hashTag})
+		
+	</insert>
 </mapper>
