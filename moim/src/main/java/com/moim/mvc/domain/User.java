@@ -4,27 +4,18 @@ import java.sql.Date;
 
 public class User {
 
-<<<<<<< HEAD
-	String userId;
-	String password;
-	String birth;
-	String address;
-	String phone;
-	String profileImg;
-	String onOff;
-	String role;
-	String interestNo1;
-	String interestNo2;
-	String interestNo3;
 	String myLat;
 	String myLng;
-=======
+
 	private String userId;
 	private String name;
 	private String password;
 	private String birth;
 	private String address;
+	private String address2;
+
 	private String phone;
+	
 
 
 	private String profileImg;
@@ -33,8 +24,16 @@ public class User {
 	private String interestNo1;
 	private String interestNo2;
 	private String interestNo3;
->>>>>>> refs/remotes/origin/master
+
 	
+	public String getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+
 	public String getMyLat() {
 		return myLat;
 	}
