@@ -27,11 +27,11 @@
 	 <!-- SQL Definition :: file include -->
 	<mappers>
 		<mapper resource="sql/UserMapper.xml"/>
-<<<<<<< HEAD
+
 		<mapper resource="sql/ScheduleMapper.xml"/>
-=======
+
 		<mapper resource="sql/GroupMapper.xml"/>
->>>>>>> refs/remotes/origin/master
+
 
 	</mappers>
 
