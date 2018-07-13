@@ -1,29 +1,167 @@
 package com.moim.mvc.web.user;
 
+import java.io.File;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.moim.mvc.domain.User;
 import com.moim.mvc.service.user.UserService;
 
 //컨트롤러 시작
 @Controller
-@RequestMapping
+@RequestMapping("/user/*")
 public class UserController {
 	
 	//필드
-	@Autowired
-	@Qualifier("userServiceImpl")
-	private UserService userSerivce;
+	@Autowired 
+    @Qualifier("userServiceImpl")
+	private UserService userService;
 	
-	/*
-	@RequestMapping( value="addUser" )
-	public String addUser() throws Exception{
-			
-		return "redirect:/user/addUserView.jsp";
+//	@Value("#{commonProperties['interest']}")
+//	String interest;
+	
+	@RequestMapping( value="addUserView", method=RequestMethod.GET )
+	public String addUserView() throws Exception{
+		
+		return "redirect:/user/addUser.jsp";
+	}
+	
+	@RequestMapping( value="listUserAdmin", method=RequestMethod.GET )
+	public String listUserAdmin() throws Exception{
+		
+		System.out.println("listUserAdmin 컨트롤러 들어옴");
+		return "redirect:/user/listUserAdmin.jsp";
+	}
+	
+	
+	/*@RequestMapping( value="addUser", method=RequestMethod.POST )
+	public String addUser(@ModelAttribute("user") User user,  @RequestParam("profileImg") MultipartFile profileImg, HttpServletRequest request) throws Exception {
+		
+		String today = new java.text.SimpleDateFormat("yyMMddHHmmss").format(new java.util.Date());
+		String path = request.getSession().getServletContext().getRealPath("/")+"images\\user\\";
+		
+		String profileImgName = today + (int)(Math.random()*10000);
+	
+		if(profileImg.getOriginalFilename()!="") {
+			File f= new File(path + profileImgName);
+			profileImg.transferTo(f);
+		}
+	
+		System.out.println(today);
+		System.out.println(path);
+		System.out.println(profileImg);
+		return "/index.jsp";
+		
+		
+		
+
+		//userService.addUser(user);
+	 
 		
 	}*/
+	
+
+	@RequestMapping( value="addUser", method=RequestMethod.POST )
+	public String addUser(@ModelAttribute("user") User user, @RequestParam("file") MultipartFile profileImg, HttpServletRequest request) throws Exception {
+		
+		
+		System.out.println(user);
+		System.out.println("오리지널 파일이름"+profileImg.getOriginalFilename());
+		System.out.println("addUser컨트롤러들어옴");
+		
+		String path = request.getSession().getServletContext().getRealPath("/")+"images\\user\\";
+		
+		if(profileImg.getOriginalFilename()!="") {
+			File f= new File(path + profileImg.getOriginalFilename());
+			profileImg.transferTo(f);
+		}
+		
+		userService.addUser(user);
+		return "/index.jsp";
+		
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	@RequestMapping( value="login", method=RequestMethod.GET )
+	public String login() throws Exception{
+
+		return "redirect:/user/loginView.jsp";
+	}
+	
+	@RequestMapping( value="login", method=RequestMethod.POST )
+	public String login(@ModelAttribute("user") User user , HttpSession session)  throws Exception{
+		
+		System.out.println(user);
+		
+		User dbUser=userService.getUser(user.getUserId());
+		
+		System.out.println("가지온온 user :::: " + dbUser);
+		
+		
+		if( user.getPassword().equals( dbUser.getPassword() ))
+		{
+			session.setAttribute("user", dbUser);
+		}
+		
+		System.out.println("user"+user);
+		
+		return "redirect:/index.jsp";
+	}
+		
+	
+	@RequestMapping( value="logout", method=RequestMethod.GET )
+	public String logout(HttpSession session) throws Exception{
+	
+		session.invalidate();
+		
+		return "redirect:/index.jsp";
+	}
+	
+	@RequestMapping( value="getMyInfo", method=RequestMethod.GET )
+	public String getMyInfo( ) throws Exception {
+		/*
+		@RequestParam("userId") String userId , Model model 
+		User user = userService.getUser(userId);
+		model.addAttribute("user", user);
+		*/
+		System.out.println("123");
+		return "forward:/user/getMyinfo.jsp";
+
+	}
+	@RequestMapping( value="getMyGroup", method=RequestMethod.GET )
+	public String getMyGroup( ) throws Exception {
+	
+		System.out.println("getMyGroup");
+		return "forward:/user/getMyGroup.jsp";
+		
+	}
+	
+
 	
 /*	@RequestMapping( value="addUser", method=RequestMethod.POST )
 	public String addUser( @ModelAttribute("user") User user ) throws Exception {

@@ -5,8 +5,7 @@ public class Groups {
 	int groupNo;
 	String groupName;
 	String groupInfo;
-	String address;
-	int memberLimit;
+	String memberLimit;
 	int visitCount;
 	int point;
 	String birthDate;
@@ -17,7 +16,17 @@ public class Groups {
 	String interestNo1;
 	String interestNo2;
 	String interestNo3;
-	
+	String hashTag;
+	String groupMaster;
+
+	public String getGroupMaster() {
+		return groupMaster;
+	}
+
+	public void setGroupMaster(String groupMaster) {
+		this.groupMaster = groupMaster;
+	}
+
 	public int getGroupNo() {
 		return groupNo;
 	}
@@ -42,19 +51,11 @@ public class Groups {
 		this.groupInfo = groupInfo;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public int getMemberLimit() {
+	public String getMemberLimit() {
 		return memberLimit;
 	}
 
-	public void setMemberLimit(int memberLimit) {
+	public void setMemberLimit(String memberLimit) {
 		this.memberLimit = memberLimit;
 	}
 
@@ -138,8 +139,21 @@ public class Groups {
 		this.interestNo3 = interestNo3;
 	}
 
-	public Groups() {
-		// TODO Auto-generated constructor stub
+	public String getHashTag() {
+		return hashTag;
+	}
+
+	public void setHashTag(String hashTag) {
+		this.hashTag = hashTag;
+	}
+
+	@Override
+	public String toString() {
+		return "Groups [groupNo=" + groupNo + ", groupName=" + groupName + ", groupInfo=" + groupInfo + ", memberLimit="
+				+ memberLimit + ", visitCount=" + visitCount + ", point=" + point + ", birthDate=" + birthDate
+				+ ", mainImg=" + mainImg + ", infoImg=" + infoImg + ", ageLimitStart=" + ageLimitStart
+				+ ", ageLimitEnd=" + ageLimitEnd + ", interestNo1=" + interestNo1 + ", interestNo2=" + interestNo2
+				+ ", interestNo3=" + interestNo3 + ", hashTag=" + hashTag + ", groupMaster=" + groupMaster + "]";
 	}
 
 }

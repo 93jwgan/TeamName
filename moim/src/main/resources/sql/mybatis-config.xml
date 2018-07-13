@@ -15,14 +15,23 @@
 	<!-- FQCN(Full Qualified Class Name) Alias(별칭관리) -->
 	<typeAliases>
 		<typeAlias alias="user" type="com.moim.mvc.domain.User" />
+<<<<<<< HEAD
 		<typeAlias alias="schedule" type="com.moim.mvc.domain.Schedule" />
+=======
+		<typeAlias alias="groups" type="com.moim.mvc.domain.Groups" />
+		<typeAlias alias="Search" type="com.moim.mvc.common.Search" />
+>>>>>>> refs/remotes/origin/master
 
 	</typeAliases>
 	
 	 <!-- SQL Definition :: file include -->
 	<mappers>
 		<mapper resource="sql/UserMapper.xml"/>
+<<<<<<< HEAD
 		<mapper resource="sql/ScheduleMapper.xml"/>
+=======
+		<mapper resource="sql/GroupMapper.xml"/>
+>>>>>>> refs/remotes/origin/master
 
 	</mappers>
 
