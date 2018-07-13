@@ -17,19 +17,20 @@
  		<result jdbcType="VARCHAR"		column="LAT"				property="lat"/>
  		<result jdbcType="VARCHAR"		column="LNG"				property="lng"/>
  		<result jdbcType="NUMERIC"		column="GROUP_NO"			property="groupNo"/>
+ 		<result jdbcType="VARCHAR"      column="ADDRESS"			property="address"/>
 
  	</resultMap>
  	
  	
  	<insert id="addSchedule" parameterType="schedule"> 	
  		INSERT
- 		INTO schedule(schedule_no,title,contents,max_member,fee,start_date,end_date,lat,lng,group_no)
- 		VALUES(seq_schedule_schedule_no.nextval,#{title},#{contents},#{maxMember},#{fee},to_date(#{startDay},'YYYY/MM/DD HH24:MI'),to_date(#{endDay},'YYYY/MM/DD HH24:MI'),#{lat:VARCHAR},#{lng:VARCHAR},#{groupNo})
+ 		INTO schedule(schedule_no,title,contents,max_member,fee,start_date,end_date,lat,lng,group_no,address)
+ 		VALUES(seq_schedule_schedule_no.nextval,#{title},#{contents},#{maxMember},#{fee},to_date(#{startDay},'YYYY/MM/DD HH24:MI'),to_date(#{endDay},'YYYY/MM/DD HH24:MI'),#{lat:VARCHAR},#{lng:VARCHAR},#{groupNo},#{address})
  	</insert>
  	
  	<select id="getScheduleList" parameterType="schedule" resultMap="schedlueSelectMap">
 	 	
-	 	SELECT schedule_no,title,contents,max_member,fee,start_date,end_date,lat,lng,group_no
+	 	SELECT schedule_no,title,contents,max_member,fee,start_date,end_date,lat,lng,group_no,address
 	 	FROM schedule
 	 	WHERE group_no=#{groupNo}	 	
 	 		<if test="scheduleNo != 0">

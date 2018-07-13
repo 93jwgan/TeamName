@@ -30,7 +30,6 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	<script type="text/javascript" src="../javascript/calendar.js"></script>
 	
 
     <link href="../css/datetimepicker.css" rel="stylesheet" type="text/css"/>
@@ -58,14 +57,16 @@ $(function(){
 	})
 	
 	$( "button.btn.btn-info:contains('등록하기')" ).on("click" , function() {
-		
-		
+
 		$("form").attr("method","POST").attr("action","/schedule/addSchedule").submit();
 	})	
 })
 
 
+
  var map;
+ var lat;
+ var lng;
  function initMap() {
   var myOptions = {
       zoom: 15,
@@ -84,11 +85,37 @@ $(function(){
     $('#lat').val(e.latLng.lat());
     $('#lng').val(e.latLng.lng());
     
+    lat = e.latLng.lat();
+    lng = e.latLng.lng();
+    
+    
+	var geocoder = new google.maps.Geocoder();
+	var latlng = new google.maps.LatLng(lat,lng);			
+	geocoder.geocode({'latLng' : latlng}, function(results, status){
+// 		alert("여기 진짜 안들어올꺼냐?");
+		if (status == google.maps.GeocoderStatus.OK) {
+			if (results[1]) {
+				alert("주소 : "+results[3].formatted_address);
+				$('#address').val("'"+results[0].formatted_address+"'");
+			}else {
+				alert("Geocoder failed due to: " + status);
+			}	
+		}
+	});	
+    
+    
     infowindow.setContent("Latitude: " + e.latLng.lat() +
       "<br>" + "Longitude: " + e.latLng.lng());
     infowindow.open(map, marker);
   });
 }
+ 
+
+		 
+
+
+
+ 
 </script>
 </head>
 
@@ -150,6 +177,7 @@ $(function(){
 	<input type="hidden" id="calendarId" name="calendarId" value="">
 	<input type="hidden" id="lng" name="lng" value="">
 	<input type="hidden" id="lat" name="lat" value="">
+	<input type="hidden" id="address" name="address" value="">
 
 	</form>
 

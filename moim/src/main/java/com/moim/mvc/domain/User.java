@@ -13,7 +13,25 @@ public class User {
 	String interestNo1;
 	String interestNo2;
 	String interestNo3;
+	String myLat;
+	String myLng;
 	
+	public String getMyLat() {
+		return myLat;
+	}
+
+	public void setMyLat(String myLat) {
+		this.myLat = myLat;
+	}
+
+	public String getMyLng() {
+		return myLng;
+	}
+
+	public void setMyLng(String myLng) {
+		this.myLng = myLng;
+	}
+
 	public String getUserId() {
 		return userId;
 	}

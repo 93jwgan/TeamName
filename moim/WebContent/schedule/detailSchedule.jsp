@@ -28,55 +28,119 @@ body {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	<script type="text/javascript" src="../javascript/calendar.js"></script>
-	
-
-    <link href="../css/datetimepicker.css" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/moment-with-locales.min.js"></script>
-    <script type="text/javascript" src="../javascript/datetimepicker.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>  
     <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
-
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfkFqWArB8a77fiEJuJN80OW9TFtfoJhY&callback=initMap"
     async defer></script>
 <script type="text/javascript">
+var map;
+var address = new Array();
+var Locations=[
+		{
+			lat	: ${list[0].lat},
+			lng : ${list[0].lng},
+			title : ${list[0].address}
+		},
+		{
+			lat : ${users.myLat},
+			lng : ${users.myLng},
+			title : ${users.address}
+		}
+	];
+	
+$(function(){
+		
+		for(var i=0;i<Locations.length;i++){
+			var geocoder = new google.maps.Geocoder();
+	
+			var latlng = new google.maps.LatLng(Locations[i].lat, Locations[i].lng);
+			
+			geocoder.geocode({'latLng' : latlng}, function(results, status){
+				
+				if (status == google.maps.GeocoderStatus.OK) {
+			
+					if (results[1]) {
+	
+// 						alert("주소 : "+results[3].formatted_address);
+						address.push(results[0].formatted_address);
+	
+					}else {
+						alert("Geocoder failed due to: " + status);
+					}
+	
+				
+				}
+			});
+		}
+	})
+	
 
-	var map;
-	var latLng = {lat : ${list[0].lat}, lng : ${list[0].lng}};
 	function initMap() {
+	
+var directionsDisplay = new google.maps.DirectionsRenderer;
+var directionsService = new google.maps.DirectionsService;
+	
+	
 	  var myOptions = {
 	      zoom: 15,
 	      center: new google.maps.LatLng(37.502508, 127.030576)
 	    },
 	    map = new google.maps.Map(document.getElementById('map'), myOptions);
-	  
-	  
-	    var marker = new google.maps.Marker({
-	    	position: latLng, 
-	    	map: map,
-	    	title : 'Hello'
+	   
+directionsDisplay.setMap(map);
+calculateAndDisplayRoute(directionsService, directionsDisplay,Locations);
+
+
+	  	var infowindow =  new google.maps.InfoWindow({
+	        content: ''
 	    });
+	  
+	  for(var i=0;i<Locations.length;i++){
+
+		  
+		  var marker = new google.maps.Marker({
+		    	position: new google.maps.LatLng(Locations[i].lat, Locations[i].lng), 
+		    	map: map,
+		    	title: Locations[i].title
+		    });
+		  
+		  bindInfoWindow(marker, map, infowindow, "<p>" + Locations[i].title+"</p>"); 
+	  }
 	}
 	
-	$(function(){
-		
-		getLocation();
-		
-	})
-	
-			function getLocation() {
-		    if (navigator.geolocation) {
-		        navigator.geolocation.getCurrentPosition(showPosition);
-		    } else { 
-		        alert("Geolocation is not supported by this browser.");
-		    }
-		}
+	function bindInfoWindow(marker, map, infowindow, html, Ltitle) {
+	    google.maps.event.addListener(marker, 'mouseover', function() {
+	            infowindow.setContent(html); 
+	            infowindow.open(map, marker); 
 
-		function showPosition(position) {
-		    alert(position.coords.latitude); 
-		    alert(position.coords.longitude);
-		}
+	    });
+	    google.maps.event.addListener(marker, 'mouseout', function() {
+
+	        infowindow.close();
+
+	    }); 
+	}
+	
+    function calculateAndDisplayRoute(directionsService, directionsDisplay,Locations) {
+
+      var selectedMode = 'TRANSIT';
+      directionsService.route({
+        origin: {lat: Locations[0].lat, lng: Locations[0].lng},  // Haight.
+        destination: {lat: Locations[1].lat, lng: Locations[1].lng},  // Ocean Beach.
+        // Note that Javascript allows us to access the constant
+        // using square brackets and a string value as its
+        // "property."
+        travelMode: google.maps.TravelMode[selectedMode]
+      }, function(response, status) {
+        if (status == 'OK') {
+          directionsDisplay.setDirections(response);
+        } else {
+          window.alert('Directions request failed due to ' + status);
+        }
+      });
+    }
+	
+	
 </script>
 </head>
 

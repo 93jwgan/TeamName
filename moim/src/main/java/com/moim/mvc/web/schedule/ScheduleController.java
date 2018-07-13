@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.moim.mvc.domain.Schedule;
+import com.moim.mvc.domain.User;
 import com.moim.mvc.service.schedule.ScheduleService;
 
 @Controller
@@ -43,11 +44,12 @@ public class ScheduleController {
 		
 		scheduleService.addSchedule(schedule);
 		
-		return "forward:/schedule/schedule.jsp";
+		return "redirect:/schedule/schedule.jsp";
 	}
 	
 	@RequestMapping(value="detailSchedule")
-	public String detailSchedule(@ModelAttribute("schedule")Schedule schedule,Model model) throws Exception{
+	public String detailSchedule(@ModelAttribute("schedule")Schedule schedule,
+								 @ModelAttribute("users")User user,Model model) throws Exception{
 		System.out.println("detailScheduleView Navigation");
 		
 		System.out.println(schedule);
@@ -55,7 +57,7 @@ public class ScheduleController {
 		List<Schedule> list =scheduleService.getScheduleList(schedule);
 		
 		model.addAttribute("list",list);
-		
+		model.addAttribute("users",user);
 		return "forward:/schedule/detailSchedule.jsp";
 	}
 	

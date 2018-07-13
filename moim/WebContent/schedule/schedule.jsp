@@ -13,14 +13,58 @@
 	
 	<script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js"></script>
 	<script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
-	<script src="../javascript/calendar.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 	
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfkFqWArB8a77fiEJuJN80OW9TFtfoJhY&callback=initMap"
+    async defer></script>
 <script type="text/javascript">
+
+	var mylat;
+	var mylng;
+	var address;
+	function getLocation() {
+	    if (navigator.geolocation) {
+	        navigator.geolocation.getCurrentPosition(showPosition);
+	    } else { 
+	        alert("Geolocation is not supported by this browser.");
+	    }
+	}
+
+	function showPosition(position) {
+		mylat = position.coords.latitude;
+		mylng = position.coords.longitude;	    
+		
+	var geocoder = new google.maps.Geocoder();
+
+	var latlng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+	
+	geocoder.geocode({'latLng' : latlng}, function(results, status){
+		
+		if (status == google.maps.GeocoderStatus.OK) {
+	
+			if (results[1]) {
+
+// 				alert("주소 : "+results[3].formatted_address);
+				address = "'"+results[0].formatted_address+"'";
+
+			}else {
+// 				alert("Geocoder failed due to: " + status);
+			}
+
+		
+		}
+	});
+
+
+		
+	}
+	
+
+
+
 
 var calendar;
 
@@ -68,7 +112,7 @@ function calendar(options){
 	calendar.on('clickSchedule', function(event) {
 		 var schedule = event.schedule;
 
-		 self.location="/schedule/detailSchedule?groupNo="+schedule.id+"&scheduleNo="+schedule.calendarId;
+		 self.location="/schedule/detailSchedule?groupNo="+schedule.id+"&scheduleNo="+schedule.calendarId+"&myLat="+mylat+"&myLng="+mylng+"&address="+address;
 	});
 	
 	
@@ -105,6 +149,8 @@ $(function(){
 
 	
 	calendar();
+	
+	getLocation();
 	
 	setRenderRangeText();
 	
