@@ -17,7 +17,16 @@ public class Groups {
 	String interestNo2;
 	String interestNo3;
 	String hashTag;
-	
+	String groupMaster;
+
+	public String getGroupMaster() {
+		return groupMaster;
+	}
+
+	public void setGroupMaster(String groupMaster) {
+		this.groupMaster = groupMaster;
+	}
+
 	public int getGroupNo() {
 		return groupNo;
 	}
@@ -144,7 +153,7 @@ public class Groups {
 				+ memberLimit + ", visitCount=" + visitCount + ", point=" + point + ", birthDate=" + birthDate
 				+ ", mainImg=" + mainImg + ", infoImg=" + infoImg + ", ageLimitStart=" + ageLimitStart
 				+ ", ageLimitEnd=" + ageLimitEnd + ", interestNo1=" + interestNo1 + ", interestNo2=" + interestNo2
-				+ ", interestNo3=" + interestNo3 + ", hashTag=" + hashTag + "]";
+				+ ", interestNo3=" + interestNo3 + ", hashTag=" + hashTag + ", groupMaster=" + groupMaster + "]";
 	}
 
 }

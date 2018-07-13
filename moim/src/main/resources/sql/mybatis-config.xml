@@ -16,6 +16,7 @@
 	<typeAliases>
 		<typeAlias alias="user" type="com.moim.mvc.domain.User" />
 		<typeAlias alias="groups" type="com.moim.mvc.domain.Groups" />
+		<typeAlias alias="Search" type="com.moim.mvc.common.Search" />
 
 	</typeAliases>
 	

@@ -73,6 +73,12 @@
 		});
 	});
  	
+ 	$( function() {
+		$("a[href='#' ]:contains('회원정보보기')").bind("click" , function() {
+			self.location = "/user/listUserAdmin"
+		});
+	});
+ 	
 	/*
 	$( function() {
 		$("a[href='#' ]:contains('내정보수정')").bind("click" , function() {

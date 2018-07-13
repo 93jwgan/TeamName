@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=euc-kr" %>
 
+
+<div class="container" align="center">
+<ul class="pagination">
 	
 <c:if test="${ resultPage.currentPage <= resultPage.pageUnit }">
 		◀ 이전
@@ -21,3 +24,6 @@
 <c:if test="${ resultPage.endUnitPage < resultPage.maxPage }">
 		<a href="javascript:fncGetUserList('${resultPage.endUnitPage+1}')">이후 ▶</a>
 </c:if>
+
+</ul>
+</div>

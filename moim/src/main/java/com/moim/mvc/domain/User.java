@@ -1,5 +1,6 @@
 package com.moim.mvc.domain;
 
+import java.sql.Date;
 
 public class User {
 

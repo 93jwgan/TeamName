@@ -39,7 +39,7 @@
 	<insert 	id="addUser"	parameterType="user" >
 	 	INSERT
 		INTO users( user_id , name , password , birth ,address, phone, profile_img, on_off ,role, interest_no1, interest_no2, interest_no3) 
-		VALUES	 (	#{userId} , #{name} , #{password} ,  #{birth} , 
+		VALUES	 (	#{userId} , #{name} , #{password}, #{birth}, 
 							#{address} , #{phone} , #{profileImg:VARCHAR}, '0', '0', #{interestNo1}, #{interestNo2:CHAR}, #{interestNo3:CHAR} )
 	 </insert>
 	 

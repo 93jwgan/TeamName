@@ -18,6 +18,10 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 
 <!---------------  CSS  --------------->
 <style>
@@ -47,23 +51,46 @@ img{
 
 body{padding-top:50px;}
 
+
+
+  .checkbox input[type="checkbox"] {
+    opacity: 0; }
+    .checkbox input[type="checkbox"]:focus + label::before {
+      outline: thin dotted;
+      outline: 5px auto -webkit-focus-ring-color;
+      outline-offset: -2px; }
+    .checkbox input[type="checkbox"]:checked + label::after {
+      font-family: 'FontAwesome';
+      content: "\f00c"; }
+    .checkbox input[type="checkbox"]:disabled + label {
+      opacity: 0.65; }
+      .checkbox input[type="checkbox"]:disabled + label::before {
+        background-color: #eeeeee;
+        cursor: not-allowed; }
+  .checkbox.checkbox-circle label::before {
+    border-radius: 50%; }
+  .checkbox.checkbox-inline {
+    margin-top: 0; }
+
+.checkbox-success input[type="checkbox"]:checked + label::before {
+  background-color: #5cb85c;
+  border-color: #5cb85c; }
+.checkbox-success input[type="checkbox"]:checked + label::after {
+  color: #fff; }
+
+
 </style>
+
 
 <!--------------  JavaScript ------------>
 <script type="text/javascript">
 
+//도로명주소
+ $(function() { $("#postcodify_search_button").postcodifyPopUp(); }); 
 
-
-/* //파일 업로드 확장자 체크
-function FileType(){
-
-	  if( !event.srcElement.value.match(/(.jpg|.jpeg|.gif|.png)/)) { 
-	      swal("그림파일만 업로드 가능합니다.");
-	  } 
-	} */
 	
 	//이미지 미리보기
-function readURL(input) {
+ function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
 
@@ -84,7 +111,7 @@ var interest_no1;
 var interest_no2;
 var interest_no3;
 
-<!---- 카테고리 3개까지 체크----->
+<!-- 카테고리 3개까지 체크----->
 function CountChecked(field) {
 	
     if (field.checked){
@@ -133,21 +160,51 @@ $(function() {
 	});
 	
 	
-	$("#findAddress").bind("click", function() {
-	 	 
-		goPopup();
+	
+	//------- 프로필 이미지만, 용량 1MB까지----------
+	
+	$("#profileImg").change(function(){
+		if($(this).val() != ""){
+			var ext = $(this).val().split(".").pop().toLowerCase();
+			if($.inArray(ext, ["jpg","gif","jpeg","png"]) == -1){
+				alert("gif, jpg, jpeg, png 파일만 업로드 해주세요.");
+				$(this).val("");
+				return;
+			}
+			
+			var fileSize = this.files[0].size;
+			var maxSize = 1024 * 1024;
+			if(fileSize > maxSize){
+				alert("파일용량이 1MB를 초과할 수 없습니다.");
+				$(this).val("");
+			}
+
+		}
 	});
 	
 	
-	//------------- ID 중복확인---------------------
+	//--자르기---
+/* 	
+	function right(str,n){
+	    if (n <= 0){
+	       return "";
+	    }else if (n > String(str).length){
+	       return str;
+	    }else{
+	       var iLen = String(str).length;
+	       return String(str).substring(iLen, iLen - n);
+	    }
+	} */
 	
+	
+	//------------- ID 중복확인---------------------
 	
 	 $("#userId").bind("keyup", function() {
 			
 		if($("#userId").val().length == 0){
 			$("#checkId").text("");
 		}
-	else  if ($("#userId").val().length > 6) {
+	else  if ($("#userId").val().length > 5) {
 					$.post("/user/json/checkId/", {
 						userId : $("#userId").val(),
 					},
@@ -182,7 +239,7 @@ $(function() {
 			var name = $("input[name='name']").val();
 			var chk_name=/^[가-힣]*$/;
 			
-			if( !chk_name.test(name) )
+		 	if( !chk_name.test(name) )
 			{
 				swal("이름은 한글만 입력해주세요.");
 				return false;
@@ -276,7 +333,7 @@ $(function() {
 			return false;  
 			}
 			 
-			
+ 	
 			//핸드폰 번호 합치기
 			
 
@@ -297,10 +354,18 @@ $(function() {
 			
 			$("input:hidden[name='phone']").val(value);
 	
+			//주소
+			
+/* 		var ars = $("#address_search").val();
+		 var ars_p = ars.slice(0,-1);
+	
+		$("#address").val(ars_p);
+	 	
+		alert(ars_p);
+			 */
+			
 			
 		//생년월일
-	//		var birth = $(#birthYear).val() + $(#birthMonth).val() + $(#birthDay).val(); 
-		
 			
 			var b1 = $("#birthYear").val();
 			var b2 = $("#birthMonth").val();
@@ -309,28 +374,15 @@ $(function() {
 			
 			$("input:hidden[name='birth']").val(birth);
 			
+			swal("회원가입이 완료되었습니다.");  
+			alert("111");
 			
-			swal("회원가입이 완료되었습니다.","success"); 
-			
-			$("#form").attr("method", "POST").attr("action", "/user/addUser").submit();
+		 $("#form").attr("method", "POST").attr("action", "/user/addUser").submit();
 			
 	};
 
 	
-	
-	
-	
-	<!---- 주소찾------>
-	function goPopup(){
-	    var pop = window.open("/common/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
-	}
 
-	function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn
-			, detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn, buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo){
-		$("#address").val(roadFullAddr);
-		$("#address_hidden").val(roadFullAddr);
-	}
-	
 	
 </script>
 
@@ -346,18 +398,18 @@ $(function() {
 
 <div class="container">
 	<div class="form-group">
-<form id="form" class="form-horizontal"  >
+<form id="form" class="form-horizontal"  enctype="multipart/form-data">
  <fieldset>
 <legend>::: 회원가입</legend>
 
-<div class="form-group">
+ <div class="form-group">
 <label class="col-md-4 control-label" >프로필 사진</label>
   <div class="col-xs-12 col-sm-6 col-md-6">
-  <img id="blah" src="http://placehold.it/180" alt="your image" class="img-thumbnail">
+ <img id="blah" src="http://placehold.it/180" alt="your image" class="img-thumbnail">
 
-   
+
 <div>
- <input id="profileImg" name="profileImg" class="form-control-file" type="file" onchange="readURL(this);">
+ <input id="profileImg" name=file class="form-control-file" type="file" onchange="readURL(this);" >
  </div>  
   </div>
      </div>
@@ -419,9 +471,11 @@ $(function() {
   <label class="col-md-4 control-label" for="address">주소</label>
   <div class="col-md-3">              
   
-     <input id="address" name="address" placeholder="주소를 검색하세요." class="form-control input-md" type="text" readonly> 
+     <input id="address" name="address"  class="postcodify_address form-control input-md" placeholder="주소를 검색하세요."type="text" readonly> 
+  <!--    <input type="hidden" id="address" name="address" value=""/>
+      -->
      </div>
-    <input id="findAddress" name="findAddress" class="btn btn-default" type="button" value="검색">
+    <input id="postcodify_search_button" name="postcodify_search_button" class="btn btn-default" type="button" value="검색">
           
       
 </div>
@@ -495,29 +549,26 @@ $(function() {
     
     일
 </div>
-  </div>
-    </div>
-  
-
+</div>
 
 <div class="form-group">
   <label class="col-md-4 control-label" for="interest">관심사</label>
 
-  <div class="col-md-6" class="form-check form-check-inline">
+  <div class="col-md-6" >
  
-    <input type="checkbox"  class="form-check-input" value="스포츠" onClick=CountChecked(this)> 스포츠 
- 	<input type="checkbox" class="form-check-input" value="친목" onClick=CountChecked(this)> 친목 
-	<input type="checkbox" class="form-check-input"  value="스터디" onClick=CountChecked(this)> 스터디
-	<input type="checkbox" class="form-check-input"  value="예술" onClick=CountChecked(this)> 예술
- 	<input type="checkbox" class="form-check-input"  value="게임" onClick=CountChecked(this)> 게임 
-	<input type="checkbox" class="form-check-input"  value="여행" onClick=CountChecked(this)> 여행
-	<input type="checkbox" class="form-check-input"  value="건강" onClick=CountChecked(this)> 건강 
- 	<input type="checkbox" class="form-check-input"  value="음식" onClick=CountChecked(this)> 음식 
-	<input type="checkbox" class="form-check-input"  value="고민" onClick=CountChecked(this)> 고민
-	<input type="checkbox" class="form-check-input"  value="자유주제" onClick=CountChecked(this)>자유주제
+    <input type="checkbox"  class="checkbox checkbox-success checkbox-inline" value="스포츠" onClick=CountChecked(this)> 스포츠 
+ 	<input type="checkbox" class="checkbox checkbox-success checkbox-inline" value="친목" onClick=CountChecked(this)> 친목 
+	<input type="checkbox" class="checkbox checkbox-success checkbox-inline"  value="스터디" onClick=CountChecked(this)> 스터디
+	<input type="checkbox" class="checkbox checkbox-success checkbox-inline"  value="예술" onClick=CountChecked(this)> 예술
+ 	<input type="checkbox" class="checkbox checkbox-success checkbox-inline"  value="게임" onClick=CountChecked(this)> 게임 
+	<input type="checkbox" class="checkbox checkbox-success checkbox-inline"  value="여행" onClick=CountChecked(this)> 여행
+	<input type="checkbox" class="checkbox checkbox-success checkbox-inline"  value="건강" onClick=CountChecked(this)> 건강 
+ 	<input type="checkbox" class="checkbox checkbox-success checkbox-inline"  value="음식" onClick=CountChecked(this)> 음식 
+	<input type="checkbox" class="checkbox checkbox-success checkbox-inline"  value="고민" onClick=CountChecked(this)> 고민
+	<input type="checkbox" class="checkbox checkbox-success checkbox-inline"  value="자유주제" onClick=CountChecked(this)>자유주제
 	
 	
-	<input type="hidden" id="address_hidden" name="address" value=""/>
+	
 	<input type="hidden" id="interest_no1" name="interestNo1" value=""/>
 	<input type="hidden" id="interest_no2" name="interestNo2" value=""/>
 	<input type="hidden" id="interest_no3" name="interestNo3" value=""/>
@@ -528,12 +579,11 @@ $(function() {
 
 
 <div class="form-group">
-<label class="col-md-4 control-label" for="address"></label>
+<label class="col-md-4 control-label" ></label>
   <div class="col-md-4"> 
     <input id="join" name="join" class="btn btn-default" type="button" value="가입">
   </div> 
   </div>
-
 
  </fieldset> 
 </form>

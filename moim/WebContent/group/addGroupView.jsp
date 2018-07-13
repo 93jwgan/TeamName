@@ -27,7 +27,7 @@
   color: #555;
   vertical-align: middle;
   border-radius: 4px;
-  max-width: 100%;
+  max-width: 500px;
   line-height: 30px;
   cursor: text;
 }
@@ -78,11 +78,14 @@
 
 <script type="text/javascript">
 
+var i=0;
 var text="";
+
 function appendText(content) {
     text = text + content;
-    
+    $("#count").val(i);
     $("#hashTag").val(text);
+    i++;
   }
 (function ($) {
 	  "use strict";
@@ -131,7 +134,7 @@ function appendText(content) {
 	    this.inputSize = Math.max(1, this.placeholderText.length);
 
 	    this.$container = $('<div class="bootstrap-tagsinput"></div>');
-	    this.$input = $('<input type="text" placeholder="' + this.placeholderText + '"/>').appendTo(this.$container);
+	    this.$input = $('<input type="text" maxlength="15" style="width:200px;" name="hashInput" placeholder="' + this.placeholderText + '"/>').appendTo(this.$container);
 
 	    this.$element.before(this.$container);
 
@@ -148,6 +151,10 @@ function appendText(content) {
 	    
 	    add: function(item, dontPushVal, options) {
 	      var self = this;
+	      var count = $("#count").val();
+	      
+	      if(count>=20)
+	    	  return;
 	      
 	      if (self.options.maxTags && self.itemsArray.length >= self.options.maxTags)
 	        return;
@@ -166,6 +173,7 @@ function appendText(content) {
 	        throw("Can't add objects when itemValue option is not set");
 
 	      // Ignore strings only containg whitespace
+	      
 	      if (item.toString().match(/^\s*$/))
 	        return;
 	      
@@ -176,15 +184,20 @@ function appendText(content) {
 	    	  item = "#"+item;
 	      }
 	      else{ 
-	    	 var chr_pass_0;
-	    	 var chr_pass_1;
+	    	 var chr_pass_0="";
+	    	 var chr_pass_1="";
 	    	 var temp = "";
 	    	 
 	    	 for(var i=0; i < item.toString().length; i++) {
+	    		 
 	    		 chr_pass_0 = item.charAt(i); 
 				 chr_pass_1 = item.charAt(i+1);
 	    	 
-	    	 	if(chr_pass_0==chr_pass_1 && item.charAt(i)=="#"){
+				if(chr_pass_0=="#" && chr_pass_1==""){
+					return;
+				} 
+				 
+				else if(chr_pass_0==chr_pass_1 && item.charAt(i)=="#"){
 	    	 		chr_pass_0 = "";
 	    	 	}
 	    	 	temp = temp + chr_pass_0;
@@ -242,9 +255,10 @@ function appendText(content) {
 	      // add a tag element
 		
 	      var $tag = $('<span class="tag ' + htmlEncode(tagClass) + (itemTitle !== null ? ('" title="' + itemTitle) : '') + '">' + htmlEncode(itemText) + '<span data-role="remove"></span></span>');
+	      //개수 제한
 	      
 	      appendText(itemText);
-	      
+	
 	      $tag.data('item', item);
 	      self.findInputWrapper().before($tag);
 	      $tag.after(' ');
@@ -504,6 +518,7 @@ function appendText(content) {
 	                self.remove(next.data('item'));
 	              }
 	            }
+	          
 	            break;
 
 	          // LEFT ARROW
@@ -843,6 +858,18 @@ function CountChecked(field) {
     
 }	
 
+$(document).on("keyup","input[name=hashInput]",function(e) {
+	if(e.keyCode==8){
+		if(i >= 0){
+			i = $("#count").val();
+			i--;
+			if(i == -1)
+				i = 0;
+			$("#count").val(i);
+		}
+	}
+});	
+
 $(function(){
 	
 	$("#memberLimitCheck").bind("click", function() {
@@ -877,8 +904,25 @@ $(function(){
 		fncAddGroup();
 	});
 	
-	//---
-	
+	$("#mainImg").change(function(){
+		if($(this).val() != ""){
+			var ext = $(this).val().split(".").pop().toLowerCase();
+			if($.inArray(ext, ["jpg","gif","jpeg","png"]) == -1){
+				alert("gif, jpg, jpeg, png 파일만 업로드 해주세요.");
+				$(this).val("");
+				return;
+			}
+			
+			var fileSize = this.files[0].size;
+			var maxSize = 1024 * 1024;
+			if(fileSize > maxSize){
+				alert("파일용량이 1MB를 초과했습니다.");
+				$(this).val("");
+			}
+
+		}
+	});
+		
 	$("#groupName").bind("keyup", function() {
 		
 		if ($("#groupName").val().length == 0) {
@@ -910,8 +954,6 @@ $(function(){
 
 </script>
 
-
-
 </head>
 
 <body>
@@ -941,7 +983,7 @@ $(function(){
 <div class="control-group">
   <label class="control-label" for="groupInfo">소개글</label>
   <div class="controls">
-    <input id="groupInfo" name="groupInfo" type="text" value="" style="width:500px; height:200px;">
+    <textArea id="groupInfo" name="groupInfo" style="width:500px; height:200px;"></textArea>
   </div>
 </div>
 
@@ -989,6 +1031,7 @@ $(function(){
 	<input type="checkbox" value="자유주제" onClick=CountChecked(this)> 자유주제
 
 	<input type="hidden" id="hashTag" name="hashTag" value=""/>
+	<input type="hidden" id="count" name="count" value=""/>
 	<input type="hidden" id="interest_no1" name="interestNo1" value=""/>
 	<input type="hidden" id="interest_no2" name="interestNo2" value=""/>
 	<input type="hidden" id="interest_no3" name="interestNo3" value=""/>
@@ -999,7 +1042,7 @@ $(function(){
 <div class="control-group">
   <label class="control-label" for="hashTag">해시태그</label>
   <div class="controls">
-  	<input type="text" data-role="tagsinput" name="hash">
+  	<input type="text" data-role="tagsinput">
   </div>
 </div>
 

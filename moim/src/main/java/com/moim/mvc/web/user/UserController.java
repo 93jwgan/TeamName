@@ -34,16 +34,77 @@ public class UserController {
 	
 	@RequestMapping( value="addUserView", method=RequestMethod.GET )
 	public String addUserView() throws Exception{
-		System.out.println("1234");
+		
 		return "redirect:/user/addUser.jsp";
 	}
 	
-	@RequestMapping( value="addUser", method=RequestMethod.POST )
-	public String addUser(@ModelAttribute("user") User user) throws Exception {
-		userService.addUser(user);
-		return "/index.jsp"; 
+	@RequestMapping( value="listUserAdmin", method=RequestMethod.GET )
+	public String listUserAdmin() throws Exception{
 		
+		System.out.println("listUserAdmin 컨트롤러 들어옴");
+		return "redirect:/user/listUserAdmin.jsp";
 	}
+	
+	
+	/*@RequestMapping( value="addUser", method=RequestMethod.POST )
+	public String addUser(@ModelAttribute("user") User user,  @RequestParam("profileImg") MultipartFile profileImg, HttpServletRequest request) throws Exception {
+		
+		String today = new java.text.SimpleDateFormat("yyMMddHHmmss").format(new java.util.Date());
+		String path = request.getSession().getServletContext().getRealPath("/")+"images\\user\\";
+		
+		String profileImgName = today + (int)(Math.random()*10000);
+	
+		if(profileImg.getOriginalFilename()!="") {
+			File f= new File(path + profileImgName);
+			profileImg.transferTo(f);
+		}
+	
+		System.out.println(today);
+		System.out.println(path);
+		System.out.println(profileImg);
+		return "/index.jsp";
+		
+		
+		
+
+		//userService.addUser(user);
+	 
+		
+	}*/
+	
+
+	@RequestMapping( value="addUser", method=RequestMethod.POST )
+	public String addUser(@ModelAttribute("user") User user, @RequestParam("file") MultipartFile profileImg, HttpServletRequest request) throws Exception {
+		
+		
+		System.out.println(user);
+		System.out.println("오리지널 파일이름"+profileImg.getOriginalFilename());
+		System.out.println("addUser컨트롤러들어옴");
+		
+		String path = request.getSession().getServletContext().getRealPath("/")+"images\\user\\";
+		
+		if(profileImg.getOriginalFilename()!="") {
+			File f= new File(path + profileImg.getOriginalFilename());
+			profileImg.transferTo(f);
+		}
+		
+		userService.addUser(user);
+		return "/index.jsp";
+		
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 	@RequestMapping( value="login", method=RequestMethod.GET )

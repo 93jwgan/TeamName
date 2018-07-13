@@ -2,7 +2,6 @@
 <!-- ---------- page 지시문 --------- -->
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <!DOCTYPE html>
@@ -125,13 +124,7 @@ ${user.phone}
 <div class="form-group">
   <label class="col-md-4 control-label" for="birthdate">생년월일</label>
   <div class="col-md-4">
- <%-- <fmt:formatDate value="${user.birth}" type="both" dateStyle="short" />  
-  --%>
-  
-   <fmt:parseDate value="${user.birth}" pattern="yyyyMMdd" var="testDt"/> 
-   <fmt:formatDate value="${testDt}" type="time" pattern="yyyy.MM.dd"/>
-
-
+${user.birth}
   </div>
     </div>
   
@@ -140,14 +133,7 @@ ${user.phone}
 <div class="form-group">
   <label class="col-md-4 control-label" for="interest">관심사</label>
  <div class="col-md-4">
-${user.interestNo1}
-
-<c:if test="${user.interestNo2 != null}"> 
-, ${user.interestNo2}
-</c:if>
-<c:if test="${user.interestNo3 != null}"> 
-, ${user.interestNo3}
-</c:if>
+${user.interestNo1}, ${user.interestNo2}, ${user.interestNo3}
   </div>
     </div>
   
