@@ -56,9 +56,18 @@ public class ScheduleController {
 		
 		List<Schedule> list =scheduleService.getScheduleList(schedule);
 		
+		
+//		StringBuffer response = scheduleService.direction(list.get(0), user);
+	
+//		model.addAttribute("direction",response);
 		model.addAttribute("list",list);
 		model.addAttribute("users",user);
+		
 		return "forward:/schedule/detailSchedule.jsp";
+
+
+//		
+//		return "forward:/schedule/googledirection.jsp";
 	}
 	
 }

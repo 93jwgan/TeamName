@@ -45,8 +45,11 @@
 $(function(){
 	
 	$('#picker').dateTimePicker({
+
+		
 	});
 	$('#picker1').dateTimePicker({
+		
 	});
 
 	$( "button.btn.btn-info:contains('취소하기')" ).on("click" , function() {
@@ -92,7 +95,6 @@ $(function(){
 	var geocoder = new google.maps.Geocoder();
 	var latlng = new google.maps.LatLng(lat,lng);			
 	geocoder.geocode({'latLng' : latlng}, function(results, status){
-// 		alert("여기 진짜 안들어올꺼냐?");
 		if (status == google.maps.GeocoderStatus.OK) {
 			if (results[1]) {
 				alert("주소 : "+results[3].formatted_address);

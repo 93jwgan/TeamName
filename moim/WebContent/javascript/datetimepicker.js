@@ -16,13 +16,22 @@
         var limitation = {"hour": 23, "minute": 59};
         var mousedown = false;
         var timeout = 800;
+//        alert("settings.selectData : "+settings.selectData);
         var selectDate = settings.selectData == "now" ? moment() : moment(settings.selectData, settings.dateFormat);
         if (selectDate < moment()) {
             selectDate = moment();
         }
-        var startDate = copyDate(moment());
-        var lastSelected = copyDate(selectDate);
+        var startDate = copyDate(moment()); //현재 시간 unix 시간으로
+        
+        
+        
+        var lastSelected = copyDate(selectDate); //현재 시간 unix 시간으로
+        
+        
+        
         return this.each(function () {
+//        	alert("lastSelected : "+lastSelected);
+//        	alert("selectDate : "+selectDate);
             if (lastSelected != selectDate) {
                 selectDate = copyDate(lastSelected);
             }
@@ -295,6 +304,8 @@
                 }
 
                 function createContent() {
+//                	alert("여기 가 만들어지는거냐 ㅅㅂ");
+                	
                     var $c = $('<div>');
                     if (settings.showTime) {
                         $c.addClass("dtp_modal-content");
@@ -315,13 +326,16 @@
                         $el.addClass('dtp_modal-cell-time');
                         var $a = $('<div>');
                         $a.addClass('dtp_modal-time-block');
+
                         $a.attr('id', 'field-time');
                         $el.append($a);
                         var $line = $('<div>');
                         $line.attr('id', 'time-line');
                         $line.addClass('dtp_modal-time-line');
                         $line.text(lastSelected.format(settings.dateFormat));
-
+                        
+//                        alert("@@@@@@@@@@"+ lastSelected.format(settings.dateFormat)+"@@@@@@@@@@@"); 
+                        
                         $a.append($line);
                         $a.append(createTimer());
                         var $but = $('<div>');
