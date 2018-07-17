@@ -39,8 +39,8 @@
     <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
     
        
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfkFqWArB8a77fiEJuJN80OW9TFtfoJhY&callback=initMap"
-    async defer></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfkFqWArB8a77fiEJuJN80OW9TFtfoJhY&callback=initMap"
+  type="text/javascript"></script>
 <script type="text/javascript">
 $(function(){
 	
@@ -95,11 +95,13 @@ $(function(){
 	var geocoder = new google.maps.Geocoder();
 	var latlng = new google.maps.LatLng(lat,lng);			
 	geocoder.geocode({'latLng' : latlng}, function(results, status){
+		
 		if (status == google.maps.GeocoderStatus.OK) {
 			if (results[1]) {
-				alert("주소 : "+results[3].formatted_address);
+// 				alert("주소 : "+results[3].formatted_address);
 				$('#address').val("'"+results[0].formatted_address+"'");
 			}else {
+				alert("22222");
 				alert("Geocoder failed due to: " + status);
 			}	
 		}

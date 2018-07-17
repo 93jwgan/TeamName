@@ -44,5 +44,19 @@ public class ScheduleServiceImpl implements ScheduleService{
 		return scheduleDao.direction(schedule, user);
 	}
 
+	@Override
+	public void updateSchedule(Schedule schedule) throws Exception {
+		// TODO Auto-generated method stub
+		scheduleDao.updateSchedule(schedule);
+	}
+
+	@Override
+	public void deleteSchedule(int scheduleNo) throws Exception {
+		// TODO Auto-generated method stub
+		scheduleDao.deleteSchedule(scheduleNo);
+	}
+	
+	
+
 
 }

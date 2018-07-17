@@ -13,4 +13,8 @@ public interface ScheduleDao {
 	public List<Schedule> getScheduleList(Schedule schedule) throws Exception;
 
 	public StringBuffer direction(Schedule schedule, User user) throws Exception;
+	
+	public void updateSchedule(Schedule schedule) throws Exception;
+	
+	public void deleteSchedule(int scheduleNo) throws Exception;
 }

@@ -39,8 +39,6 @@ body {
 <script type="text/javascript">
 var map;
 var address = new Array();
-// var direction =JSON.parse(JSON.stringify(${direction}));
-var poly;
 var html = "";
 var Locations=[
 		{
@@ -59,9 +57,16 @@ $(function(){
 	
 	$( "button.btn.btn-info:contains('수정완료')" ).hide();
 	
+	$( "button.btn.btn-info:contains('뒤로가기')" ).on("click" , function() {
+		 javascript:history.go(-1);
+	})
+	$( "button.btn.btn-info:contains('일정삭제')" ).on("click" , function() {
+		 self.location = "/schedule/deleteSchedule/"+${list[0].scheduleNo};
+	})
+	
 	$( "button.btn.btn-info:contains('수정하기')" ).on("click" , function() {
 		$('input').prop('readonly',false);
-		
+		$('textarea').prop('readonly',false);
 		$( "button.btn.btn-info:contains('수정완료')" ).show();
 		
 		$('#startDay').prop('type','hidden');
@@ -72,36 +77,23 @@ $(function(){
 		});
 		$('#picker1').dateTimePicker({
 			selectData: moment($('#endDay').val(),'YYYY-MM-DD HH:mm')
-		});
-		
-		
-		
-		
+		});	
 	})
 	$( "button.btn.btn-info:contains('수정완료')" ).on("click" , function() {
-		alert("aaaaa");
-		
+		$("form").attr("method","POST").attr("action","/schedule/updateSchedule").submit();
 	})
 	
 		for(var i=0;i<Locations.length;i++){
 			var geocoder = new google.maps.Geocoder();
-	
 			var latlng = new google.maps.LatLng(Locations[i].lat, Locations[i].lng);
 			
-			geocoder.geocode({'latLng' : latlng}, function(results, status){
-				
-				if (status == google.maps.GeocoderStatus.OK) {
-			
+			geocoder.geocode({'latLng' : latlng}, function(results, status){			
+				if (status == google.maps.GeocoderStatus.OK) {	
 					if (results[1]) {
-	
-// 						alert("주소 : "+results[3].formatted_address);
 						address.push(results[0].formatted_address);
-	
 					}else {
 						alert("Geocoder failed due to: " + status);
-					}
-	
-				
+					}		
 				}
 			});
 		}		
@@ -109,238 +101,105 @@ $(function(){
 	
 
 	function initMap() {
-	
-var directionsDisplay = new google.maps.DirectionsRenderer;
-var directionsService = new google.maps.DirectionsService;
-	
-	var infowindow =  new google.maps.InfoWindow({
-        content: ''
-    });
-	
-	  var myOptions = {
-	      zoom: 15,
-	      center: new google.maps.LatLng(37.502508, 127.030576)
-	    },
+		var directionsDisplay = new google.maps.DirectionsRenderer;
+		var directionsService = new google.maps.DirectionsService;
+		var myOptions = {
+		    zoom: 15,
+		    center: new google.maps.LatLng(37.502508, 127.030576)
+		  },
 	    map = new google.maps.Map(document.getElementById('map'), myOptions);
-	   
-	  
-	  
-// 	  poly = null;
-//  	  poly = new Array();
-// 	  var lineSymbol = {
-// 			  path: 'M 0,-1 0,1',
-// 			  strokeOpacity: 1,
-// 			  scale: 4
-// 			};
-	  
-// 	  for(var i=0;i<direction.routes[0].legs[0].steps.length;i++){
-// 		  if(direction.routes[0].legs[0].steps[i].travel_mode == "WALKING"){
-// 			  if(i == 0){
-// 			 	  poly.push(new google.maps.LatLng(direction.routes[0].legs[0].steps[i].start_location.lat,direction.routes[0].legs[0].steps[i].start_location.lng));
-			 	  
-// 				  var marker = new google.maps.Marker({
-// 				    	position: poly[0], 
-// 				    	map: map,
-// 				    });
-// 				  bindInfoWindow(marker, map, infowindow, "<p>" + direction.routes[0].legs[0].steps[i].travel_mode+"</p>");
-				  
-// 			 	  poly.push(new google.maps.LatLng(direction.routes[0].legs[0].steps[i].end_location.lat,direction.routes[0].legs[0].steps[i].end_location.lng));
-				  
-				  
-			 	  
-// 			 	  var flightPath = new google.maps.Polyline({
-// 			          path: poly,
-// 			          strokeOpacity: 0,
-// 			          icons: [{
-// 			        	    icon: lineSymbol,
-// 			        	    offset: '0',
-// 			        	    repeat: '20px'
-// 			        	  }]
-			          
-// 			        });
-				  
-// 			 	  flightPath.setMap(map);
-// 				  poly = [];
-// 			  }else{
-// 				  poly.push(new google.maps.LatLng(direction.routes[0].legs[0].steps[i].start_location.lat,direction.routes[0].legs[0].steps[i].start_location.lng));
-				  
-// 				  var marker = new google.maps.Marker({
-// 				    	position: poly[0], 
-// 				    	map: map,
-// 				    });
-// 				  bindInfoWindow(marker, map, infowindow, "<p>" + direction.routes[0].legs[0].steps[i].travel_mode+"</p>");
-				  
-// 				  poly.push(new google.maps.LatLng(direction.routes[0].legs[0].steps[i].end_location.lat,direction.routes[0].legs[0].steps[i].end_location.lng));
-
-				  
-// 				  var flightPath = new google.maps.Polyline({
-// 			          path: poly,
-// 			          strokeOpacity: 0,
-// 			          icons: [{
-// 			        	    icon: lineSymbol,
-// 			        	    offset: '0',
-// 			        	    repeat: '20px'
-// 			        	  }]
-			          
-// 			        });
-				  
-// 				  flightPath.setMap(map);
-// 				  poly = [];
-// 			  }
-// 		  }else if(direction.routes[0].legs[0].steps[i].travel_mode == "TRANSIT"){
-// 			  poly.push(new google.maps.LatLng(direction.routes[0].legs[0].steps[i].transit_details.departure_stop.location.lat,direction.routes[0].legs[0].steps[i].transit_details.departure_stop.location.lng));
+		
+		
+		
+	    marker = new google.maps.Marker({
+	        map: map,
+	      }),
+	    infowindow = new google.maps.InfoWindow;
+	    map.addListener('rightclick', function(e) {
+	        marker.setPosition(e.latLng);
+	        
+	        $('#lat').val(e.latLng.lat());
+	        $('#lng').val(e.latLng.lng());
+        
+	    	var geocoder = new google.maps.Geocoder();
+	    	var latlng = new google.maps.LatLng(e.latLng.lat(),e.latLng.lng());			
+	    	geocoder.geocode({'latLng' : latlng}, function(results, status){
+	    		if (status == google.maps.GeocoderStatus.OK) {
+	    			if (results[1]) {
+// 	    				alert("주소 : "+results[3].formatted_address);
+	    				$('#address').val("'"+results[0].formatted_address+"'");
+	    			}else {
+	    				alert("Geocoder failed due to: " + status);
+	    			}	
+	    		}
+	    	});	
+	        
+	        
+	        infowindow.setContent("Latitude: " + e.latLng.lat() +
+	          "<br>" + "Longitude: " + e.latLng.lng());
+	        infowindow.open(map, marker);
+	      });
+		
+	    
+	    
+	    
 			  
-// 			  var marker = new google.maps.Marker({
-// 			    	position: poly[0], 
-// 			    	map: map,
-// 			    });
-// 			  bindInfoWindow(marker, map, infowindow, "<p>" + direction.routes[0].legs[0].steps[i].travel_mode+"</p>");
-			  
-// 			  poly.push(new google.maps.LatLng(direction.routes[0].legs[0].steps[i].transit_details.arrival_stop.location.lat,direction.routes[0].legs[0].steps[i].transit_details.arrival_stop.location.lng));
-			  
-			  
-// 			  var flightPath = new google.maps.Polyline({
-// 		          path: poly,
-// 		          geodesic: true,
-// 		          strokeColor: '#FF0000',
-// 		          strokeOpacity: 1.0,
-// 		          strokeWeight: 2
-// 		        });
-			  
-			  
-// 			  flightPath.setMap(map);
-// 			  poly = [];;
-// 		  }
-		  
-		  
-// 	  }
-	  
-	  
-
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-directionsDisplay.setMap(map);
-calculateAndDisplayRoute(directionsService, directionsDisplay,Locations);
-
-
-
-	  	
-	  	
-// 	  for(var i=0;i<Locations.length;i++){
-
-		  
-// 		  var marker = new google.maps.Marker({
-// 		    	position: new google.maps.LatLng(Locations[i].lat, Locations[i].lng), 
-// 		    	map: map,
-// 		    	title: Locations[i].title
-// 		    });
-		  
-// 		  bindInfoWindow(marker, map, infowindow, "<p>" + Locations[i].title+"</p>"); 
-// 	  }
-	  
+		directionsDisplay.setMap(map);
+		calculateAndDisplayRoute(directionsService, directionsDisplay,Locations);
+	
+	    function calculateAndDisplayRoute(directionsService, directionsDisplay,Locations) {
+	
+	      var selectedMode = 'TRANSIT';
+	      directionsService.route({
+	        origin: {lat: Locations[1].lat, lng: Locations[1].lng},  
+	        destination: {lat: Locations[0].lat, lng: Locations[0].lng},  
+	        
+	        // Note that Javascript allows us to access the constant
+	        // using square brackets and a string value as its
+	        // "property."
+	        travelMode: google.maps.TravelMode[selectedMode]
+	      }, function(response, status) {
+	        if (status == 'OK') {
+	        	for(var i=0;i<response.routes[0].legs[0].steps.length;i++){
+	         		if(response.routes[0].legs[0].steps[i].travel_mode == "WALKING"){	
+	         			html += "<div>이동거리 : "+response.routes[0].legs[0].steps[i].distance.text+", 걸리는시간 : "+response.routes[0].legs[0].steps[i].duration.text+", 이동수단 : "+response.routes[0].legs[0].steps[i].travel_mode+
+	         					", 도착지 : "+response.routes[0].legs[0].steps[i].instructions+"</div>";	
+	         		}else if(response.routes[0].legs[0].steps[i].travel_mode == "TRANSIT"){
+	        			
+	         			if(response.routes[0].legs[0].steps[i].transit.line.vehicle.type =="SUBWAY"){
+		         			html += "<div>이동거리 : "+response.routes[0].legs[0].steps[i].distance.text+", 걸리는시간 : "+response.routes[0].legs[0].steps[i].duration.text+
+		         					", 이동수단 : "+response.routes[0].legs[0].steps[i].travel_mode+", 지하철 방향 : "+response.routes[0].legs[0].steps[i].transit.headsign+
+		         					", 호선 : "+response.routes[0].legs[0].steps[i].transit.line.short_name+", 타는곳 : "+response.routes[0].legs[0].steps[i].transit.departure_stop.name+
+		         					", 탑승 시간 : "+response.routes[0].legs[0].steps[i].transit.departure_time.text+", 도착역 : "+response.routes[0].legs[0].steps[i].transit.arrival_stop.name+
+		         					", 도착 시간 : "+response.routes[0].legs[0].steps[i].transit.arrival_time.text+"</div>";
+	        			}else if(response.routes[0].legs[0].steps[i].transit.line.vehicle.type =="BUS"){
+	         				if(response.routes[0].legs[0].steps[i].transit.line.short_name == null){
+		             			html += "<div>이동거리 : "+response.routes[0].legs[0].steps[i].distance.text+", 걸리는시간 : "+response.routes[0].legs[0].steps[i].duration.text+
+				     					", 버스 방향 : "+response.routes[0].legs[0].steps[i].transit.headsign+", 타는곳 : "+response.routes[0].legs[0].steps[i].transit.departure_stop.name+
+				     					", 탑승 시간 : "+response.routes[0].legs[0].steps[i].transit.departure_time.text+", 도착역 : "+response.routes[0].legs[0].steps[i].transit.arrival_stop.name+
+				     					", 도착 시간 : "+response.routes[0].legs[0].steps[i].transit.arrival_time.text+"</div>";
+	         				}else{
+	         					html += "<div>이동거리 : "+response.routes[0].legs[0].steps[i].distance.text+", 걸리는시간 : "+response.routes[0].legs[0].steps[i].duration.text+
+				     					", 버스 방향 : "+response.routes[0].legs[0].steps[i].transit.headsign+", 버스 번호 : "+response.routes[0].legs[0].steps[i].transit.line.short_name+
+				     					", 타는곳 : "+response.routes[0].legs[0].steps[i].transit.departure_stop.name+", 탑승 시간 : "+response.routes[0].legs[0].steps[i].transit.departure_time.text+
+				     					", 도착역 : "+response.routes[0].legs[0].steps[i].transit.arrival_stop.name+", 도착 시간 : "+response.routes[0].legs[0].steps[i].transit.arrival_time.text+"</div>";
+	         				}
+	        			}else if(response.routes[0].legs[0].steps[i].transit.line.vehicle.type == "HEAVY_RAIL"){
+	        					html += "<div>이동거리 : "+response.routes[0].legs[0].steps[i].distance.text+", 걸리는시간 : "+response.routes[0].legs[0].steps[i].duration.text+	
+				     					", 기차 방향 : "+response.routes[0].legs[0].steps[i].transit.headsign+", 기차 이름 : "+response.routes[0].legs[0].steps[i].transit.line.name+
+				     					", 타는곳 : "+response.routes[0].legs[0].steps[i].transit.departure_stop.name+", 탑승 시간 : "+response.routes[0].legs[0].steps[i].transit.departure_time.text+
+				     					", 도착역 : "+response.routes[0].legs[0].steps[i].transit.arrival_stop.name+", 도착 시간 : "+response.routes[0].legs[0].steps[i].transit.arrival_time.text+"</div>";
+	        			}	
+	         		}//end for
+	        	}//end if
+	         	$('#direction').html(html);   	
+	          directionsDisplay.setDirections(response);
+	        } else {
+	          window.alert('Directions request failed due to ' + status);
+	        }
+	      });//end directionsService.route()
+	    }//end calculateAndDisplayRoute()
 	}//end initMap()
-	
-// 	function bindInfoWindow(marker, map, infowindow, html, Ltitle) {
-// 	    google.maps.event.addListener(marker, 'mouseover', function() {
-// 	            infowindow.setContent(html); 
-// 	            infowindow.open(map, marker); 
-
-// 	    });
-// 	    google.maps.event.addListener(marker, 'mouseout', function() {
-
-// 	        infowindow.close();
-
-// 	    }); 
-// 	}
-	
-    function calculateAndDisplayRoute(directionsService, directionsDisplay,Locations) {
-
-      var selectedMode = 'TRANSIT';
-      directionsService.route({
-        origin: {lat: Locations[1].lat, lng: Locations[1].lng},  
-        destination: {lat: Locations[0].lat, lng: Locations[0].lng},  
-        
-        // Note that Javascript allows us to access the constant
-        // using square brackets and a string value as its
-        // "property."
-        travelMode: google.maps.TravelMode[selectedMode]
-      }, function(response, status) {
-        if (status == 'OK') {
-        	
-        	
-        	
-//         	alert(JSON.stringify(response));
-        	
-//         	alert(JSON.stringify(response.routes[0].legs[0]));
-        	
-        	
-        	for(var i=0;i<response.routes[0].legs[0].steps.length;i++){
-
-// 				alert(JSON.stringify(response.routes[0].legs[0].steps[i].transit));
-//         		alert(i+"번재 mode : "+response.routes[0].legs[0].steps[i].travel_mode);
-
-         		if(response.routes[0].legs[0].steps[i].travel_mode == "WALKING"){	
-         			html += "<div>이동거리 : "+response.routes[0].legs[0].steps[i].distance.text+", 걸리는시간 : "+response.routes[0].legs[0].steps[i].duration.text+", 이동수단 : "+response.routes[0].legs[0].steps[i].travel_mode+
-         					", 도착지 : "+response.routes[0].legs[0].steps[i].instructions+"</div>";	
-         		}else if(response.routes[0].legs[0].steps[i].travel_mode == "TRANSIT"){
-        			
-         			if(response.routes[0].legs[0].steps[i].transit.line.vehicle.type =="SUBWAY"){
-	         			html += "<div>이동거리 : "+response.routes[0].legs[0].steps[i].distance.text+", 걸리는시간 : "+response.routes[0].legs[0].steps[i].duration.text+
-	         					", 이동수단 : "+response.routes[0].legs[0].steps[i].travel_mode+", 지하철 방향 : "+response.routes[0].legs[0].steps[i].transit.headsign+
-	         					", 호선 : "+response.routes[0].legs[0].steps[i].transit.line.short_name+", 타는곳 : "+response.routes[0].legs[0].steps[i].transit.departure_stop.name+
-	         					", 탑승 시간 : "+response.routes[0].legs[0].steps[i].transit.departure_time.text+", 도착역 : "+response.routes[0].legs[0].steps[i].transit.arrival_stop.name+
-	         					", 도착 시간 : "+response.routes[0].legs[0].steps[i].transit.arrival_time.text+"</div>";
-        			}else if(response.routes[0].legs[0].steps[i].transit.line.vehicle.type =="BUS"){
-         				if(response.routes[0].legs[0].steps[i].transit.line.short_name == null){
-	             			html += "<div>이동거리 : "+response.routes[0].legs[0].steps[i].distance.text+", 걸리는시간 : "+response.routes[0].legs[0].steps[i].duration.text+
-			     					", 버스 방향 : "+response.routes[0].legs[0].steps[i].transit.headsign+", 타는곳 : "+response.routes[0].legs[0].steps[i].transit.departure_stop.name+
-			     					", 탑승 시간 : "+response.routes[0].legs[0].steps[i].transit.departure_time.text+", 도착역 : "+response.routes[0].legs[0].steps[i].transit.arrival_stop.name+
-			     					", 도착 시간 : "+response.routes[0].legs[0].steps[i].transit.arrival_time.text+"</div>";
-         				}else{
-         					html += "<div>이동거리 : "+response.routes[0].legs[0].steps[i].distance.text+", 걸리는시간 : "+response.routes[0].legs[0].steps[i].duration.text+
-			     					", 버스 방향 : "+response.routes[0].legs[0].steps[i].transit.headsign+", 버스 번호 : "+response.routes[0].legs[0].steps[i].transit.line.short_name+
-			     					", 타는곳 : "+response.routes[0].legs[0].steps[i].transit.departure_stop.name+", 탑승 시간 : "+response.routes[0].legs[0].steps[i].transit.departure_time.text+
-			     					", 도착역 : "+response.routes[0].legs[0].steps[i].transit.arrival_stop.name+", 도착 시간 : "+response.routes[0].legs[0].steps[i].transit.arrival_time.text+"</div>";
-         				}
-        			}else if(response.routes[0].legs[0].steps[i].transit.line.vehicle.type == "HEAVY_RAIL"){
-        					html += "<div>이동거리 : "+response.routes[0].legs[0].steps[i].distance.text+", 걸리는시간 : "+response.routes[0].legs[0].steps[i].duration.text+	
-			     					", 기차 방향 : "+response.routes[0].legs[0].steps[i].transit.headsign+", 기차 이름 : "+response.routes[0].legs[0].steps[i].transit.line.name+
-			     					", 타는곳 : "+response.routes[0].legs[0].steps[i].transit.departure_stop.name+", 탑승 시간 : "+response.routes[0].legs[0].steps[i].transit.departure_time.text+
-			     					", 도착역 : "+response.routes[0].legs[0].steps[i].transit.arrival_stop.name+", 도착 시간 : "+response.routes[0].legs[0].steps[i].transit.arrival_time.text+"</div>";
-        			}
-         			
-         			
-         			
-         		}//end for
-
-
-
-        	}//end if
-        	
-         	$('#direction').html(html);
-        	
-          directionsDisplay.setDirections(response);
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        } else {
-          window.alert('Directions request failed due to ' + status);
-        }
-      });
-    }
-	
 	
 </script>
 </head>
@@ -400,12 +259,17 @@ calculateAndDisplayRoute(directionsService, directionsDisplay,Locations);
 			<textarea name=contents cols=50 rows=10 readonly>${list[0].contents}</textarea>
 			</div>
 		</div>
-
+	<input type="hidden" id="lng" name="lng" value="">
+	<input type="hidden" id="lat" name="lat" value="">
+	<input type="hidden" id="address" name="address" value="">
+	<input type="hidden" id="scheduleNo" name="scheduleNo" value='${list[0].scheduleNo}'/>
 	</form>
 </div>
 	
 	<button type="button" class="btn btn-info">수정하기</button>
 	<button type="button" class="btn btn-info">수정완료</button>
+	<button type="button" class="btn btn-info">뒤로가기</button>
+	<button type="button" class="btn btn-info">일정삭제</button>
 
     <div id="map"></div>
     

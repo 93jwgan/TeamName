@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -68,6 +69,26 @@ public class ScheduleController {
 
 //		
 //		return "forward:/schedule/googledirection.jsp";
+	}
+	
+	@RequestMapping(value="updateSchedule")
+	public String updateSchedule(@ModelAttribute("schedule")Schedule schedule) throws Exception{
+		System.out.println(this.getClass()+".updateSchedule()");
+		
+		System.out.println(schedule);
+		
+		scheduleService.updateSchedule(schedule);
+		
+		return "redirect:/schedule/schedule.jsp";
+	}
+	
+	@RequestMapping(value="deleteSchedule/{scheduleNo}")
+	public String deleteSchedule(@PathVariable String scheduleNo) throws Exception{
+		System.out.println(this.getClass()+".deleteSchedule()");
+		
+		scheduleService.deleteSchedule(Integer.parseInt(scheduleNo));
+		
+		return "redirect:/schedule/schedule.jsp";
 	}
 	
 }
