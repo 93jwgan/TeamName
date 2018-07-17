@@ -129,6 +129,12 @@ body{padding-top:10px;}
 		});
 	});
 	
+	$( function() {
+		$("a[href='#' ]:contains('그룹채팅')").bind("click" , function() {
+			self.location = "/chat/joinGroupChat"
+		});
+	});
+	
 </script>	
 
 </head>
@@ -157,9 +163,13 @@ body{padding-top:10px;}
 			  				<h3>모임관리<p></h3>
 			  			 <a class="btn btn-warning btn-lg" href="#" role="button">모임생성</a>
 			  			 <a class="btn btn-warning btn-lg" href="#" role="button">모임검색</a><p><p>
+			  			 
+			  			 <p><h3>채팅</h3>
+			  			 <a class="btn btn-info btn-lg" href="#" role="button">그룹채팅</a><p>
 			  			
 			  			<input type="hidden" name="userId" id="userId" value="${user.userId }"/>
 			  			
+			  			<hr>
 			  			[로그인상태] <br>
 			  			이름 : ${user.name}
 			  			
