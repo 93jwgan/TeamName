@@ -12,5 +12,11 @@ public interface UserService {
 	
 	public User getUser(String userId) throws Exception ;
 
+	public String getId(String name, String phone) throws Exception ;
+	
+	public String getPassword(String userId, String name, String phone) throws Exception;
+
+	//public User getUserList() throws Exception;
+	
 	
 }

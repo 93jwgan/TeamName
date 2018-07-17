@@ -68,14 +68,24 @@ public class UserRestController {
 	}
 
 	
+	*/
 	
-	@RequestMapping( value="json/findId", method=RequestMethod.POST )
-	public String findId(@RequestParam("phone") String phone, @RequestParam("userName") String userName)throws Exception{
+	@RequestMapping( value="json/searchId", method=RequestMethod.POST )
+	public String findId(@RequestParam("phone") String phone, @RequestParam("name") String name)throws Exception{
 		
 	//	System.out.println("1111 ::: " + request.getParameter("phone") + request.getParameter("userName"));
-		String userId = userService.getId(userName, phone);
+		String userId = userService.getId(name, phone);
 		return userId;
 }
+	
+	@RequestMapping( value="json/searchPw", method=RequestMethod.POST )
+	public String findId(@RequestParam("userId") String userId, @RequestParam("phone") String phone, @RequestParam("name") String name)throws Exception{
+		
+		String password = userService.getPassword(userId, name, phone);
+		return password;
+	}
+	
+	/*
 	@RequestMapping( value="json/findPassword", method=RequestMethod.POST )
 	public String findPassword(@RequestParam("userId") String userId, @RequestParam("phone") String phone, @RequestParam("userName") String userName)throws Exception{
 		

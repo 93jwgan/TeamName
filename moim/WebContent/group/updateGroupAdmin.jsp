@@ -783,7 +783,7 @@ function appendText(content) {
 var maxChecked = 3;
 var totalChecked = 0;
 
-function fncAddGroup(){
+function fncUpdateGroup(){
 	
 	var regName = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
 	var regLimit = /^[0-9]+$/;
@@ -791,6 +791,8 @@ function fncAddGroup(){
 	var groupName = $("#groupName").val();
 	var memberLimit = $("#memberLimit").val();
 	var nameCheck = $("#nameCheck").val();
+	
+	
 	
 	if(nameCheck == "1"){
 		alert("이미존재하는 모임명입니다.");
@@ -805,13 +807,14 @@ function fncAddGroup(){
         return;
     }
 	
+    
     if(!regLimit.test(memberLimit)){
     	if(memberLimit!=""){
     		alert("모임원 수에는 숫자만 입력하실수 있습니다.");
         	$("#memberLimit").val("");
             $("#memberLimit").focus();
             return;
-    	}
+    	}else{}
     }
 	
 	if(groupName==""){
@@ -829,9 +832,21 @@ function fncAddGroup(){
 		return;
 	}
 
-	$("#form").attr("method" , "POST").attr("action" , "/group/addGroup").submit();
+	$("#form").attr("method" , "POST").attr("action" , "/group/updateGroup").submit();
 }
 
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#blah')
+                .attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 
 function CountChecked(field) {
 	
@@ -885,6 +900,165 @@ $(document).on("keyup","input[name=hashInput]",function(e) {
  
 $(function(){
 	
+	var interest_no1 = $("#interest_no1").val();
+	var interest_no2 = $("#interest_no2").val();
+	var interest_no3 = $("#interest_no3").val();
+	var start = $("#start").val();
+	var end = $("#end").val();
+	var memberLimit = $("#memberLimit").val();
+	var image = $("#image").val();
+	
+	if(image.split(".")[1]==""){
+		$("#blah").attr('src','http://placehold.it/180');   
+	}
+	
+	if(interest_no3==""){
+		if(interest_no2==""){
+			if(interest_no1=='스포츠'){
+				$("#interest_1").prop('checked', true);
+			}else if(interest_no1=='친목'){
+				$("#interest_2").prop('checked', true);
+			}else if(interest_no1=='예술'){
+				$("#interest_4").prop('checked', true);
+			}else if(interest_no1=='스터디'){
+				$("#interest_3").prop('checked', true);
+			}else if(interest_no1=='고민'){
+				$("#interest_9").prop('checked', true);
+			}else if(interest_no1=='건강'){
+				$("#interest_7").prop('checked', true);
+			}else if(interest_no1=='게임'){
+				$("#interest_5").prop('checked', true);
+			}else if(interest_no1=='여행'){
+				$("#interest_6").prop('checked', true);
+			}else if(interest_no1=='음식'){
+				$("#interest_8").prop('checked', true);
+			}else if(interest_no1=='자유주제'){
+				$("#interest_10").prop('checked', true);
+			}
+			totalChecked += 1;
+		}
+		else{
+			if(interest_no1=='스포츠'){
+				$("#interest_1").prop('checked', true);
+			}else if(interest_no1=='친목'){
+				$("#interest_2").prop('checked', true);
+			}else if(interest_no1=='예술'){
+				$("#interest_4").prop('checked', true);
+			}else if(interest_no1=='스터디'){
+				$("#interest_3").prop('checked', true);
+			}else if(interest_no1=='고민'){
+				$("#interest_9").prop('checked', true);
+			}else if(interest_no1=='건강'){
+				$("#interest_7").prop('checked', true);
+			}else if(interest_no1=='게임'){
+				$("#interest_5").prop('checked', true);
+			}else if(interest_no1=='여행'){
+				$("#interest_6").prop('checked', true);
+			}else if(interest_no1=='음식'){
+				$("#interest_8").prop('checked', true);
+			}else if(interest_no1=='자유주제'){
+				$("#interest_10").prop('checked', true);
+			}
+			if(interest_no2=='스포츠'){
+				$("#interest_1").prop('checked', true);
+			}else if(interest_no2=='친목'){
+				$("#interest_2").prop('checked', true);
+			}else if(interest_no2=='예술'){
+				$("#interest_4").prop('checked', true);
+			}else if(interest_no2=='스터디'){
+				$("#interest_3").prop('checked', true);
+			}else if(interest_no2=='고민'){
+				$("#interest_9").prop('checked', true);
+			}else if(interest_no2=='건강'){
+				$("#interest_7").prop('checked', true);
+			}else if(interest_no2=='게임'){
+				$("#interest_5").prop('checked', true);
+			}else if(interest_no2=='여행'){
+				$("#interest_6").prop('checked', true);
+			}else if(interest_no2=='음식'){
+				$("#interest_8").prop('checked', true);
+			}else if(interest_no2=='자유주제'){
+				$("#interest_10").prop('checked', true);
+			}
+			totalChecked += 2;
+		}
+	}else{
+		if(interest_no1=='스포츠'){
+			$("#interest_1").prop('checked', true);
+		}else if(interest_no1=='친목'){
+			$("#interest_2").prop('checked', true);
+		}else if(interest_no1=='예술'){
+			$("#interest_4").prop('checked', true);
+		}else if(interest_no1=='스터디'){
+			$("#interest_3").prop('checked', true);
+		}else if(interest_no1=='고민'){
+			$("#interest_9").prop('checked', true);
+		}else if(interest_no1=='건강'){
+			$("#interest_7").prop('checked', true);
+		}else if(interest_no1=='게임'){
+			$("#interest_5").prop('checked', true);
+		}else if(interest_no1=='여행'){
+			$("#interest_6").prop('checked', true);
+		}else if(interest_no1=='음식'){
+			$("#interest_8").prop('checked', true);
+		}else if(interest_no1=='자유주제'){
+			$("#interest_10").prop('checked', true);
+		}
+		if(interest_no2=='스포츠'){
+			$("#interest_1").prop('checked', true);
+		}else if(interest_no2=='친목'){
+			$("#interest_2").prop('checked', true);
+		}else if(interest_no2=='예술'){
+			$("#interest_4").prop('checked', true);
+		}else if(interest_no2=='스터디'){
+			$("#interest_3").prop('checked', true);
+		}else if(interest_no2=='고민'){
+			$("#interest_9").prop('checked', true);
+		}else if(interest_no2=='건강'){
+			$("#interest_7").prop('checked', true);
+		}else if(interest_no2=='게임'){
+			$("#interest_5").prop('checked', true);
+		}else if(interest_no2=='여행'){
+			$("#interest_6").prop('checked', true);
+		}else if(interest_no2=='음식'){
+			$("#interest_8").prop('checked', true);
+		}else if(interest_no2=='자유주제'){
+			$("#interest_10").prop('checked', true);
+		}
+		if(interest_no3=='스포츠'){
+			$("#interest_1").prop('checked', true);
+		}else if(interest_no3=='친목'){
+			$("#interest_2").prop('checked', true);
+		}else if(interest_no3=='예술'){
+			$("#interest_4").prop('checked', true);
+		}else if(interest_no3=='스터디'){
+			$("#interest_3").prop('checked', true);
+		}else if(interest_no3=='고민'){
+			$("#interest_9").prop('checked', true);
+		}else if(interest_no3=='건강'){
+			$("#interest_7").prop('checked', true);
+		}else if(interest_no3=='게임'){
+			$("#interest_5").prop('checked', true);
+		}else if(interest_no3=='여행'){
+			$("#interest_6").prop('checked', true);
+		}else if(interest_no3=='음식'){
+			$("#interest_8").prop('checked', true);
+		}else if(interest_no3=='자유주제'){
+			$("#interest_10").prop('checked', true);
+		}
+		totalChecked += 3;
+	}
+	
+	if(memberLimit==""){
+		$("#memberLimitCheck").prop('checked', true);
+		$("#memberLimit").attr("disabled",true);
+		$("#memberLimit").val("");
+	}
+
+	$("#ageLimitStart").val(start).prop("selected",true);
+	$("#ageLimitEnd").val(end).prop("selected",true);
+	
+	
 	$("#postcodify_search_button").postcodifyPopUp();
 	 
 	$("#memberLimitCheck").bind("click", function() {
@@ -899,11 +1073,10 @@ $(function(){
 		}
 	});
 	
-	
-	$("#add").bind("click", function() {
-		fncAddGroup();
+	$("#update").bind("click", function() {
+		fncUpdateGroup();
 	});
-	
+
 	$("#mainImg").change(function(){
 		if($(this).val() != ""){
 			var ext = $(this).val().split(".").pop().toLowerCase();
@@ -965,27 +1138,47 @@ $(function(){
 	<form class="form-horizontal" id="form" enctype="multipart/form-data">
 <fieldset>
 
-<legend>::: 모임생성</legend>
+<legend>::: 모임정보수정</legend>
 
 <div class="control-group">
   <label class="control-label">모임명</label>
   <div class="controls">
-    <input id="groupName" name="groupName" class="input-xlarge" type="text" maxlength="10">
-    <strong class="text-danger"	id="checkName">모임명을 입력해주세요.</strong>
+    <input id="groupName" name="groupName" class="input-xlarge" type="text" maxlength="10" value="${group.groupName}">
+    <input id="groupNo" name="groupNo" class="input-xlarge" type="hidden" value="${group.groupNo}">
+    <strong class="text-danger"	id="checkName"></strong>
   </div>
 </div> 
 
 <div class="control-group">
+	<label class="control-label">기존이미지</label>
+	<img id="blah" src="/images/group/${group.mainImg}" class="img-thumbnail">
+</div>
+
+<div class="control-group">
   <label class="control-label">대표이미지</label>
   <div class="controls">
-    <input id="mainImg" name="mainImgFile" class="input-file" type="file">
+    <input id="mainImg" name="mainImgFile" class="input-file" type="file" onchange="readURL(this);">
   </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label">등급</label>
+  <div class="controls">            
+    <input id="rank" name="rank" class="postcodify_address form-control input-md" type="text" value="${group.rank}"readonly> 
+ </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label">포인트</label>
+  <div class="controls">            
+    <input id="point" name="point" class="postcodify_address form-control input-md" type="text" value="${group.point}"> 
+ </div>
 </div>
 
 <div class="control-group">
   <label class="control-label">활동지</label>
   <div class="controls">            
-    <input id="address" name="address" class="postcodify_address form-control input-md" placeholder="주소를 검색하세요."type="text" readonly> 
+    <input id="address" name="address" class="postcodify_address form-control input-md" placeholder="주소를 검색하세요."type="text" value="${group.address}"readonly> 
  
     <input id="postcodify_search_button" name="postcodify_search_button" class="btn btn-default" type="button" value="검색">
  </div>
@@ -994,15 +1187,14 @@ $(function(){
 <div class="control-group">
   <label class="control-label" for="groupInfo">소개글</label>
   <div class="controls">
-    <textArea id="groupInfo" name="groupInfo" style="width:500px; height:200px;" maxlength="150"></textArea>
+    <textArea id="groupInfo" name="groupInfo" style="width:500px; height:200px;" maxlength="150"> ${group.groupInfo}</textArea>
   </div>
 </div>
 
-<!-- Text input-->
 <div class="control-group">
   <label class="control-label">인원제한</label>
   <div class="controls">
-    <input id="memberLimit" name="memberLimit" class="input-xlarge" value="30" type="text"  maxlength="3">
+    <input id="memberLimit" name="memberLimit" class="input-xlarge" value= "${group.memberLimit}" type="text"  maxlength="3">
   	<input id="memberLimitCheck" type="checkbox"> 제한없음
   </div>
 </div>
@@ -1029,24 +1221,34 @@ $(function(){
 <div class="control-group">
   <label class="control-label" for="interest">관심사</label>
   <div class="controls">
-    <input type="checkbox" value="스포츠" onClick=CountChecked(this)> 스포츠 
- 	<input type="checkbox" value="친목" onClick=CountChecked(this)> 친목 
-	<input type="checkbox" value="스터디" onClick=CountChecked(this)> 스터디
-	<input type="checkbox" value="예술" onClick=CountChecked(this)> 예술
- 	<input type="checkbox" value="게임" onClick=CountChecked(this)> 게임 
-	<input type="checkbox" value="여행" onClick=CountChecked(this)> 여행
-	<input type="checkbox" value="건강" onClick=CountChecked(this)> 건강 
- 	<input type="checkbox" value="음식" onClick=CountChecked(this)> 음식 
-	<input type="checkbox" value="고민" onClick=CountChecked(this)> 고민
-	<input type="checkbox" value="자유주제" onClick=CountChecked(this)> 자유주제
+    <input type="checkbox" id="interest_1" value="스포츠" onClick=CountChecked(this)> 스포츠 
+ 	<input type="checkbox" id="interest_2" value="친목" onClick=CountChecked(this)> 친목 
+	<input type="checkbox" id="interest_3" value="스터디" onClick=CountChecked(this)> 스터디
+	<input type="checkbox" id="interest_4" value="예술" onClick=CountChecked(this)> 예술
+ 	<input type="checkbox" id="interest_5" value="게임" onClick=CountChecked(this)> 게임 
+	<input type="checkbox" id="interest_6" value="여행" onClick=CountChecked(this)> 여행
+	<input type="checkbox" id="interest_7" value="건강" onClick=CountChecked(this)> 건강 
+ 	<input type="checkbox" id="interest_8" value="음식" onClick=CountChecked(this)> 음식 
+	<input type="checkbox" id="interest_9" value="고민" onClick=CountChecked(this)> 고민
+	<input type="checkbox" id="interest_10" value="자유주제" onClick=CountChecked(this)> 자유주제
 
 	<input type="hidden" id="hashTag" name="hashTag" value=" "/>
 	<input type="hidden" id="count" name="count" value="0"/>
+	<input type="hidden" id="image" name="image" value="${group.mainImg}"/>
 	<input type="hidden" id="nameCheck" value="0"/>
-	<input type="hidden" id="interest_no1" name="interestNo1" value=""/>
-	<input type="hidden" id="interest_no2" name="interestNo2" value=""/>
-	<input type="hidden" id="interest_no3" name="interestNo3" value=""/>
+	<input type="hidden" id="interest_no1" name="interestNo1" value="${group.interestNo1}"/>
+	<input type="hidden" id="interest_no2" name="interestNo2" value="${group.interestNo2}"/>
+	<input type="hidden" id="interest_no3" name="interestNo3" value="${group.interestNo3}"/>
+	<input type="hidden" id="start" name="start" value="${group.ageLimitStart}"/>
+	<input type="hidden" id="end" name="end" value="${group.ageLimitEnd}"/>
 	
+  </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="hashTag">기존 해시태그</label>
+  <div class="controls">
+  	<input type="text" value="${group.hashTag}"readOnly>
   </div>
 </div>
 
@@ -1060,7 +1262,7 @@ $(function(){
 <div class="control-group">
   <label class="control-label" for="submit"></label>
   <div class="controls">
-    <input id="add" class="btn btn-primary" type="button" value="생성">
+    <input id="update" class="btn btn-primary" type="button" value="수정">
   </div>
 </div>
 
@@ -1069,7 +1271,6 @@ $(function(){
 
 	</div>
 </div>
-
 
 <script type="text/javascript" src="./js/hashTag.js"></script>
 </body>

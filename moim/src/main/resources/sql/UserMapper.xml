@@ -28,6 +28,23 @@
 		WHERE user_id = #{value}
 	 </select>
 	 
+	 <select 	id="getId"	parameterType="map"	resultType="string">
+		SELECT
+		user_id
+		FROM users 
+		WHERE name =#{name}
+		AND phone = #{phone}
+	 </select>
+	 
+	 <select 	id="getPassword"	parameterType="map"	resultType="string">
+		SELECT
+		password
+		FROM users 
+		WHERE user_id = #{userId}
+		AND name =#{name}
+		AND phone = #{phone}
+	 </select>
+	 
 	 
  	 	 <select 	id="checkId"	parameterType="map"  resultType="string" >
 		SELECT

@@ -54,13 +54,14 @@ $(function() {
 	
 	$("#search").on("click" , function() {
 	
-	$.post(  "/user/json/searchId/" , 
+	$.post(  "/user/json/searchPw/" , 
 			{
+		userId : $("#userId").val(),
 		name : $("#name").val(),
 		phone : $("#phone").val()
 	   },
 	   function(JSONData , status) {
-		   var display = "요청하신 ID는 [ "+ JSONData + " ]입니다.";
+		   var display = "요청하신 비밀번호는 [ "+ JSONData + " ]입니다.";
 		   
 		   $("span").text(display);
 				}
@@ -84,11 +85,14 @@ $(function() {
 		<div class="col-md-4 col-md-offset-4">
     		<div class="panel panel-default">
 			  	<div class="panel-heading">
-			    	<h3 class="panel-title">아이디 찾기</h3>
+			    	<h3 class="panel-title">비밀번호 찾기</h3>
 			 	</div>
 			  	<div class="panel-body">
 			    	<form accept-charset="UTF-8" role="form" id="form">
                     <fieldset>
+			    	  	<div class="form-group">
+			    		    <input class="form-control" placeholder="ID" name="userId" id="userId" type="text">
+			    		</div>
 			    	  	<div class="form-group">
 			    		    <input class="form-control" placeholder="이름" name="name" id="name" type="text">
 			    		</div>

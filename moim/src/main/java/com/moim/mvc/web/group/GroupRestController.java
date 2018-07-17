@@ -28,23 +28,10 @@ public class GroupRestController {
 			return "2";
 	}
 	
-	@RequestMapping( value="json/hashTagParsing", method=RequestMethod.POST )
-	public String hashTagParsing(@RequestParam("hashTag") String hashTag)throws Exception{
-		
-		/*String[] checkHash = hashTag.split(" ");
-		System.out.println("???");
-		String completeTag = "";
-		for(int i=0;i<=checkHash.length;i++) {
-			if(checkHash[i].charAt(0)=='#') {
-				completeTag = completeTag + checkHash[i]; 
-				
-				System.out.println(checkHash[i]);
-				
-				return checkHash[i];
-			}
-		}*/
-		
-		return "1";
+	@RequestMapping( value="json/deleteGroupAdmin", method=RequestMethod.POST )
+	public String deleteGroupAdmin(@RequestParam("groupNo") String groupNo)throws Exception{;
+
+		return Integer.toString(groupService.deleteGroupAdmin(groupNo));
 		
 	}
 	

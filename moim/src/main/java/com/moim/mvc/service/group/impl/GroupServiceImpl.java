@@ -37,4 +37,15 @@ public class GroupServiceImpl implements GroupService{
 		return groupDao.getListGroupAdmin(search);
 	}
 	
+	public int deleteGroupAdmin(String groupName) throws Exception{
+		return groupDao.deleteGroupAdmin(groupName);
+	}
+	
+	public Groups getGroup(String groupNo) throws Exception{
+		return groupDao.getGroup(groupNo);
+	}
+	
+	public int updateGroup(Groups group) throws Exception{
+		return groupDao.updateGroup(group);
+	}
 }

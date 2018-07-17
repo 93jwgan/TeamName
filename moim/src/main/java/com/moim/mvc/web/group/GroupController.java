@@ -71,26 +71,17 @@ public class GroupController {
 	}
 	
 	
-	@RequestMapping(value="listGroupAdmin", method=RequestMethod.GET)
+	@RequestMapping(value="listGroupAdmin")
 	public String getGroupAdmin(Model model, @ModelAttribute("search") Search search) throws Exception{
-		
-		System.out.println("::::µé¾î¿È -->  "  + search);
 
 		if(search.getCurrentPage() == 0 ){
 			search.setCurrentPage(1);
 		}
-		
 		search.setPageSize(pageSize);
 		
-		System.out.println("::::222 -->  "  + search);
-		
-		Map<String,Object> map=groupService.getListGroupAdmin(search);	
-		
+		Map<String,Object> map = groupService.getListGroupAdmin(search);	
+
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-		
-		System.out.println("::::::33333 -->  " + resultPage);
-		
-		System.out.println(map.get("list"));
 		
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
@@ -98,6 +89,52 @@ public class GroupController {
 		
 		return "/group/listGroupAdmin.jsp";
 		
+	}
+	
+	@RequestMapping(value="updateGroupAdmin")
+	public String updateGroupAdmin(@RequestParam("groupNo") String groupNo, Model model) throws Exception{
+		
+		Groups group = groupService.getGroup(groupNo);
+		model.addAttribute("group", group);
+		
+		return "/group/updateGroupAdmin.jsp";
+	}
+
+	
+	@RequestMapping(value="getGroup")
+	public String getGroupAdmin(@RequestParam("groupNo") String groupNo, Model model) throws Exception{
+
+		Groups group = groupService.getGroup(groupNo);
+		model.addAttribute("group", group);
+		
+		return "/group/GroupIndex.jsp";
+	}
+	
+	@RequestMapping(value="updateGroup")
+	public String updateGroup(@ModelAttribute("group") Groups groups, @RequestParam("mainImgFile") MultipartFile main, HttpServletRequest request) throws Exception{
+		
+		System.out.println(groups);
+		
+		String today = new java.text.SimpleDateFormat("yyMMddHHmmss").format(new java.util.Date());
+		String path = request.getSession().getServletContext().getRealPath("/")+"images\\group\\";		
+		
+		int pos = main.getOriginalFilename().lastIndexOf( "." );
+		String ext = main.getOriginalFilename().substring( pos + 1 );
+		
+		String mainFileName = today + (int)(Math.random()*10000) + "." + ext;
+	
+		if(main.getOriginalFilename()!="") {
+			File f= new File(path + mainFileName);
+			main.transferTo(f);
+		}
+		
+		groups.setMainImg(mainFileName);					
+		
+		System.out.println(groups);
+		
+		groupService.updateGroup(groups);
+		
+		return "/group/listGroupAdmin.jsp";
 	}
 	
 }

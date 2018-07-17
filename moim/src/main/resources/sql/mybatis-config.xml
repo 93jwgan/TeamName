@@ -19,7 +19,7 @@
 		<typeAlias alias="schedule" type="com.moim.mvc.domain.Schedule" />
 
 		<typeAlias alias="groups" type="com.moim.mvc.domain.Groups" />
-		<typeAlias alias="Search" type="com.moim.mvc.common.Search" />
+		<typeAlias alias="search" type="com.moim.mvc.common.Search" />
 
 
 	</typeAliases>

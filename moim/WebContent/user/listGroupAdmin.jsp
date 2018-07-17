@@ -171,9 +171,9 @@ $(function() {
 
 	<div class="container">
 	
-		<div class="page-header text-info">
-	       <h3>모임목록조회</h3>
-	    </div>
+
+        <h3>::: 회원정보보기</h3>
+	
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
 	    <div class="row">
@@ -219,20 +219,20 @@ $(function() {
         <div class="table-responsive">
         
               <table id="mytable" class="table table-bordred table-striped">     
-                   <thead>
+                     <thead>
                    <tr>
-                   	<th class="text-center">번호</th>
-                   	<th class="text-center">모임명</th>
-                   	<th class="text-center">모임장ID</th>
-                  	<th class="text-center">모임원 수</th>
-                  	<th class="text-center">등급</th>
-                    <th class="text-center">포인트</th>
-                    <th class="text-center">카테고리</th>
-                    <th class="text-center">모임생성일</th>
-                    
-                    <th class="text-center">수정</th>
-                    <th class="text-center">삭제</th>
-                   </tr>
+                  <th class="text-center">ID</th>
+                  <th class="text-center">이름</th>
+                     <th class="text-center">핸드폰번호</th>
+                     <th class="text-center">생년월일</th>
+                     <th class="text-center">주소</th>
+                      <th class="text-center">관심사</th>
+                      <th class="text-center">가입날짜</th>
+                      <th class="text-center">접속상태</th>
+                      <th class="text-center">가입모임갯수</th>                     
+                       <th class="text-center">수정</th>
+                       <th class="text-center">탈퇴</th>
+                       </tr>
                    </thead>
     <tbody>
     
@@ -242,10 +242,10 @@ $(function() {
     	<tr>
    	 	<td class="text-center"> ${i} </td>
      	<td class="text-center">
-     		<a href="#" onClick="window.open('/group/getGroup?groupNo=${group.groupNo}','moimMain','width=800, height=700');return false;">${group.groupName}</a>   
+     		<a href="/group/getGroup?groupNo=${group.groupNo}">${group.groupName}</a>
      	</td>
      	<td class="text-center">
-     		<a href="/user/getMyInfo?userId=${group.groupMaster}">${group.groupMaster}</a>   
+     		<a href="/user/getMyInfo?groupMaster=${group.groupMaster}">${group.groupMaster}</a>
      	</td>
     	<td class="text-center"> ${group.count} </td>
     	<td class="text-center"> ${group.rank} </td>

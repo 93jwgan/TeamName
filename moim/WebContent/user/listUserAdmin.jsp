@@ -68,45 +68,61 @@ $("#join").bind("click", function()
 <!-- ---------head 끝 ------------->
 
 <body>
+<!-- -검색 -->
+<body>
 
-	<div class="container" align="right">
-    <div class="input-group  col-md-3">
-    <div class="input-group-btn search-panel">
-		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-		<span id="search_concept">검색</span> <span class="caret"></span>
-		</button>
-		<ul class="dropdown-menu" role="menu">
-			<li><a href="#id"><i class="fa fa-angle-double-right"></i> ID</a></li>
-			<li><a href="#name"><i class="fa fa-angle-double-right"></i>이름</a></li>
-			<li><a href="#description"><i class="fa fa-angle-double-right"></i> 핸드폰번호</a></li>
-			<li><a href="#description"><i class="fa fa-angle-double-right"></i> 생년월일</a></li>
-			<li><a href="#description"><i class="fa fa-angle-double-right"></i> 주소</a></li>
-			<li><a href="#description"><i class="fa fa-angle-double-right"></i> 관심사</a></li>
-			<li><a href="#description"><i class="fa fa-angle-double-right"></i> 가입날짜</a></li>
-		</ul>
-	</div>
-	<input type="hidden" name="search_param" value="name" id="search_param">		 
-	<input type="text" class="form-control" name="q" placeholder="검색" id="search_key" value="">
-	<span class="input-group-btn">
-			<a class="btn btn-default text-muted" href="http://adminlte.dev/user/item" title="Clear"><i class="glyphicon glyphicon-remove"></i> </a>
-			<button class="btn btn-info" type="submit"> 검색  </button>
-	</span>
-</div>
-</div>
-
+	<div class="container">
+	
+		<div class="page-header text-info">
+	       <h3>회원정보보기</h3>
+	    </div>
+	    
+	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
+	    <div class="row">
+	    
+		    <div class="col-md-6 text-left">
+		    	<p class="text-primary">
+		    		전체  ${resultPage.totalCount} 개,   현재 ${resultPage.currentPage} 페이지
+		    	</p>
+		    </div>
+		    
+		    <div class="col-md-6 text-right">
+			    <form class="form-inline" name="detailForm">
+			    
+				  <div class="form-group">
+				    <select class="form-control" name="searchCondition" >
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>모임명</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>카테고리</option>
+						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>유저ID</option>
+					</select>
+				  </div>
+				  
+				  <div class="form-group">
+				    <label class="sr-only" for="searchKeyword">검색어</label>
+				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
+				  </div>
+				  
+				  <button type="button" class="btn btn-default" id="search">검색</button>
+				  
+				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+				  
+				</form>
+	    	</div>
+	    	
+		</div>
 
 <div class="container">
 	<div class="row">
 		
         <div class="col-md-12">
-        <h3>::: 회원정보보기</h3>
             
         <div class="table-responsive">
         
-              <table id="mytable" class="table table-bordred table-striped">
-                   
-                   <thead>
-                   
+              <table id="mytable" class="table table-bordred table-striped">     
+                     <thead>
+                   <tr>
                   <th class="text-center">ID</th>
                   <th class="text-center">이름</th>
                      <th class="text-center">핸드폰번호</th>
@@ -118,30 +134,45 @@ $("#join").bind("click", function()
                       <th class="text-center">가입모임갯수</th>                     
                        <th class="text-center">수정</th>
                        <th class="text-center">탈퇴</th>
+                       </tr>
                    </thead>
     <tbody>
     
-    <tr>
-    <td class="text-center"> user07 </td>
-    <td class="text-center"> 신유진 </td>
-    <td class="text-center">01063387328</td>
-    <td class="text-center">1990-08-25</td>
-    <td class="text-center">서울시 동작구 사당로</td>
-    <td class="text-center">음식,예술,자유주제</td>
-    <td class="text-center">2018-07-12</td>
-    <td class="text-center">ON</td>
-    <td class="text-center">3개</td>
-    
-    <td  class="text-center"><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
-    <td  class="text-center"><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-remove-sign"></span></button></p></td>
+    <c:set var="i" value="0" />
+	<c:forEach var="group" items="${list}">
+		<c:set var="i" value="${i+1}" />
+    	<tr>
+   	 	<td class="text-center"> ${i}1 </td>
+     	<td class="text-center">222
+     	</td>
+     	<td class="text-center">
+     		<a href="/user/getMyInfo?groupMaster=${group.groupMaster}">${group.groupMaster}</a>
+     	</td>
+    	<td class="text-center"> ${group.count}2 </td>
+    	<td class="text-center"> ${group.rank} 3</td>
+    	<td class="text-center"> ${group.point}4 </td>
+    	
+	
+    	<c:choose>		
+			<c:when test="${group.interestNo2==null}">
+				<td class="text-center"> ${group.interestNo1}5</td>
+			</c:when> 
+			<c:when test="${group.interestNo3==null}">
+				<td class="text-center">6 ${group.interestNo1}, ${group.interestNo2}</td>
+			</c:when> 
+			<c:otherwise>
+				<td class="text-center"> 7${group.interestNo1}, ${group.interestNo2}, ${group.interestNo3}</td>
+			</c:otherwise>
+		</c:choose> 
+    	<td class="text-center"> 8</td>
+    	<td  class="text-center"><button class="btn btn-primary btn-xs" onclick="updateShow('${group.groupNo}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+    	<td  class="text-center"><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" onclick="deleteShow('${group.groupName}','${group.groupNo}')"><span class="glyphicon glyphicon-remove-sign"></span></button></p></td>
     </tr>
-    
-
-   
-    
+	</c:forEach>
     </tbody>
         
 </table>
+
 </div>
 
  	<!-- PageNavigation Start... -->
@@ -152,62 +183,39 @@ $("#join").bind("click", function()
 	</div>
 </div>
 
+    <div class="modal fade" id="delete" role="dialog" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
 
-<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-      <div class="modal-dialog">
-    <div class="modal-content">
-          <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-        <h4 class="modal-title custom_align" id="Heading">회원정보 수정</h4>
-      </div>
-          <div class="modal-body">
-          <div class="form-group">
-        <input class="form-control " type="text" placeholder="Mohsin">
-        </div>
-        <div class="form-group">
-        
-        <input class="form-control " type="text" placeholder="Irshad">
-        </div>
-        <div class="form-group">
-        <textarea rows="2" class="form-control" placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan"></textarea>
-    
-        
-        </div>
-      </div>
-          <div class="modal-footer ">
-        <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
-      </div>
-        </div>
-    <!-- /.modal-content --> 
-  </div>
-      <!-- /.modal-dialog --> 
-    </div>
-    
-    
-    
-    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-      <div class="modal-dialog">
-    <div class="modal-content">
-          <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-        <h4 class="modal-title custom_align" id="Heading">회원탈퇴</h4>
-      </div>
-          <div class="modal-body">
-       
-       <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> [user07, 신유진] 회원을 탈퇴시키겠습니까?</div>
-       
-      </div>
-        <div class="modal-footer ">
-        <button type="button" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> 네</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 아니요</button>
-      </div>
-        </div>
-    <!-- /.modal-content --> 
-  </div>
-      <!-- /.modal-dialog --> 
-    </div>
-    
+    <div class="modal-dialog">
 
+      <div class="modal-content">
+
+        <div class="modal-header">
+		
+         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        
+         <h4 class="modal-title custom_align" id="Heading">모임삭제</h4>
+
+        </div>
+
+        <div class="modal-body">
+
+		  <div class="alert alert-danger" id="content"></div>
+
+        </div>
+
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-success" id="group_delete" ><span class="glyphicon glyphicon-ok-sign"></span> 네</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 아니요</button>
+
+        </div>
+
+      </div>   
+
+    </div>
+
+  </div>   
+    
 </body>
 
 

@@ -23,7 +23,27 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style></style>
+	<style>
+	
+	@font-face { 
+	font-family: 'Godo'; 
+	font-style: normal; 
+	font-weight: 400; 
+	src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff2') format('woff2'), 
+	url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff') format('woff'); } 
+
+@font-face {
+	font-family: 'Godo'; 
+	font-style: normal; 
+	font-weight: 700; 
+	src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoB.woff2') format('woff2'), 
+	url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoB.woff') format('woff'); } 
+	
+	 * { font-family: 'Godo', sans-serif; } 
+	 
+body{padding-top:10px;}
+	
+	</style>
    	
    	<!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
@@ -63,29 +83,38 @@
 	
  	$( function() {
 		$("a[href='#' ]:contains('내정보보기')").bind("click" , function() {
-			self.location = "/user/getMyInfo"
+			var userId = $("#userId").val();
+			 self.location = "/user/getMyInfo?userId="+userId
 		});
 	});
  	
  	$( function() {
 		$("a[href='#' ]:contains('내모임보기')").bind("click" , function() {
-			self.location = "/user/getMyGroup"
+			self.location = "/user/getMyGroup?"
 		});
 	});
  	
+ 	/*
  	$( function() {
 		$("a[href='#' ]:contains('회원정보보기')").bind("click" , function() {
 			self.location = "/user/listUserAdmin"
 		});
 	});
- 	
-	/*
+*/ 	
+	
 	$( function() {
 		$("a[href='#' ]:contains('내정보수정')").bind("click" , function() {
-			self.location = "/user/updateUser"
+			var userId = $("#userId").val();
+			self.location = "/user/updateUser?userId="+userId
 		});
 	});
-	 */
+	
+	$( function() {
+		$("a[href='#' ]:contains('친구목록')").bind("click" , function() {
+			self.location = "/friend/listFriend"
+		});
+	});
+	
 	
 	//============= 회원원가입 화면이동 =============
 	$( function() {
@@ -107,27 +136,29 @@
 <body>
 
 	  		<div class="text-center">
-	  					회원관리<p>
-			  			<a class="btn btn-info btn-lg" href="#" role="button">회원가입</a>
-			  			<a class="btn btn-info btn-lg" href="#" role="button">로그인</a>
-			  			<a class="btn btn-info btn-lg" href="#" role="button">로그아웃</a>
-			  			<a class="btn btn-info btn-lg" href="#" role="button">ID찾기</a>
-			  			<a class="btn btn-info btn-lg" href="#" role="button">비밀번호 찾기</a>
-			  			<a class="btn btn-info btn-lg" href="#" role="button">내정보보기</a>
-			  			<a class="btn btn-info btn-lg" href="#" role="button">내정보수정</a>
-			  			<a class="btn btn-info btn-lg" href="#" role="button">회원정보보기(관리자)</a>
-			  			<a class="btn btn-info btn-lg" href="#" role="button">회원정보수정(관리자)</a>
-			  			<a class="btn btn-info btn-lg" href="#" role="button">내모임보기</a><p>
+	  					<h3>회원관리<p></h3>
+			  			<a class="btn btn-warning btn-lg" href="#" role="button">회원가입</a>
+			  			<a class="btn btn-warning btn-lg" href="#" role="button">로그인</a>
+			  			<a class="btn btn-warning btn-lg" href="#" role="button">로그아웃</a>
+			  			<a class="btn btn-warning btn-lg" href="#" role="button">ID찾기</a>
+			  			<a class="btn btn-default btn-lg" href="#" role="button">비밀번호 찾기</a>
+			  			<a class="btn btn-warning btn-lg" href="#" role="button">내정보보기</a>
+			  			<a class="btn btn-default btn-lg" href="#" role="button">내정보수정</a>
+			  			<a class="btn btn-default btn-lg" href="#" role="button">회원정보보기(관리자)</a>
+			  			<a class="btn btn-default btn-lg" href="#" role="button">회원정보수정(관리자)</a>
+			  			<a class="btn btn-default btn-lg" href="#" role="button">내모임보기</a><p>
 			  			
-			  			친구관리<p>
-			  			<a class="btn btn-info btn-lg" href="#" role="button">친구목록</a>
-			  			<a class="btn btn-info btn-lg" href="#" role="button">친구추가</a>
-			  			<a class="btn btn-info btn-lg" href="#" role="button">친구프로필보기</a>
-			  			<a class="btn btn-info btn-lg" href="#" role="button">친구신청목록보기</a><p>
+			  				<h3>친구관리<p></h3>
+			  			<a class="btn btn-default btn-lg" href="#" role="button">친구목록</a>
+			  			<a class="btn btn-default btn-lg" href="#" role="button">친구추가</a>
+			  			<a class="btn btn-default btn-lg" href="#" role="button">친구프로필보기</a>
+			  			<a class="btn btn-default btn-lg" href="#" role="button">친구신청목록보기</a><p>
 			  			
-			  			모임관리<p>
-			  			 <a class="btn btn-info btn-lg" href="#" role="button">모임생성</a>
-			  			 <a class="btn btn-info btn-lg" href="#" role="button">모임검색</a><p>
+			  				<h3>모임관리<p></h3>
+			  			 <a class="btn btn-warning btn-lg" href="#" role="button">모임생성</a>
+			  			 <a class="btn btn-warning btn-lg" href="#" role="button">모임검색</a><p><p>
+			  			
+			  			<input type="hidden" name="userId" id="userId" value="${user.userId }"/>
 			  			
 			  			[로그인상태] <br>
 			  			이름 : ${user.name}

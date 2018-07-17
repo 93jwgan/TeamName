@@ -240,6 +240,60 @@ $(function() {
 
 
 // ------ join 클릭 시 유효성검사 로직 ------
+
+
+//------birth 잘라옴----------
+
+$(function(){
+	
+	
+	
+	var birth= $("#birth").val();
+	
+	var birthYear = birth.substr(0, 4);
+	var birthMonth = birth.substr(4, 2);
+	var birthDay = birth.substr(6, 2);
+	
+	$("#birthYear").val(birthYear).prop("selected", true);
+	$("#birthMonth").val(birthMonth).prop("selected", true);
+	$("#birthDay").val(birthDay).prop("selected", true);
+	
+	
+	
+}); 
+
+
+//-----관심사 체크박스---------
+
+$(function(){
+
+	
+("#checkbox checkbox-success checkbox-inline").val() == ${user.interest1}
+$(this).attr("checked")
+
+});	
+
+
+//----------phone 잘라옴
+
+$(function(){
+	
+	
+	var phone = $("#phone").val();
+	
+	
+	$("#birthYear").val(birthYear).prop("selected", true);
+	$("#birthMonth").val(birthMonth).prop("selected", true);
+	$("#birthDay").val(birthDay).prop("selected", true);
+	
+	
+	
+}); 
+
+
+
+
+
 	function addUser() {
 
 			 var id = $("input[name='userId']").val();
@@ -433,10 +487,10 @@ $(function() {
 <body>
 
 <div class="container">
-	<div class="form-group">
+<div class="form-group">
 <form id="form" class="form-horizontal"  enctype="multipart/form-data">
  <fieldset>
-<legend>::: 회원가입</legend>
+<legend>::: 내정보수정</legend>
 
 
 
@@ -460,18 +514,18 @@ $(function() {
 <div class="form-group">
   <label class="col-md-4 control-label" for="userId">ID</label>
   <div class="col-md-4">
-    <input id="userId" name="userId" class="form-control input-md" type="text">
-    </div>
-     <strong class="text-danger" id="checkId"></strong>
+ ${user.userId}
+</div>
 </div>
 
 
 <div class="form-group">
   <label class="col-md-4 control-label" for="name">이름</label>
   <div class="col-md-4">
-    <input id="name" name="name" class="form-control input-md" type="text" maxlength="10">
+${user.name}
   </div>
 </div>
+
 
 
 <div class="form-group">
@@ -484,13 +538,6 @@ $(function() {
 
 
 
-
-<div class="form-group">
-  <label class="col-md-4 control-label" for="password2">비밀번호 확인</label>
-  <div class="col-md-4">
-    <input id="password2" name="password2" class="form-control input-md" type="password" maxlength="10">
-  </div>
-</div>
 
 
 <div class="form-group">
@@ -517,7 +564,7 @@ $(function() {
   <label class="col-md-4 control-label" for="address">주소</label>
   <div class="col-md-3">              
   
-     <input id="address" name="address"  class="postcodify_address form-control input-md" placeholder="주소를 검색하세요."type="text" readonly> 
+     <input id="address" name="address"  class="postcodify_address form-control input-md" value="${user.address}" type="text" readonly> 
   <!--    <input type="hidden" id="address" name="address" value=""/>
       -->
      </div>
@@ -532,7 +579,7 @@ $(function() {
   <label class="col-md-4 control-label" for="birthdate">생년월일</label>
   <div class="col-md-1">
 
-  <input type="hidden" id="birth" name="birth" value=""/>
+  <input type="hidden" id="birth" name="birth" value="${user.birth}"/>
     <select id="birthYear" name="birthYear" class="form-control input-md" >
 		 <c:forEach var="i" begin="1918" end="2018" step="1">
 					<option value="${i}">${i}</option>
@@ -615,8 +662,10 @@ $(function() {
 	<input type="checkbox" class="checkbox checkbox-success checkbox-inline"  value="건강" onClick=CountChecked(this)> 건강 
  	<input type="checkbox" class="checkbox checkbox-success checkbox-inline"  value="음식" onClick=CountChecked(this)> 음식 
 	<input type="checkbox" class="checkbox checkbox-success checkbox-inline"  value="고민" onClick=CountChecked(this)> 고민
-	<input type="checkbox" class="checkbox checkbox-success checkbox-inline"  value="자유주제" onClick=CountChecked(this)>자유주제
+	<input type="checkbox" class="checkbox checkbox-success checkbox-inline"  value="자유주제" onClick=CountChecked(this)>자유주제 
 	
+	
+
 	
 	
 	<input type="hidden" id="interest_no1" name="interestNo1" value=""/>

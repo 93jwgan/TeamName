@@ -1,6 +1,7 @@
 package com.moim.mvc.web.user;
 
 import java.io.File;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.moim.mvc.common.Page;
+import com.moim.mvc.common.Search;
 import com.moim.mvc.domain.User;
 import com.moim.mvc.service.user.UserService;
 
@@ -32,17 +35,16 @@ public class UserController {
 //	@Value("#{commonProperties['interest']}")
 //	String interest;
 	
+	@Value("#{commonProperties['pageUnit']}")
+	int pageUnit;
+	@Value("#{commonProperties['pageSize']}")
+	int pageSize;
+	
+	
 	@RequestMapping( value="addUserView", method=RequestMethod.GET )
 	public String addUserView() throws Exception{
 		
 		return "redirect:/user/addUser.jsp";
-	}
-	
-	@RequestMapping( value="listUserAdmin", method=RequestMethod.GET )
-	public String listUserAdmin() throws Exception{
-		
-		System.out.println("listUserAdmin 컨트롤러 들어옴");
-		return "redirect:/user/listUserAdmin.jsp";
 	}
 	
 	
@@ -96,17 +98,32 @@ public class UserController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/*
+	@RequestMapping( value="listUserAdmin" )
+	public String listUserAdmin( @ModelAttribute("search")  Search search , Model model , HttpServletRequest request) throws Exception{
 
+	System.out.println("/user/listUser : GET / POST");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		// Business logic 수행
+		Map<String , Object> map = userService.getUserList(search);
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+
+		// Model 과 View 연결
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		
+		return "forward:/user/listUserAdmin.jsp";
+	}
+	
+	*/
+	
 	@RequestMapping( value="login", method=RequestMethod.GET )
 	public String login() throws Exception{
 
@@ -143,16 +160,25 @@ public class UserController {
 	}
 	
 	@RequestMapping( value="getMyInfo", method=RequestMethod.GET )
-	public String getMyInfo( ) throws Exception {
-		/*
+	public String getMyInfo(@RequestParam("userId") String userId , Model model ) throws Exception {
+		
+		User user = userService.getUser(userId);
+		model.addAttribute("user", user);
+		
+		return "forward:/user/getMyInfo.jsp";
+	}
+	
+	/*@RequestMapping( value="getMyInfo", method=RequestMethod.GET )
+	public String getMyInfo(@RequestParam("groupMaster") String groupMaster) throws Exception {
+		
 		@RequestParam("userId") String userId , Model model 
 		User user = userService.getUser(userId);
 		model.addAttribute("user", user);
-		*/
+		 
 		System.out.println("123");
-		return "forward:/user/getMyinfo.jsp";
-
-	}
+		return "forward:/user/getMyInfo.jsp";
+		
+	}*/
 	@RequestMapping( value="getMyGroup", method=RequestMethod.GET )
 	public String getMyGroup( ) throws Exception {
 	
@@ -161,7 +187,30 @@ public class UserController {
 		
 	}
 	
+	@RequestMapping(value="searchId", method=RequestMethod.GET)
+	public String searchId() throws Exception{
+		
+		System.out.println("searchId");
+		return "forward:/user/searchId.jsp";
+	}
+	
+	@RequestMapping(value="searchPw", method=RequestMethod.GET)
+	public String searchPw() throws Exception{
+		
+		System.out.println("searchPw");
+		return "forward:/user/searchPw.jsp";
+	}
+	
 
+	@RequestMapping( value="updateUser", method=RequestMethod.GET )
+	public String updateUser(@RequestParam("userId") String userId , Model model ) throws Exception{
+
+		User user = userService.getUser(userId);
+		model.addAttribute("user", user);
+		
+		return "forward:/user/updateUser.jsp";
+	}
+	
 	
 /*	@RequestMapping( value="addUser", method=RequestMethod.POST )
 	public String addUser( @ModelAttribute("user") User user ) throws Exception {
@@ -187,17 +236,7 @@ public class UserController {
 	}
 	
 
-	@RequestMapping( value="updateUser", method=RequestMethod.GET )
-	public String updateUser( @RequestParam("userId") String userId , Model model ) throws Exception{
-
-		System.out.println("/user/updateUser : GET");
-		//Business Logic
-		User user = userService.getUser(userId);
-		// Model 과 View 연결
-		model.addAttribute("user", user);
-		
-		return "forward:/user/updateUser.jsp";
-	}
+	
 
 	@RequestMapping( value="updateUser", method=RequestMethod.POST )
 	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session) throws Exception{

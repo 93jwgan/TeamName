@@ -34,11 +34,30 @@ public class UserServiceImpl implements UserService{
 		System.out.println(":::::serviceImpl :::: getUser");
 		return userDao.getUser(userId);
 	}
+	
+	public String getId(String name, String phone) throws Exception {
+		
+		System.out.println(":::::serviceImpl :::: getId");
+		return userDao.getId(name, phone);
+	}
+	public String getPassword(String userId, String name, String phone) throws Exception {
+		
+		System.out.println(":::::serviceImpl :::: getId");
+		return userDao.getPassword(userId, name, phone);
+	}
 
 	
 	public void addUser(User user) throws Exception {
 		System.out.println("::::::::ServiceImpl");
 		userDao.addUser(user);
 	}
+	
+	
+	/*
+	public User getUserList() throws Exception{
+		
+		userDao.getUserList();
+	}
+	*/
 	
 }

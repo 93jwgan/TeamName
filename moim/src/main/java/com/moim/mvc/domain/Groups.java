@@ -18,6 +18,33 @@ public class Groups {
 	String interestNo3;
 	String hashTag;
 	String groupMaster;
+	String address;
+	int count;
+	String rank;
+	
+	public String getRank() {
+		return rank;
+	}
+
+	public void setRank(String rank) {
+		this.rank = rank;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public String getGroupMaster() {
 		return groupMaster;
@@ -153,7 +180,8 @@ public class Groups {
 				+ memberLimit + ", visitCount=" + visitCount + ", point=" + point + ", birthDate=" + birthDate
 				+ ", mainImg=" + mainImg + ", infoImg=" + infoImg + ", ageLimitStart=" + ageLimitStart
 				+ ", ageLimitEnd=" + ageLimitEnd + ", interestNo1=" + interestNo1 + ", interestNo2=" + interestNo2
-				+ ", interestNo3=" + interestNo3 + ", hashTag=" + hashTag + ", groupMaster=" + groupMaster + "]";
+				+ ", interestNo3=" + interestNo3 + ", hashTag=" + hashTag + ", groupMaster=" + groupMaster
+				+ ", address=" + address + ", count=" + count + ", rank=" + rank + "]";
 	}
 
 }

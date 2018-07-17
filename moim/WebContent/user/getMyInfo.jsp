@@ -48,6 +48,13 @@ img{
 
 body{padding-top:50px;}
 
+td {
+
+ vertical-align: middle;
+
+}
+
+
 </style>
 
 <!--------------  JavaScript ------------>
@@ -79,14 +86,22 @@ $("#join").bind("click", function()
  <fieldset>
 <legend>::: 내정보보기</legend>
 
-<div class="form-group">
-<label class="col-md-4 control-label" >프로필 사진</label>
-  <div class="col-xs-12 col-sm-6 col-md-6">
-  <img id="blah" src="http://placehold.it/180" alt="your image" class="img-thumbnail">
 
+<div class="form-group">
+  <label class="col-md-4 control-label" ></label>
+  <div class="col-md-4">
   
+  		<c:if test="${user.profileImg}!=null">
+  	<img src = "/images/user/${user.profileImg}" class="img-circle">
+  	</c:if>
+ 
+  		<c:if test="${user.profileImg}==null">
+  	<img src = "/images/user/user.png" class="img-circle">
+  	</c:if>
+ 
+  	
   </div>
-     </div>
+</div>
 
 
 <div class="form-group">

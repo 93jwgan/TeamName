@@ -11,6 +11,7 @@
 		<result property="groupName" 			column="GROUP_NAME" 			jdbcType="VARCHAR"/>
 		<result property="groupMaster" 			column="GROUP_MASTER" 			jdbcType="VARCHAR"/>
 		<result property="groupInfo"	column="GROUP_INFO" 		jdbcType="CLOB" />
+		<result property="address"	column="ADDRESS" 		jdbcType="VARCHAR" />
 		<result property="memberLimit" 				column="MEMBER_LIMIT" 					jdbcType="VARCHAR" />
 		<result property="visitCount" 				column="VISIT_COUNT" 					jdbcType="NUMERIC" />
 		<result property="point" 			column="POINT" 		jdbcType="NUMERIC" />
@@ -23,6 +24,8 @@
 		<result property="interestNo2" 			column="INTEREST_NO2" 		jdbcType="CHAR"/>
 		<result property="interestNo3" 			column="INTEREST_NO3" 		jdbcType="CHAR"/>
 		<result property="hashTag" 			column="HASHTAG" 		jdbcType="CLOB"/>
+		<result property="count" 			column="COUNT" 		jdbcType="NUMERIC"/>
+		<result property="rank" 			column="GRADE_NAME" 		jdbcType="VARCHAR"/>
 	</resultMap>
  	
 	<select id="checkedGroupName" parameterType="string" resultType="string">
@@ -32,21 +35,42 @@
 	<insert id="addGroups" parameterType="groups"> 
 		
 		INSERT INTO groups
-		(GROUP_NO, GROUP_NAME, GROUP_MASTER, GROUP_INFO, MEMBER_LIMIT, VISIT_COUNT, POINT, BIRTH_DATE, MAIN_IMG, INFO_IMG, AGE_LIMIT_START, AGE_LIMIT_END, INTEREST_NO1, INTEREST_NO2, INTEREST_NO3,hashTag)
-		VALUES (SEQ_GROUP_NO.NEXTVAL, #{groupName},	#{groupMaster},#{groupInfo}, #{memberLimit}, 0, 0,	SYSDATE, #{mainImg}, null, #{ageLimitStart}, #{ageLimitEnd}, #{interestNo1}, #{interestNo2}, #{interestNo3}, #{hashTag})
+		(GROUP_NO, GROUP_NAME, GROUP_MASTER, GROUP_INFO, MEMBER_LIMIT, VISIT_COUNT, ADDRESS, POINT, BIRTH_DATE, MAIN_IMG, INFO_IMG, AGE_LIMIT_START, AGE_LIMIT_END, INTEREST_NO1, INTEREST_NO2, INTEREST_NO3, hashTag, count)
+		VALUES (SEQ_GROUP_NO.NEXTVAL, #{groupName},	#{groupMaster}, #{groupInfo}, #{memberLimit:VARCHAR}, 0, #{address}, 0, SYSDATE, #{mainImg}, null, #{ageLimitStart}, #{ageLimitEnd}, #{interestNo1}, #{interestNo2}, #{interestNo3}, #{hashTag}, 1)
 		
 	</insert>
 	
-	
 	<select id="getListGroupAdmin" parameterType="search" resultMap="GroupSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT GROUP_NAME FROM GROUPS ORDER BY GROUP_NO) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	  	
+	  	select *
+		from (SELECT inner_table.* , ROWNUM AS row_seq
+			from (SELECT
+				g.group_no, g.group_name, gg.GRADE_NAME, g.group_master, g.point, g.BIRTH_DATE, g.INTEREST_NO1, g.INTEREST_NO2, g.INTEREST_NO3, g.count
+				FROM groups g, group_grade gg 
+					<trim prefix="WHERE" prefixOverrides="AND">
+													<if test="searchCondition != null">
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				g.group_name like '%${searchKeyword}%'
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				g.INTEREST_NO1 = '${searchKeyword}'
+										 				OR g.INTEREST_NO2 = '${searchKeyword}'
+										 				OR g.INTEREST_NO3 = '${searchKeyword}'
+													</if>
+													<if test="searchCondition == 2 and searchKeyword !='' ">
+										 				g.group_master like '%${searchKeyword}%'
+													</if>
+													</if>
+													AND g.point BETWEEN gg.point_start AND gg.point_end 
+												</trim>
+												ORDER BY GROUP_NO)inner_table
+												where ROWNUM &lt;= #{endRowNum}
+			)inner 
+		where row_seq between #{startRowNum} and #{endRowNum}
+		
+		
 	 </select>
 	
-
 	<select  id="getTotalCount" parameterType="search" resultType="int"> 
 	  	SELECT COUNT(*)
 	  	FROM( SELECT * FROM GROUPS
@@ -65,4 +89,29 @@
 						  ORDER BY GROUP_NO) countTable						
 	 </select>
 	 
+	 <delete id="deleteGroupAdmin" parameterType="string">
+	 	DELETE FROM groups WHERE group_no = #{value}
+	 </delete>
+	 
+	 <select id="getGroup" parameterType="string" resultMap="GroupSelectMap">
+	 	SELECT g.group_no, g.group_name, g.group_master, g.group_info, g.member_limit, g.visit_count, g.address, g.point, g.birth_date, g.main_img, g.info_img, g.age_limit_start, g.age_limit_end, g.interest_no1, g.interest_no2, g.interest_no3, g.hashtag, g.count, gg.grade_name 
+	 	FROM GROUPS g, GROUP_GRADE gg WHERE group_no = #{value} AND g.point BETWEEN gg.point_start AND gg.point_end
+	 </select>
+	 
+	 <update id="updateGroup" parameterType="groups">
+	 	UPDATE groups
+	 	set group_name = #{groupName}, 
+	 	group_info = #{groupInfo}, 
+	 	member_limit = #{memberLimit:VARCHAR}, 
+	 	address = #{address}, 
+	 	point = #{point}, 
+	 	main_Img = #{mainImg}, 
+	 	age_limit_start = #{ageLimitStart}, 
+	 	age_limit_end = #{ageLimitEnd}, 
+	 	interest_no1 = #{interestNo1}, 
+	 	interest_no2 = #{interestNo2}, 
+	 	interest_no3 = #{interestNo3}, 
+	 	hashTag = #{hashTag}
+	 	where group_no = #{groupNo}
+	 </update>
 </mapper>

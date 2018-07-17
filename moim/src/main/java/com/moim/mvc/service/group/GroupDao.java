@@ -12,4 +12,11 @@ public interface GroupDao {
 	public void addGroup(Groups group) throws Exception;
 	
 	public Map<String, Object> getListGroupAdmin(Search search) throws Exception;
+	
+	public int deleteGroupAdmin(String groupName) throws Exception;
+	
+	public Groups getGroup(String groupNo) throws Exception;
+	
+	public int updateGroup(Groups group) throws Exception;
+	
 }
