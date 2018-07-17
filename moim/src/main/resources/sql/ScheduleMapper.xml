@@ -30,7 +30,7 @@
  	
  	<select id="getScheduleList" parameterType="schedule" resultMap="schedlueSelectMap">
 	 	
-	 	SELECT schedule_no,title,contents,max_member,fee,to_date('start_date','YYYY/MM/DD HH24:MI'),to_date('end_date','YYYY/MM/DD HH24:MI'),lat,lng,group_no,address
+	 	SELECT schedule_no,title,contents,max_member,fee,to_char(start_date,'YYYY/MM/DD HH24:MI') as startDay,to_char(end_date,'YYYY/MM/DD HH24:MI') as endDay,lat,lng,group_no,address
 	 	FROM schedule
 	 	WHERE group_no=#{groupNo}	 	
 	 		<if test="scheduleNo != 0">
