@@ -3,6 +3,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
 <!DOCTYPE html>
@@ -103,9 +104,16 @@ $("#join").bind("click", function()
   </div>
 </div>
 
+<div class="form-group">
+  <label class="col-md-4 control-label" ></label>
+  <div class="col-md-4">
+  <img id="profileImg" src="/images/user/${user.profileImg}" alt="your image" class="img-circle">
+</div>
+</div>
+
 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="userId">ID</label>
+  <label class="col-md-4 control-label" >ID</label>
   <div class="col-md-4">
  ${user.userId}
      </div>
@@ -113,7 +121,7 @@ $("#join").bind("click", function()
 
 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="name">이름</label>
+  <label class="col-md-4 control-label" >이름</label>
   <div class="col-md-4">
 ${user.name}
   </div>
@@ -122,15 +130,23 @@ ${user.name}
 
 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="phone">핸드폰 번호</label>
+  <label class="col-md-4 control-label" >핸드폰 번호</label>
   <div class="col-md-4">
-${user.phone}
+  
+  <c:set var="str" value="${user.phone}"/>
+  <c:set var="str1" value="${fn:substring(str,0,3)}"/>
+  <c:set var="str2" value="${fn:substring(str,3,7)}"/>
+  <c:set var="str3" value="${fn:substring(str,7,11)}"/>
+  
+ ${str1}-${str2}-${str3}
+
+  
 </div>
 </div>
 
 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="address">주소</label>
+  <label class="col-md-4 control-label" >주소</label>
   <div class="col-md-4">              
   ${user.address}
   </div>    
@@ -138,7 +154,7 @@ ${user.phone}
 
 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="birthdate">생년월일</label>
+  <label class="col-md-4 control-label" >생년월일</label>
   <div class="col-md-4">
  <%-- <fmt:formatDate value="${user.birth}" type="both" dateStyle="short" />  
   --%>
@@ -153,7 +169,7 @@ ${user.phone}
 
 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="interest">관심사</label>
+  <label class="col-md-4 control-label" >관심사</label>
  <div class="col-md-4">
 ${user.interestNo1}
 

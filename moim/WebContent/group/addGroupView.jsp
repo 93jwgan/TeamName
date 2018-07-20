@@ -828,7 +828,7 @@ function fncAddGroup(){
 		alert("관심사 1개는 반드시 선택하셔야 합니다.");
 		return;
 	}
-
+	
 	$("#form").attr("method" , "POST").attr("action" , "/group/addGroup").submit();
 }
 

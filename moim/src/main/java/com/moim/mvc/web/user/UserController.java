@@ -32,7 +32,7 @@ public class UserController {
     @Qualifier("userServiceImpl")
 	private UserService userService;
 	
-//	@Value("#{commonProperties['interest']}")
+//	@Value("#{commonProperties['interest]}")
 //	String interest;
 	
 	@Value("#{commonProperties['pageUnit']}")
@@ -76,6 +76,47 @@ public class UserController {
 	
 
 	@RequestMapping( value="addUser", method=RequestMethod.POST )
+	public String addUser(@ModelAttribute("user") User user, HttpServletRequest request) throws Exception {
+	
+		userService.addUser(user);
+		return "/index.jsp";
+		
+	}
+
+	@RequestMapping( value="updateUser", method=RequestMethod.POST )
+	public String updateUser(@ModelAttribute("user") User user,  @RequestParam("profileImgName") MultipartFile profileImg, HttpServletRequest request,  HttpSession session) throws Exception {
+		System.out.println("::::::::::::" + user);
+		System.out.println(profileImg);
+		String today = new java.text.SimpleDateFormat("yyMMddHHmmss").format(new java.util.Date());
+		String path = request.getSession().getServletContext().getRealPath("/")+"images\\user\\";		
+	
+		int pos = profileImg.getOriginalFilename().lastIndexOf( "." );
+		String ext = profileImg.getOriginalFilename().substring( pos + 1 );
+		
+		String profileFileName = today + (int)(Math.random()*10000) + "." + ext;
+	
+		if(profileImg.getOriginalFilename()!="") {
+			File f= new File(path + profileFileName);
+			profileImg.transferTo(f);
+		}
+		System.out.println(profileImg+"profile");
+		System.out.println("profileFileName"+profileFileName);
+
+		if (ext == null) {
+			user.setProfileImg("profileDefault.png");
+		}
+		
+		else {
+		user.setProfileImg(profileFileName);
+		}
+		System.out.println(user);
+		userService.updateUser(user);
+		session.setAttribute("user", user);
+		
+		return "forward:/index.jsp";
+		
+	}
+/*	@RequestMapping( value="addUser", method=RequestMethod.POST )
 	public String addUser(@ModelAttribute("user") User user, @RequestParam("file") MultipartFile profileImg, HttpServletRequest request) throws Exception {
 		
 		
@@ -93,16 +134,15 @@ public class UserController {
 		userService.addUser(user);
 		return "/index.jsp";
 		
-
+		
 	}
+*/	
 	
 	
-	
-	/*
 	@RequestMapping( value="listUserAdmin" )
-	public String listUserAdmin( @ModelAttribute("search")  Search search , Model model , HttpServletRequest request) throws Exception{
-
-	System.out.println("/user/listUser : GET / POST");
+	public String listUserAdmin( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
+		
+		System.out.println("/user/listUser : GET / POST");
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
@@ -110,19 +150,41 @@ public class UserController {
 		search.setPageSize(pageSize);
 		
 		// Business logic 수행
-		Map<String , Object> map = userService.getUserList(search);
+		Map<String , Object> map=userService.getUserList(search);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		// Model 과 View 연결
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
 
+		return "forward:/user/listUserAdmin.jsp";
+	}
+	
+	
+	
+	/*@RequestMapping( value="listUser" )
+	public String listUser( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
+		
+		
+		// Business logic 수행
+		Map<String , Object> map=userService.getUserList(search);
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
 		// Model 과 View 연결
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
-		return "forward:/user/listUserAdmin.jsp";
+		return "forward:/user/listUser.jsp";
 	}
-	
 	*/
+	
+	
 	
 	@RequestMapping( value="login", method=RequestMethod.GET )
 	public String login() throws Exception{
@@ -133,8 +195,7 @@ public class UserController {
 	@RequestMapping( value="login", method=RequestMethod.POST )
 	public String login(@ModelAttribute("user") User user , HttpSession session)  throws Exception{
 		
-		System.out.println(user);
-		
+		System.out.println("ㅁㄴㅇㄹㄴㅁㅇㄹㄴㅇㅁㄹ" + user);
 		User dbUser=userService.getUser(user.getUserId());
 		
 		System.out.println("가지온온 user :::: " + dbUser);
@@ -162,9 +223,11 @@ public class UserController {
 	@RequestMapping( value="getMyInfo", method=RequestMethod.GET )
 	public String getMyInfo(@RequestParam("userId") String userId , Model model ) throws Exception {
 		
+		System.out.println("userId"+userId);
+		System.out.println("왜안됨?");
 		User user = userService.getUser(userId);
 		model.addAttribute("user", user);
-		
+		System.out.println("user"+user);
 		return "forward:/user/getMyInfo.jsp";
 	}
 	

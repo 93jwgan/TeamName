@@ -1,6 +1,6 @@
 package com.moim.mvc.service.group.impl;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,10 +33,6 @@ public class GroupServiceImpl implements GroupService{
 		groupDao.addGroup(group);
 	}
 	
-	public Map<String, Object> getListGroupAdmin(Search search) throws Exception{
-		return groupDao.getListGroupAdmin(search);
-	}
-	
 	public int deleteGroupAdmin(String groupName) throws Exception{
 		return groupDao.deleteGroupAdmin(groupName);
 	}
@@ -47,5 +43,13 @@ public class GroupServiceImpl implements GroupService{
 	
 	public int updateGroup(Groups group) throws Exception{
 		return groupDao.updateGroup(group);
+	}
+	
+	public Groups getGroupMember(String groupName) throws Exception{
+		return groupDao.getGroupMember(groupName);
+	}
+	
+	public HashMap<String, Object> getListGroup(Search search) throws Exception{
+		return groupDao.getListGroup(search);
 	}
 }

@@ -25,7 +25,7 @@
 		SELECT
 		user_id , name , password , birth ,  address ,  phone , profile_img , on_off, role, interest_no1, interest_no2, interest_no3 		
 		FROM users 
-		WHERE user_id = #{value}
+		WHERE user_id = #{userId}
 	 </select>
 	 
 	 <select 	id="getId"	parameterType="map"	resultType="string">
@@ -35,6 +35,45 @@
 		WHERE name =#{name}
 		AND phone = #{phone}
 	 </select>
+	 
+<select  id="getUserList"  parameterType="search"	resultMap="userSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT  *
+											FROM users
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				user_id = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				name = #{searchKeyword}
+													</if>
+												</where>
+											</if>
+											ORDER BY user_id ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 
+	  <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT *
+						FROM users
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			user_id = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 		name = #{searchKeyword}
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>
+	 
+	 
+	 
 	 
 	 <select 	id="getPassword"	parameterType="map"	resultType="string">
 		SELECT
@@ -59,7 +98,39 @@
 		VALUES	 (	#{userId} , #{name} , #{password}, #{birth}, 
 							#{address} , #{phone} , #{profileImg:VARCHAR}, '0', '0', #{interestNo1}, #{interestNo2:CHAR}, #{interestNo3:CHAR} )
 	 </insert>
+
+	<update 	id="updateUser"	parameterType="user" >
+	 	UPDATE users
+	 	<set>
+	 	password =  #{password},
+	 	birth = #{birth},
+	 	address = #{address},
+	 	phone =  #{phone},
+	 	profile_img =  #{profileImg:VARCHAR},
+	 	interest_no1 =  #{interestNo1},
+	 	interest_no2 = #{interestNo2:CHAR},
+	 	interest_no3 = #{interestNo3:CHAR}
+		</set>
+		WHERE user_id=#{userId}
+	 </update>
 	 
-	 	
+	 
+		 
+	 <update id="onOff" parameterType="string" >
+	 UPDATE users
+	 <set>
+	 on_off = '1',
+	 </set>
+	 WHERE user_id=#{userId}
+	 </update>
+	  	
+	 <update id="onOff2" parameterType="string" >
+	 UPDATE users
+	 <set>
+	 on_off = '0',
+	 </set>
+	 WHERE user_id=#{userId}
+	 </update>
+	  	
 	 
 </mapper>

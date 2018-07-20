@@ -900,153 +900,35 @@ $(document).on("keyup","input[name=hashInput]",function(e) {
  
 $(function(){
 	
-	var interest_no1 = $("#interest_no1").val();
-	var interest_no2 = $("#interest_no2").val();
-	var interest_no3 = $("#interest_no3").val();
 	var start = $("#start").val();
 	var end = $("#end").val();
 	var memberLimit = $("#memberLimit").val();
 	var image = $("#image").val();
 	
-	if(image.split(".")[1]==""){
-		$("#blah").attr('src','http://placehold.it/180');   
-	}
-	
-	if(interest_no3==""){
-		if(interest_no2==""){
-			if(interest_no1=='스포츠'){
-				$("#interest_1").prop('checked', true);
-			}else if(interest_no1=='친목'){
-				$("#interest_2").prop('checked', true);
-			}else if(interest_no1=='예술'){
-				$("#interest_4").prop('checked', true);
-			}else if(interest_no1=='스터디'){
-				$("#interest_3").prop('checked', true);
-			}else if(interest_no1=='고민'){
-				$("#interest_9").prop('checked', true);
-			}else if(interest_no1=='건강'){
-				$("#interest_7").prop('checked', true);
-			}else if(interest_no1=='게임'){
-				$("#interest_5").prop('checked', true);
-			}else if(interest_no1=='여행'){
-				$("#interest_6").prop('checked', true);
-			}else if(interest_no1=='음식'){
-				$("#interest_8").prop('checked', true);
-			}else if(interest_no1=='자유주제'){
-				$("#interest_10").prop('checked', true);
-			}
-			totalChecked += 1;
+	var interestNo1 ='<c:out value="${group.interestNo1}"/>';
+	var interestNo2 ='<c:out value="${group.interestNo2}"/>';
+	var interestNo3 ='<c:out value="${group.interestNo3}"/>';
+
+	if(interestNo3==""){
+		if(interestNo2==""){
+			totalChecked +=1;
 		}
 		else{
-			if(interest_no1=='스포츠'){
-				$("#interest_1").prop('checked', true);
-			}else if(interest_no1=='친목'){
-				$("#interest_2").prop('checked', true);
-			}else if(interest_no1=='예술'){
-				$("#interest_4").prop('checked', true);
-			}else if(interest_no1=='스터디'){
-				$("#interest_3").prop('checked', true);
-			}else if(interest_no1=='고민'){
-				$("#interest_9").prop('checked', true);
-			}else if(interest_no1=='건강'){
-				$("#interest_7").prop('checked', true);
-			}else if(interest_no1=='게임'){
-				$("#interest_5").prop('checked', true);
-			}else if(interest_no1=='여행'){
-				$("#interest_6").prop('checked', true);
-			}else if(interest_no1=='음식'){
-				$("#interest_8").prop('checked', true);
-			}else if(interest_no1=='자유주제'){
-				$("#interest_10").prop('checked', true);
-			}
-			if(interest_no2=='스포츠'){
-				$("#interest_1").prop('checked', true);
-			}else if(interest_no2=='친목'){
-				$("#interest_2").prop('checked', true);
-			}else if(interest_no2=='예술'){
-				$("#interest_4").prop('checked', true);
-			}else if(interest_no2=='스터디'){
-				$("#interest_3").prop('checked', true);
-			}else if(interest_no2=='고민'){
-				$("#interest_9").prop('checked', true);
-			}else if(interest_no2=='건강'){
-				$("#interest_7").prop('checked', true);
-			}else if(interest_no2=='게임'){
-				$("#interest_5").prop('checked', true);
-			}else if(interest_no2=='여행'){
-				$("#interest_6").prop('checked', true);
-			}else if(interest_no2=='음식'){
-				$("#interest_8").prop('checked', true);
-			}else if(interest_no2=='자유주제'){
-				$("#interest_10").prop('checked', true);
-			}
-			totalChecked += 2;
+			totalChecked +=2;
 		}
-	}else{
-		if(interest_no1=='스포츠'){
-			$("#interest_1").prop('checked', true);
-		}else if(interest_no1=='친목'){
-			$("#interest_2").prop('checked', true);
-		}else if(interest_no1=='예술'){
-			$("#interest_4").prop('checked', true);
-		}else if(interest_no1=='스터디'){
-			$("#interest_3").prop('checked', true);
-		}else if(interest_no1=='고민'){
-			$("#interest_9").prop('checked', true);
-		}else if(interest_no1=='건강'){
-			$("#interest_7").prop('checked', true);
-		}else if(interest_no1=='게임'){
-			$("#interest_5").prop('checked', true);
-		}else if(interest_no1=='여행'){
-			$("#interest_6").prop('checked', true);
-		}else if(interest_no1=='음식'){
-			$("#interest_8").prop('checked', true);
-		}else if(interest_no1=='자유주제'){
-			$("#interest_10").prop('checked', true);
-		}
-		if(interest_no2=='스포츠'){
-			$("#interest_1").prop('checked', true);
-		}else if(interest_no2=='친목'){
-			$("#interest_2").prop('checked', true);
-		}else if(interest_no2=='예술'){
-			$("#interest_4").prop('checked', true);
-		}else if(interest_no2=='스터디'){
-			$("#interest_3").prop('checked', true);
-		}else if(interest_no2=='고민'){
-			$("#interest_9").prop('checked', true);
-		}else if(interest_no2=='건강'){
-			$("#interest_7").prop('checked', true);
-		}else if(interest_no2=='게임'){
-			$("#interest_5").prop('checked', true);
-		}else if(interest_no2=='여행'){
-			$("#interest_6").prop('checked', true);
-		}else if(interest_no2=='음식'){
-			$("#interest_8").prop('checked', true);
-		}else if(interest_no2=='자유주제'){
-			$("#interest_10").prop('checked', true);
-		}
-		if(interest_no3=='스포츠'){
-			$("#interest_1").prop('checked', true);
-		}else if(interest_no3=='친목'){
-			$("#interest_2").prop('checked', true);
-		}else if(interest_no3=='예술'){
-			$("#interest_4").prop('checked', true);
-		}else if(interest_no3=='스터디'){
-			$("#interest_3").prop('checked', true);
-		}else if(interest_no3=='고민'){
-			$("#interest_9").prop('checked', true);
-		}else if(interest_no3=='건강'){
-			$("#interest_7").prop('checked', true);
-		}else if(interest_no3=='게임'){
-			$("#interest_5").prop('checked', true);
-		}else if(interest_no3=='여행'){
-			$("#interest_6").prop('checked', true);
-		}else if(interest_no3=='음식'){
-			$("#interest_8").prop('checked', true);
-		}else if(interest_no3=='자유주제'){
-			$("#interest_10").prop('checked', true);
-		}
-		totalChecked += 3;
+	}
+	else{
+		totalChecked +=3;
+	}
+	 
+	$("input:checkbox[value='"+interestNo1+"']").prop("checked", true);
+	$("input:checkbox[value='"+interestNo2+"']").prop("checked", true);
+	$("input:checkbox[value='"+interestNo3+"']").prop("checked", true);
+	
+	
+	
+	if(image.split(".")[1]==""){
+		$("#blah").attr('src','http://placehold.it/180');   
 	}
 	
 	if(memberLimit==""){
@@ -1161,17 +1043,25 @@ $(function(){
   </div>
 </div>
 
+
+
+<div class="control-group">
+  <label class="control-label" for="groupInfo">소개글</label>
+  <div class="controls">
+    <textArea id="groupInfo" name="groupInfo" style="width:500px; height:200px;" maxlength="150"> ${group.groupInfo}</textArea>
+  </div>
+</div>
 <div class="control-group">
   <label class="control-label">등급</label>
   <div class="controls">            
-    <input id="rank" name="rank" class="postcodify_address form-control input-md" type="text" value="${group.rank}"readonly> 
+    <input id="rank" name="rank" type="text" value="${group.rank}"readonly> 
  </div>
 </div>
 
 <div class="control-group">
   <label class="control-label">포인트</label>
   <div class="controls">            
-    <input id="point" name="point" class="postcodify_address form-control input-md" type="text" value="${group.point}"> 
+    <input id="point" name="point" type="text" value="${group.point}" maxlength="6"> 
  </div>
 </div>
 
@@ -1182,13 +1072,6 @@ $(function(){
  
     <input id="postcodify_search_button" name="postcodify_search_button" class="btn btn-default" type="button" value="검색">
  </div>
-</div>
-
-<div class="control-group">
-  <label class="control-label" for="groupInfo">소개글</label>
-  <div class="controls">
-    <textArea id="groupInfo" name="groupInfo" style="width:500px; height:200px;" maxlength="150"> ${group.groupInfo}</textArea>
-  </div>
 </div>
 
 <div class="control-group">

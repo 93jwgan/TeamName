@@ -92,6 +92,7 @@ $(function() {
 			    	  	<div class="form-group">
 			    		    <input class="form-control" placeholder="이름" name="name" id="name" type="text">
 			    		</div>
+
 			    		<div class="form-group">
 			    			<input class="form-control" placeholder="핸드폰번호" name="phone" id="phone"  type="text" value="">
 			    		</div>

@@ -11,7 +11,16 @@ public class Member {
 	String role;
 	String userId;
 	int groupNo;
+	String comment;
 	
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
 	public int getMemberNo() {
 		return memberNo;
 	}
@@ -88,4 +97,11 @@ public class Member {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public String toString() {
+		return "Member [memberNo=" + memberNo + ", nickName=" + nickName + ", statusMessage=" + statusMessage
+				+ ", profileImg=" + profileImg + ", visitCount=" + visitCount + ", stateCode=" + stateCode + ", role="
+				+ role + ", userId=" + userId + ", groupNo=" + groupNo + ", comment=" + comment + "]";
+	}
+	
 }

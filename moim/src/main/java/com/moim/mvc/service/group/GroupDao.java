@@ -1,5 +1,6 @@
 package com.moim.mvc.service.group;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.moim.mvc.common.Search;
@@ -11,12 +12,14 @@ public interface GroupDao {
 	
 	public void addGroup(Groups group) throws Exception;
 	
-	public Map<String, Object> getListGroupAdmin(Search search) throws Exception;
-	
 	public int deleteGroupAdmin(String groupName) throws Exception;
 	
 	public Groups getGroup(String groupNo) throws Exception;
 	
+	public Groups getGroupMember(String groupName) throws Exception;
+	
 	public int updateGroup(Groups group) throws Exception;
+	
+	public HashMap<String, Object> getListGroup(Search search) throws Exception;
 	
 }

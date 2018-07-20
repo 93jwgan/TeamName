@@ -14,14 +14,19 @@
 <meta charset="UTF-8">
 	
 	<!-- 참조 : http://getbootstrap.com/css/   -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge"> -->
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
+	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script> 
+
+
+ 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	
@@ -40,9 +45,8 @@
 	url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoB.woff') format('woff'); } 
 	
 	 * { font-family: 'Godo', sans-serif; } 
-	 
-body{padding-top:10px;}
-	
+
+
 	</style>
    	
    	<!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -94,13 +98,13 @@ body{padding-top:10px;}
 		});
 	});
  	
- 	/*
+ 	
  	$( function() {
 		$("a[href='#' ]:contains('회원정보보기')").bind("click" , function() {
 			self.location = "/user/listUserAdmin"
 		});
 	});
-*/ 	
+	
 	
 	$( function() {
 		$("a[href='#' ]:contains('내정보수정')").bind("click" , function() {
@@ -128,6 +132,15 @@ body{padding-top:10px;}
 			self.location = "/group/listGroupAdmin"
 		});
 	});
+	$( function() {
+		$("a[href='#' ]:contains('모임검색(유저)')").bind("click" , function() {
+			self.location = "/group/listGroup"
+		});
+	});
+
+	$(function () {
+		  $('[data-toggle="tooltip"]').tooltip()
+		})
 	
 </script>	
 
@@ -137,32 +150,37 @@ body{padding-top:10px;}
 
 	  		<div class="text-center">
 	  					<h3>회원관리<p></h3>
-			  			<a class="btn btn-warning btn-lg" href="#" role="button">회원가입</a>
-			  			<a class="btn btn-warning btn-lg" href="#" role="button">로그인</a>
-			  			<a class="btn btn-warning btn-lg" href="#" role="button">로그아웃</a>
-			  			<a class="btn btn-warning btn-lg" href="#" role="button">ID찾기</a>
-			  			<a class="btn btn-default btn-lg" href="#" role="button">비밀번호 찾기</a>
-			  			<a class="btn btn-warning btn-lg" href="#" role="button">내정보보기</a>
-			  			<a class="btn btn-default btn-lg" href="#" role="button">내정보수정</a>
-			  			<a class="btn btn-default btn-lg" href="#" role="button">회원정보보기(관리자)</a>
-			  			<a class="btn btn-default btn-lg" href="#" role="button">회원정보수정(관리자)</a>
-			  			<a class="btn btn-default btn-lg" href="#" role="button">내모임보기</a><p>
+			  			<a class="btn btn-warning btn-lg" href="#" type="button" data-toggle="tooltip" data-placement="top" title="">회원가입</a>
+			  			<a class="btn btn-warning btn-lg" href="#" type="button">로그인</a>
+			  			<a class="btn btn-warning btn-lg" href="#" type="button">로그아웃</a>
+			  			<a class="btn btn-warning btn-lg" href="#" type="button">ID찾기</a>
+			  			<a class="btn btn-success btn-lg" href="#" type="button">비밀번호 찾기</a>
+			  			<a class="btn btn-warning btn-lg" href="#" type="button">내정보보기</a>
+			  			<a class="btn btn-warning btn-lg" href="#" type="button">내정보수정</a>
+			  			<a class="btn btn-success btn-lg" href="#" type="button">회원정보보기(관리자)</a>
+			  			<a class="btn btn-default btn-lg" href="#" type="button">회원정보수정(관리자)</a>
+			  			<a class="btn btn-default btn-lg" href="#" type="button">내모임보기</a><p>
 			  			
 			  				<h3>친구관리<p></h3>
-			  			<a class="btn btn-default btn-lg" href="#" role="button">친구목록</a>
-			  			<a class="btn btn-default btn-lg" href="#" role="button">친구추가</a>
-			  			<a class="btn btn-default btn-lg" href="#" role="button">친구프로필보기</a>
-			  			<a class="btn btn-default btn-lg" href="#" role="button">친구신청목록보기</a><p>
+			  			<a class="btn btn-success btn-lg" href="#" type="button">친구목록</a>
+			  			<a class="btn btn-default btn-lg" href="#" type="button">친구추가</a>
+			  			<a class="btn btn-default btn-lg" href="#" type="button">친구프로필보기</a>
+			  			<a class="btn btn-default btn-lg" href="#" type="button">친구신청목록보기</a><p>
 			  			
 			  				<h3>모임관리<p></h3>
 			  			 <a class="btn btn-warning btn-lg" href="#" role="button">모임생성</a>
-			  			 <a class="btn btn-warning btn-lg" href="#" role="button">모임검색</a><p><p>
+			  			 <a class="btn btn-warning btn-lg" href="#" role="button">모임검색</a>
+			  			 <a class="btn btn-warning btn-lg" href="#" role="button">모임검색(유저)</a>
+			  			 <a class="btn btn-warning btn-lg" href="#" role="button">가입신청</a>
+			  			 <a class="btn btn-warning btn-lg" href="#" role="button">가입신청취소</a>
+			  			 <a class="btn btn-warning btn-lg" href="#" role="button">가입신청내역</a>
 			  			
-			  			<input type="hidden" name="userId" id="userId" value="${user.userId }"/>
+			  			<input type="hidden" name="userId" id="userId" value="${user.userId }"/><p><p>
 			  			
 			  			[로그인상태] <br>
 			  			이름 : ${user.name}
 			  			
+	
 			  		</div>
 
 </body>

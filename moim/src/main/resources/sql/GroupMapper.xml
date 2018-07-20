@@ -40,26 +40,31 @@
 		
 	</insert>
 	
-	<select id="getListGroupAdmin" parameterType="search" resultMap="GroupSelectMap">
+	<select id="getListGroup" parameterType="search" resultMap="GroupSelectMap">
 	  	
 	  	select *
 		from (SELECT inner_table.* , ROWNUM AS row_seq
 			from (SELECT
-				g.group_no, g.group_name, gg.GRADE_NAME, g.group_master, g.point, g.BIRTH_DATE, g.INTEREST_NO1, g.INTEREST_NO2, g.INTEREST_NO3, g.count
+				g.group_no, g.group_name, gg.GRADE_NAME, g.group_master, g.point, g.BIRTH_DATE, g.INTEREST_NO1, g.INTEREST_NO2, g.INTEREST_NO3, g.main_Img, g.group_info, g.count
 				FROM groups g, group_grade gg 
 					<trim prefix="WHERE" prefixOverrides="AND">
-													<if test="searchCondition != null">
+													<if test="searchCondition != null and condition == null">
 													<if test="searchCondition == 0 and searchKeyword !='' ">
 										 				g.group_name like '%${searchKeyword}%'
 													</if>
 													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				g.INTEREST_NO1 = '${searchKeyword}'
+										 				(g.INTEREST_NO1 = '${searchKeyword}'
 										 				OR g.INTEREST_NO2 = '${searchKeyword}'
-										 				OR g.INTEREST_NO3 = '${searchKeyword}'
+										 				OR g.INTEREST_NO3 = '${searchKeyword}')
 													</if>
 													<if test="searchCondition == 2 and searchKeyword !='' ">
 										 				g.group_master like '%${searchKeyword}%'
 													</if>
+													</if>
+													<if test="condition != null">
+														(g.INTEREST_NO1 = '${interest}'
+										 				OR g.INTEREST_NO2 = '${interest}'
+										 				OR g.INTEREST_NO3 = '${interest}')
 													</if>
 													AND g.point BETWEEN gg.point_start AND gg.point_end 
 												</trim>
@@ -114,4 +119,9 @@
 	 	hashTag = #{hashTag}
 	 	where group_no = #{groupNo}
 	 </update>
+	 
+	  <select id="getGroupMember" parameterType="string" resultMap="GroupSelectMap">
+	 	SELECT g.group_no, g.group_name, g.group_master, g.group_info, g.member_limit, g.visit_count, g.address, g.point, g.birth_date, g.main_img, g.info_img, g.age_limit_start, g.age_limit_end, g.interest_no1, g.interest_no2, g.interest_no3, g.hashtag, g.count, gg.grade_name 
+	 	FROM GROUPS g, GROUP_GRADE gg WHERE group_name = #{value} AND g.point BETWEEN gg.point_start AND gg.point_end
+	 </select>
 </mapper>

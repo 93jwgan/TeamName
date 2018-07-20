@@ -45,30 +45,78 @@ img{
   margin-top:20px;
 }
 
-body{padding-top:50px;}
+body{padding-top:20px;}
 
 </style>
 
 <!--------------  JavaScript ------------>
 <script type="text/javascript">
 
-$("#join").bind("click", function() 
+/* $("#join").bind("click", function() 
 		{
 		self.location = "/user/updateUser.jsp"
       });
+ */
+/* 
+$( function() {
+	$("a[href='#' ]").bind("click" , function() {
+		self.location = "user/getMyInfo?userId="+${user.userId}
+	});
+});
+
+ */
+function fncGetList(currentPage) {
+	alert(currentPage);
+	 $("#currentPage").val(currentPage)
+	$("form").attr("method" , "POST").attr("action" , "/user/listUserAdmin").submit();
+
+ }
 
 
+ $(function() {
+	 $( "#search" ).on("click" , function() {
+		fncGetList(1);
+	
+ 	});
+ });
+ 
+	
+ $(function() {
+
+	$( "td:nth-child(1)" ).on("click" , function() {
+		 self.location ="/user/getUser?userId="+$(this).text().trim();
+	});
+				
+
+	$( "td:nth-child(1)" ).css("style" , "cursor: pointer");
+	
+});
+ 
+ $(function() {
+
+	$( ".glyphicon glyphicon-ok-sign" ).on("click" , function() {
+		 self.location ="/user/dropUser?userId="+$(this).text().trim();
+	});
+				
+
+	$( "td:nth-child(1)" ).css("style" , "cursor: pointer");
+	
+});	
 
 
+ 
+ 
 </script>
+
+
+
+
 
 
 
 </head>
 <!-- ---------head 끝 ------------->
 
-<body>
-<!-- -검색 -->
 <body>
 
 	<div class="container">
@@ -91,9 +139,13 @@ $("#join").bind("click", function()
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>모임명</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>카테고리</option>
-						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>유저ID</option>
+								<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>ID</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>이름</option>
+						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>핸드폰번호</option>
+						<option value="3"  ${ ! empty search.searchCondition && search.searchCondition==3 ? "selected" : "" }>생년월일</option>
+						<option value="4"  ${ ! empty search.searchCondition && search.searchCondition==4 ? "selected" : "" }>주소</option>
+						<option value="5"  ${ ! empty search.searchCondition && search.searchCondition==5 ? "selected" : "" }>관심사</option>
+						<option value="6"  ${ ! empty search.searchCondition && search.searchCondition==6 ? "selected" : "" }>가입날짜</option>
 					</select>
 				  </div>
 				  
@@ -139,32 +191,42 @@ $("#join").bind("click", function()
     <tbody>
     
     <c:set var="i" value="0" />
-	<c:forEach var="group" items="${list}">
+	<c:forEach var="user" items="${list}">
 		<c:set var="i" value="${i+1}" />
     	<tr>
-   	 	<td class="text-center"> ${i}1 </td>
-     	<td class="text-center">222
-     	</td>
+    	
+   	 	<td class="text-center"> ${user.userId}</td>
+
      	<td class="text-center">
-     		<a href="/user/getMyInfo?groupMaster=${group.groupMaster}">${group.groupMaster}</a>
+     		${user.name}
      	</td>
-    	<td class="text-center"> ${group.count}2 </td>
-    	<td class="text-center"> ${group.rank} 3</td>
-    	<td class="text-center"> ${group.point}4 </td>
+     	
+     	<td class="text-center">
+     		${user.phone}
+     	</td>
+    	<td class="text-center"> ${user.birth}</td>
+    	<td class="text-center">  ${user.address}</td>
+    	<td class="text-center"> 
+${user.interestNo1}
+<c:if test="${user.interestNo2 != null}"> 
+, ${user.interestNo2}
+</c:if>
+<c:if test="${user.interestNo3 != null}"> 
+, ${user.interestNo3}
+</c:if>
     	
 	
-    	<c:choose>		
-			<c:when test="${group.interestNo2==null}">
-				<td class="text-center"> ${group.interestNo1}5</td>
-			</c:when> 
-			<c:when test="${group.interestNo3==null}">
-				<td class="text-center">6 ${group.interestNo1}, ${group.interestNo2}</td>
-			</c:when> 
-			<c:otherwise>
-				<td class="text-center"> 7${group.interestNo1}, ${group.interestNo2}, ${group.interestNo3}</td>
-			</c:otherwise>
-		</c:choose> 
-    	<td class="text-center"> 8</td>
+    	<td class="text-center"> 가입날짜</td>	
+    	<td class="text-center">
+    	<c:if test="${user.onOff == '0'}">
+    	OFF
+    	</c:if>
+    		<c:if test="${user.onOff == '1'}">
+    		ON
+    		</c:if>
+    	 </td>
+    	 
+    	 <td class="text-center"> 가입모임갯수</td>
     	<td  class="text-center"><button class="btn btn-primary btn-xs" onclick="updateShow('${group.groupNo}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
     	<td  class="text-center"><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" onclick="deleteShow('${group.groupName}','${group.groupNo}')"><span class="glyphicon glyphicon-remove-sign"></span></button></p></td>
     </tr>
@@ -183,38 +245,61 @@ $("#join").bind("click", function()
 	</div>
 </div>
 
-    <div class="modal fade" id="delete" role="dialog" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
 
-    <div class="modal-dialog">
-
-      <div class="modal-content">
-
-        <div class="modal-header">
-		
-         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+<!-- ----- --수정 모달창------- -->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+      <div class="modal-dialog">
+    <div class="modal-content">
+          <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <h4 class="modal-title custom_align" id="Heading">회원정보 수정</h4>
+      </div>
+          <div class="modal-body">
+          <div class="form-group">
+        <input class="form-control " type="text" placeholder="Mohsin">
+        </div>
+        <div class="form-group">
         
-         <h4 class="modal-title custom_align" id="Heading">모임삭제</h4>
-
+        <input class="form-control " type="text" placeholder="Irshad">
         </div>
-
-        <div class="modal-body">
-
-		  <div class="alert alert-danger" id="content"></div>
-
+        <div class="form-group">
+        <textarea rows="2" class="form-control" placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan"></textarea>
+    
+        
         </div>
-
-        <div class="modal-footer">
-
-          <button type="button" class="btn btn-success" id="group_delete" ><span class="glyphicon glyphicon-ok-sign"></span> 네</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 아니요</button>
-
+      </div>
+          <div class="modal-footer ">
+        <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+      </div>
         </div>
-
-      </div>   
-
+    <!-- /.modal-content --> 
+  </div>
+      <!-- /.modal-dialog --> 
     </div>
-
-  </div>   
+    
+    
+    <!-- ----- --회원탈퇴 모달창 ------- -->
+  <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+      <div class="modal-dialog">
+    <div class="modal-content">
+          <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <h4 class="modal-title custom_align" id="Heading">회원탈퇴</h4>
+      </div>
+          <div class="modal-body">
+       
+       <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> [user07, 신유진] 회원을 탈퇴시키겠습니까?</div>
+       
+      </div>
+        <div class="modal-footer ">
+        <button type="button" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> 네</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 아니요</button>
+      </div>
+        </div>
+    <!-- /.modal-content --> 
+  </div>
+      <!-- /.modal-dialog --> 
+    </div>
     
 </body>
 

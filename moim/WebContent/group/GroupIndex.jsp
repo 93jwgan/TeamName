@@ -31,7 +31,23 @@
    	<!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 		
-	
+	$( function() {
+		
+		$("a[href='#' ]:contains('가입신청')").bind("click" , function() {
+			var groupNo ='<c:out value="${group.groupNo}"/>';
+			self.location = "../member/addMemberView?groupNo=" + groupNo
+		});
+		
+		$("a[href='#' ]:contains('가입신청취소')").bind("click" , function() {
+			var groupNo ='<c:out value="${group.groupNo}"/>';
+			self.location = "../member/deleteMember?groupNo=" + groupNo
+		});
+		
+		$("a[href='#' ]:contains('가입신청내역')").bind("click" , function() {
+			self.location = "../member/acceptListMember"
+		});
+		
+	});
 	
 	</script>	
 
@@ -40,13 +56,22 @@
 <body>
 
 	  		<div class="text-center">
-	 
+			  			
+			  	[모임상태] <br>
+			  	모임이름 : ${group.groupName}<br>
+			  			
+			  	참여한모임원ID : ${member.userId}<br>
+			  			
+			  	닉네임 : ${member.nickName}<br>
 			  			
 			  			
-			  			[모임상태] <br>
-			  			이름 : ${group.groupName}
-			  			
-			  		</div>
+				<div class="text-center">
+					<a class="btn btn-warning btn-lg" href="#" role="button">가입신청</a>
+					<a class="btn btn-warning btn-lg" href="#" role="button">가입신청취소</a>
+					<a class="btn btn-warning btn-lg" href="#" role="button">가입신청내역</a>		  				
+				</div>
+			
+			</div>
 
 </body>
 

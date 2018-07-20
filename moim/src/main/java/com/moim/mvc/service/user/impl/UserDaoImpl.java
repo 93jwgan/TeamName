@@ -1,6 +1,7 @@
 package com.moim.mvc.service.user.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.moim.mvc.common.Search;
 import com.moim.mvc.domain.User;
 import com.moim.mvc.service.user.UserDao;
 
@@ -33,6 +35,11 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	
+	public void onOff(String userId) throws Exception{
+		
+		sqlSession.update("UserMapper.onOff", userId);
+	}
+	
 	public void addUser(User user) throws Exception {
 		
 		System.out.println(":::::DaoImpl");
@@ -42,7 +49,7 @@ public class UserDaoImpl implements UserDao{
 	
 	public User getUser(String userId) throws Exception {
 		
-		System.out.println(":::::DaoImpl :::: getUser");
+		System.out.println(":::::DaoImpl :::: getUser                                                            "+userId);
 		return sqlSession.selectOne("UserMapper.getUser", userId);
 	}
 	
@@ -73,6 +80,24 @@ public class UserDaoImpl implements UserDao{
 	 
 		return sqlSession.selectOne("UserMapper.getPassword", map);
 	}
+	
+	public void updateUser(User user) throws Exception{
+		
+		System.out.println(":::updqteUser dao imp "+user);
+		sqlSession.update("UserMapper.updateUser", user);
+		
+	}
+
+	
+	public  List<User> getUserList(Search search) throws Exception{
+		
+		return sqlSession.selectList("UserMapper.getUserList", search);
+	}
+
+	public int getTotalCount(Search search) throws Exception {
+		return sqlSession.selectOne("UserMapper.getTotalCount", search);
+	}
+	
 	/*
 	public User getUserList() throws Exception{
 		

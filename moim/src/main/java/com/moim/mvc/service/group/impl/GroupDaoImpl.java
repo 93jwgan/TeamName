@@ -32,12 +32,12 @@ public class GroupDaoImpl implements GroupDao{
 		sqlSession.insert("GroupMapper.addGroups", groups);
 	}
 	
-	public Map<String, Object> getListGroupAdmin(Search search) throws Exception{
+	public HashMap<String, Object> getListGroup(Search search) throws Exception{
 		
-		List<Groups> list= sqlSession.selectList("GroupMapper.getListGroupAdmin",search);
+		List<Groups> list= sqlSession.selectList("GroupMapper.getListGroup",search);
 		int totalCount = sqlSession.selectOne("GroupMapper.getTotalCount",search);
 		
-		Map<String, Object> map = new HashMap<String, Object>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list );
 		map.put("totalCount", new Integer(totalCount));
 		
@@ -54,5 +54,9 @@ public class GroupDaoImpl implements GroupDao{
 	
 	public int updateGroup(Groups group) throws Exception{
 		return sqlSession.update("GroupMapper.updateGroup", group);
+	}
+	
+	public Groups getGroupMember(String groupName) throws Exception{
+		return sqlSession.selectOne("GroupMapper.getGroupMember", groupName);
 	}
 }

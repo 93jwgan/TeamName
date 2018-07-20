@@ -47,63 +47,91 @@ body{padding-top:200px;}
 </style>
 
 <!--------------  JavaScript ------------>
+
+
+ 
+
+
 <script type="text/javascript">
 
-$(function() {
+
+
+	
+/* 
+	$("#login").keypress(function(key)
+	{
+		if(key.keyCode == 13)
+				{
+				login();
+				}
+	}); */
+
+
+
+$(function(){
+	
+	$("#password").keypress(function(key)
+	{
+		if(key.keyCode == 13)
+		{
+			login();
+		}
+	});
 	
 	$("#login").bind("click", function()
 	{
-		var id = $("input[name='userId']").val();
-		var pw = $("input[name='password']").val();
-		
-		swal($("input[name='userId']").val());
-		
-		if(id == null || id.length <1) 
-		{
-			swal('ID 를 입력하지 않았습니다.');
-			$("#userId").focus();
-			return;
-		}
-		
-		if(pw == null || pw.length <1) 
-		{
-			swal('비밀번호를 입력하지 않았습니다.');
-			$("#password").focus();
-			return;
-		}
-		
-				$.post( "/user/json/login/", 
-				{
-						userId :  $("input[name='userId']").val(),
-						password : $("input[name='password']").val()  
-				},
-					
-					function(JSONData, status) 
-					{
-					
-						 	if(JSONData=="0")
-					 		{
-								 swal("일치하는 ID가 없습니다.");
-					 		}
-					 
-						 	if(JSONData=="1")
-					 		{
-								 swal("비밀번호가 틀렸습니다.");
-					 		}
-					 		
-						 	if(JSONData=="2")
-					 		{
-							 		self.location = "/index.jsp"
-					 		}				 
-				}); 
+			login();
+	});
+	
 });
 	
+	function login(){
+		
+	var id = $("input[name='userId']").val();
+	var pw = $("input[name='password']").val();
 
+	swal($("input[name='userId']").val());
 
-});	
+	if(id == null || id.length <1) 
+	{
+		swal('ID 를 입력하지 않았습니다.');
+		$("#userId").focus();
+		return;
+	}
 
+	if(pw == null || pw.length <1) 
+	{
+		swal('비밀번호를 입력하지 않았습니다.');
+		$("#password").focus();
+		return;
+	}
 
-
+		$.post( "/user/json/login/", 
+		{
+				userId :  $("input[name='userId']").val(),
+				password : $("input[name='password']").val()  
+		},
+			
+			function(JSONData, status) 
+			{
+			
+				 	if(JSONData=="0")
+			 		{
+						 swal("일치하는 ID가 없습니다.");
+			 		}
+			 
+				 	if(JSONData=="1")
+			 		{
+						 swal("비밀번호가 틀렸습니다.");
+			 		}
+			 		
+				 	if(JSONData=="2")
+			 		{
+				 		self.location = "/index.jsp"
+			 		}				 
+		}); 
+	};
+	
 
 </script>
 
@@ -128,8 +156,10 @@ $(function() {
 			    		</div>
 			    		<div class="form-group">
 			    			<input class="form-control" placeholder="비밀번호" name="password" id="password"  type="password" value="">
-			    		</div>
-			    		<input class="btn btn-lg btn-success btn-block" type="button" value="로그인" id="login">
+			 		</div>
+			    		<input class="btn btn-lg btn-success btn-block" type="button" value="로그인" id="login" >
+			    		
+			    		
 			    		
 			    		
 			    	</fieldset>

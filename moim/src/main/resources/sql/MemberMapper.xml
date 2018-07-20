@@ -6,5 +6,42 @@
 
 <mapper namespace="MemberMapper">
  
+ 	<resultMap id="MemberSelectMap" type="member">
+ 		<result property="memberNo" 			column="MEMBER_NO" 			jdbcType="NUMERIC"/>
+		<result property="nickName" 			column="NICKNAME" 			jdbcType="VARCHAR"/>
+		<result property="statusMessage" 			column="STATUS_MESSAGE" 			jdbcType="VARCHAR"/>
+		<result property="profileImg"	column="PROFILE_IMG" 		jdbcType="VARCHAR" />
+		<result property="visitCount"	column="VISIT_COUNT" 		jdbcType="NUMERIC" />
+		<result property="stateCode" 				column="STATE_CODE" 					jdbcType="CHAR" />
+		<result property="role" 				column="ROLE" 					jdbcType="CHAR" />
+		<result property="userId" 			column="USER_ID" 		jdbcType="VARCHAR" />
+		<result property="groupNo" 				column="GROUP_NO" 					jdbcType="NUMERIC" />
+		<result property="comment"				column="COMMENTS"				jdbcType="CLOB"/>
+	</resultMap>
+ 
+ 	<insert id="addMaster" parameterType="map"> 
+		INSERT INTO group_member(member_no, nickname, status_message, profile_img, visit_count, state_code, role, user_id, group_no)
+		VALUES(SEQ_MEMBER_NO.NEXTVAL, #{userId}, null, null, null, '', '0', #{userId}, #{groupNo})
+	</insert>
+	 
+	<select id="getMember" parameterType="map" resultMap="MemberSelectMap">
+	 	SELECT * 
+	 	FROM group_member 
+	 	WHERE group_no = #{groupNo} AND user_id = #{userId}
+	 </select>	 
+	 
+	 <select id="checkedNickName" parameterType="string" resultType="string">
+	 	SELECT nickname FROM group_member WHERE nickname like #{value}
+	 </select>
+	 
+	 <insert id="addMember" parameterType="member"> 
+		INSERT INTO group_member(member_no, nickname, status_message, profile_img, visit_count, state_code, role, user_id, group_no, comments)
+		VALUES(SEQ_MEMBER_NO.NEXTVAL, #{nickName}, null, #{profileImg:VARCHAR}, '1', null, '99', #{userId}, #{groupNo}, #{comment})
+	</insert>
+
+	<delete id="deleteMember" parameterType="member">
+	 	DELETE FROM group_member WHERE group_no = #{groupNo} AND user_id = #{userId}
+	 </delete>
+	
 	 
 </mapper>

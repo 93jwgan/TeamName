@@ -1,6 +1,7 @@
 package com.moim.mvc.web.group;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.moim.mvc.common.Page;
 import com.moim.mvc.common.Search;
 import com.moim.mvc.domain.Groups;
+import com.moim.mvc.domain.Member;
 import com.moim.mvc.domain.User;
 import com.moim.mvc.service.group.GroupService;
+import com.moim.mvc.service.member.MemberService;
 
 @Controller
 @RequestMapping("/group/*")
@@ -30,6 +33,10 @@ public class GroupController {
 	@Autowired
 	@Qualifier("groupServiceImpl")
 	private GroupService groupService;
+	
+	@Autowired
+	@Qualifier("memberServiceImpl")
+	private MemberService memberService;
 	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
@@ -64,8 +71,16 @@ public class GroupController {
 		
 		groups.setGroupMaster(groupMaster);
 		groups.setMainImg(mainFileName);				 
-		
+
 		groupService.addGroup(groups);
+		
+		groups = groupService.getGroupMember(groups.getGroupName());
+		
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("userId", user.getUserId());
+		map.put("groupNo", groups.getGroupNo());
+		
+		memberService.addMaster(map);
 		
 		return "/index.jsp";
 	}
@@ -78,9 +93,8 @@ public class GroupController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
+		Map<String,Object> map = groupService.getListGroup(search);	
 		
-		Map<String,Object> map = groupService.getListGroupAdmin(search);	
-
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		
 		model.addAttribute("list", map.get("list"));
@@ -99,22 +113,28 @@ public class GroupController {
 		
 		return "/group/updateGroupAdmin.jsp";
 	}
-
 	
 	@RequestMapping(value="getGroup")
-	public String getGroupAdmin(@RequestParam("groupNo") String groupNo, Model model) throws Exception{
+	public String getGroup(@RequestParam("groupNo") String groupNo, Model model, HttpSession session) throws Exception{
+		
+		User user = (User)session.getAttribute("user");
+		if(user != null){
+			
+			Member member = memberService.getMember(user.getUserId(), groupNo);
+			
+			session.setAttribute("member", member);
 
+		}
+		
 		Groups group = groupService.getGroup(groupNo);
 		model.addAttribute("group", group);
 		
 		return "/group/GroupIndex.jsp";
 	}
-	
+
 	@RequestMapping(value="updateGroup")
 	public String updateGroup(@ModelAttribute("group") Groups groups, @RequestParam("mainImgFile") MultipartFile main, HttpServletRequest request) throws Exception{
-		
-		System.out.println(groups);
-		
+
 		String today = new java.text.SimpleDateFormat("yyMMddHHmmss").format(new java.util.Date());
 		String path = request.getSession().getServletContext().getRealPath("/")+"images\\group\\";		
 		
@@ -130,11 +150,31 @@ public class GroupController {
 		
 		groups.setMainImg(mainFileName);					
 		
-		System.out.println(groups);
-		
 		groupService.updateGroup(groups);
 		
-		return "/group/listGroupAdmin.jsp";
+		return "/group/listGroupAdmin";
 	}
+	
+	
+	@RequestMapping(value="listGroup")
+	public String getGroup(Model model, @ModelAttribute("search") Search search) throws Exception{
+		
+		if(search.getCurrentPage() == 0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		Map<String,Object> map = groupService.getListGroup(search);	
+
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		
+		return "/group/listGroup.jsp";
+		
+	}
+	
 	
 }
