@@ -127,13 +127,26 @@ body{padding-top:10px;}
 		$("a[href='#' ]:contains('모임검색')").bind("click" , function() {
 			self.location = "/group/listGroupAdmin"
 		});
+	
+	//============= 게시판,고객센터 =============
+		
+		$("a[href='#' ]:contains('게시판')").bind("click" , function() {
+			self.location = "/board/listboardView"
+		});		
+		
+		
 	});
 	
+<<<<<<< HEAD
+	
+		
+=======
 	$( function() {
 		$("a[href='#' ]:contains('그룹채팅')").bind("click" , function() {
 			self.location = "/chat/joinGroupChat"
 		});
 	});
+>>>>>>> refs/remotes/origin/master
 	
 </script>	
 
@@ -168,8 +181,16 @@ body{padding-top:10px;}
 			  			 <a class="btn btn-info btn-lg" href="#" role="button">그룹채팅</a><p>
 			  			
 			  			<input type="hidden" name="userId" id="userId" value="${user.userId }"/>
+<<<<<<< HEAD
+			  				
+			  				
+			  				<h3>게시판,고객센터<p></h3>
+						<a class="btn btn-warning btn-lg" href="#" role="button">게시판</a>
+						<a class="btn btn-warning btn-lg" href="#" role="button">고객센터</a><p><p>			  				
+=======
 			  			
 			  			<hr>
+>>>>>>> refs/remotes/origin/master
 			  			[로그인상태] <br>
 			  			이름 : ${user.name}
 			  			

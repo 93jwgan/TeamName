@@ -19,7 +19,7 @@ public class test {
 
 	public static void main(String[] args) throws Exception{
 		
-		rrr();
+		youtube();
 		
 	}
 	
@@ -101,6 +101,46 @@ public class test {
         // Console 확인
 //        System.out.println(response.toString());
 	}
+	
+	public static void youtube() throws Exception{
+		System.out.println();
+
+        String text = URLEncoder.encode("페이커", "UTF-8");
+        String daumOpenAPIURL = "https://www.googleapis.com/youtube/v3/search?q="+text+"&key=AIzaSyAfkFqWArB8a77fiEJuJN80OW9TFtfoJhY&part=snippet&order=viewCount&regionCode=KR";
+        // java API 를 이용 HttpRequest
+        URL url = new URL(daumOpenAPIURL);
+        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+        con.setRequestMethod("GET");
+        
+        
+        // Response Code GET
+        int responseCode = con.getResponseCode();
+        
+        BufferedReader br = null;
+        
+        if(responseCode==200) { 
+            br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        } else {  // 에러 발생
+            br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+        }
+        
+        //JSON Data 읽기
+        String jsonData = "";
+        StringBuffer response = new StringBuffer();
+        
+        while ((jsonData = br.readLine()) != null) {
+        	System.out.println(jsonData);
+//            response.append(jsonData);
+        }
+        
+//        System.out.println(response);
+        
+        br.close();
+        
+        // Console 확인
+//        System.out.println(response.toString());
+	}
+	
 }
 
 
