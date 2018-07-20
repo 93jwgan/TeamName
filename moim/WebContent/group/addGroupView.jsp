@@ -12,6 +12,7 @@
 <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://192.168.0.25:3000/socket.io/socket.io.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 
@@ -83,6 +84,8 @@
 
 var i=0;
 var text="";
+
+var socket = io('http://192.168.0.25:3000/');
 
 function appendText(content) {
     text = text + content;
@@ -828,6 +831,8 @@ function fncAddGroup(){
 		alert("관심사 1개는 반드시 선택하셔야 합니다.");
 		return;
 	}
+	
+	socket.emit('group name',groupName);
 
 	$("#form").attr("method" , "POST").attr("action" , "/group/addGroup").submit();
 }
@@ -901,6 +906,7 @@ $(function(){
 	
 	
 	$("#add").bind("click", function() {
+		
 		fncAddGroup();
 	});
 	
@@ -953,6 +959,8 @@ $(function(){
 	}); 
 
 });	
+
+
 
 </script>
 
@@ -1046,7 +1054,6 @@ $(function(){
 	<input type="hidden" id="interest_no1" name="interestNo1" value=""/>
 	<input type="hidden" id="interest_no2" name="interestNo2" value=""/>
 	<input type="hidden" id="interest_no3" name="interestNo3" value=""/>
-	
   </div>
 </div>
 

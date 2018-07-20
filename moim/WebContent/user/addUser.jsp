@@ -164,7 +164,7 @@ $(function() {
 	// ----- join 버튼 클릭 -----------
 	
 	$("#join").bind("click", function() {
-		 	 
+		 alert("111111111");
 		addUser();
 	});
 	
@@ -241,14 +241,14 @@ $(function() {
 
 // ------ join 클릭 시 유효성검사 로직 ------
 	function addUser() {
-
+		alert("33333333");
 			 var id = $("input[name='userId']").val();
 			var pw = $("input[name='password']").val();
 			var pw_confirm = $("input[name='password2']").val();
 			var name = $("input[name='name']").val();
 			var chk_name=/^[가-힣]*$/;
-			var chk_name = /\s/g;
 			
+		
 			
 		 	if( !chk_name.test(name) )
 			{
@@ -260,20 +260,11 @@ $(function() {
 				swal("아이디를 입력해주세요.");
 				return;
 				
-				
-				
 				var chk_id = /^[A-Za-z0-9]$/; 
-				var chk_id = /\s/g;
-			
+		
 				if( !chk_id.test(Id))
 				{
 					swal("아이디는 영문자, 숫자만 가능합니다.");
-					return false;
-				} 
-				
-				if( !chk_id.test(Id))
-				{
-					swal("아이디에 공백이 있습니다");
 					return false;
 				} 
 				
@@ -319,6 +310,8 @@ $(function() {
 			var chr_pass_0; 
 			var chr_pass_1; 
 			
+			alert("4444");
+			
 			for(var i=0; i < pw.length; i++) 
 			{
 				chr_pass_0 = pw.charAt(i); 
@@ -335,6 +328,9 @@ $(function() {
 							 }
 						 }
 				}
+			
+			alert("4-1");
+			
 			if(SamePass_0 >= 2)
 			{
 				swal("비밀번호에 동일숫자를 연속으로 3번 이상 사용할 수 없습니다."); 
@@ -352,7 +348,7 @@ $(function() {
 		 	swal("ID가 포함된 비밀번호는 사용하실 수 없습니다.");
 		 	return false; 
 		 	} 
-					
+					alert("4-2");
 		//비밀번호는 영문, 숫자 혼용
 			
 			var chk = 0; 
@@ -365,13 +361,6 @@ $(function() {
 			}
 			 
 			
-			var chk_pw = /^[a-z0-9_]{4,20}$/; 
-			
-			if( !chk_pw.test(password) )
-			{
-				swal("비밀번호는 영문, 숫자 4~20자리만 가능합니다.");
-				return false;
-			} 
 		
 			//핸드폰 번호 합치기
 			
@@ -401,6 +390,7 @@ $(function() {
 				return false;
 			} 
 		 	
+		 	alert("22222");
 		//생년월일
 			
 			var b1 = $("#birthYear").val();
