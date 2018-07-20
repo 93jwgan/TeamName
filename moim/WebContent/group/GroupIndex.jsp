@@ -47,6 +47,9 @@
 			  			이름 : ${group.groupName}
 			  			
 			  		</div>
+			  		
+			  		
+
 
 </body>
 

@@ -88,4 +88,8 @@ public class Board {
 		// TODO Auto-generated constructor stub
 	}
 
+	public String toString() {
+		return "Board : [boardNo] : "+boardNo+" [title] : "+title+" [contents] : "+contents+" [clickCount] : "+clickCount+" [recommendCount] : "+recommendCount+" [regDate] : "+regDate+
+				" [stateCode] : "+stateCode+" [userId] : "+userId+ " [memberNo] : "+memberNo;
+	}
 }

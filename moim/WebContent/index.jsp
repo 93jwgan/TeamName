@@ -127,7 +127,18 @@ body{padding-top:10px;}
 		$("a[href='#' ]:contains('모임검색')").bind("click" , function() {
 			self.location = "/group/listGroupAdmin"
 		});
+	
+	//============= 게시판,고객센터 =============
+		
+		$("a[href='#' ]:contains('게시판')").bind("click" , function() {
+			self.location = "/board/listboardView"
+		});		
+		
+		
 	});
+	
+	
+		
 	
 </script>	
 
@@ -159,7 +170,11 @@ body{padding-top:10px;}
 			  			 <a class="btn btn-warning btn-lg" href="#" role="button">모임검색</a><p><p>
 			  			
 			  			<input type="hidden" name="userId" id="userId" value="${user.userId }"/>
-			  			
+			  				
+			  				
+			  				<h3>게시판,고객센터<p></h3>
+						<a class="btn btn-warning btn-lg" href="#" role="button">게시판</a>
+						<a class="btn btn-warning btn-lg" href="#" role="button">고객센터</a><p><p>			  				
 			  			[로그인상태] <br>
 			  			이름 : ${user.name}
 			  			

@@ -146,7 +146,7 @@ $(function(){
 			<div class="col-sm-4 form-inline">
 				<div id="picker"> </div>
 				<input type="hidden" id="startDay" name="startDay" value="">
-			</div>
+		</div>
 			
 		</div>
 		

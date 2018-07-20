@@ -6,7 +6,66 @@
 
 <mapper namespace="BoardMapper">
  	
+ 	<resultMap id="BoardSelectMap" type="board">
+ 		<result jdbcType="NUMERIC"				column="BOARD_NO"			property="boardNo"/>
+ 		<result jdbcType="VARCHAR"				column="TITLE"				property="title"/>
+ 		<result jdbcType="CLOB"					column="CONTENTS"			property="contents"/>
+ 		<result jdbcType="NUMERIC"				column="CLICK_COUNT"		property="clickCount"/>
+		<result jdbcType="NUMERIC"				column="RECOMMEND_COUNT"	property="recommendCount"/>
+ 		<result jdbcType="DATE"					column="REG_DATE"			property="regDate"/>
+ 		<result jdbcType="CHAR"					column="STATE_CODE"			property="stateCode"/>
+		<result jdbcType="VARCHAR"				column="USER_ID"			property="userId"/>
+		<result jdbcType="NUMERIC"				column="MEMBER_NO"			property="memberNo"/>	
+ 	</resultMap>
  	
+ 	
+ 	<insert id="addBoard" parameterType="board">
+ 		INSERT
+ 		INTO board(board_no,title,contents,reg_date,state_code,user_id)
+ 		VALUES(seq_board_board_no.nextval,#{title},#{contents},to_date(#{regDate},'YYYY/MM/DD HH24:MI'),#{stateCode},#{userId})
+ 	</insert>
+ 	
+ 	<select id="getListBoard" parameterType="search" resultMap="BoardSelectMap">
+ 		SELECT *
+ 		FROM(SELECT inner_table.*,ROWNUM as row_req
+ 			 FROM(SELECT * 
+ 			 	  FROM board 
+ 			 	  <trim prefix="WHERE" prefixOverrides="AND">
+ 			 	  	<if test="searchCondition != null">
+ 			 	  		<if test="searchCondition ==0 and searchKeyword !=''">
+ 			 	  			title like '%${searchKeyword}%'
+ 			 	  		</if>
+ 			 	  		<if test="searchCondition ==1 and searchKeyword !=''">
+ 			 	  			user_id like '%${searchKeyword}%'
+ 			 	  		</if>
+ 			 	  	</if>
+ 			 	  </trim>
+ 			 	  ORDER BY board_no)inner_table)inner
+ 		WHERE row_req between ((#{currentPage}-1)*#{pageSize}+1) AND #{currentPage}*#{pageSize}
+ 	
+ 	</select>
+ 	
+ 	<select id="getTotalCount" parameterType="search" resultType="int">
+ 		SELECT count(*)
+ 		FROM(SELECT * 
+ 			 FROM board 
+		 	  <trim prefix="WHERE" prefixOverrides="AND">
+		 	  	<if test="searchCondition != null">
+		 	  		<if test="searchCondition ==0 and searchKeyword !=''">
+		 	  			title like '%${searchKeyword}%'
+		 	  		</if>
+		 	  		<if test="searchCondition ==1 and searchKeyword !=''">
+		 	  			user_id like '%${searchKeyword}%'
+		 	  		</if>
+		 	  	</if>
+		 	  </trim> 			 
+ 			 ORDER BY board_no)count_table
+ 	
+ 	</select>
 
-	 
+	<select id="getBoard" parameterType="int" resultMap="BoardSelectMap">
+		SELECT * 
+		FROM board
+		WHERE board_no=#{value}
+	</select> 
 </mapper>
