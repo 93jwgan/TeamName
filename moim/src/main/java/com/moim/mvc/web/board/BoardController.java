@@ -70,7 +70,7 @@ public class BoardController {
 	}
 
 	@RequestMapping(value="addBoard")
-	public String addBoard(@ModelAttribute Board board,HttpSession session) throws Exception {
+	public String addBoard(@ModelAttribute Board board,HttpSession session,Model model) throws Exception {
 		System.out.println(this.getClass()+".addBoard()");
 		
 		board.setUserId(((User)session.getAttribute("user")).getUserId());
@@ -85,6 +85,19 @@ public class BoardController {
 		board.setRegDate(str);
 		
 		boardService.addBoard(board);
+		
+		
+		
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(pageSize);
+		Map<String,Object> map = boardService.getListBoard(search);
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
 		
 		
 		return "forward:/board/listboard.jsp";

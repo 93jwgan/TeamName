@@ -94,9 +94,9 @@
 			<label for="title" class="col-sm-offset-1 col-sm-3 control-label">게시글 유형</label>
 			<div class="col-sm-4">
 				<select class="form-control" id="stateCode" name="stateCode">
-					<option value="0" >유저신고</option>
-					<option value="1" >모임신고ㅓ</option>
-					<option value="2" >유저신고</option>
+					<option value="0" >모임홍보/자랑</option>
+					<option value="1" >자유게시판</option>
+					<option value="2" >모임인원모집</option>
 				</select>		
 			</div>
 		</div>
