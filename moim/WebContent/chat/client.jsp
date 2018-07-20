@@ -30,7 +30,7 @@
     <script src="//code.jquery.com/jquery-1.11.1.js"></script>
     <script>
     
-      var socket = io('http://localhost:3000/');
+      var socket = io('/group');
       
       $('#chat').on('submit', function(e)
       {

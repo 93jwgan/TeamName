@@ -242,7 +242,7 @@ $(function() {
     	<tr>
    	 	<td class="text-center"> ${i} </td>
      	<td class="text-center">
-     		<a href="#" onClick="window.open('/group/getGroup?groupNo=${group.groupNo}','moimMain','width=800, height=700');return false;">${group.groupName}</a>   
+     		<a href="#" onClick="window.open('/chat/joinGroupChat?groupNo=${group.groupNo}','moimMain','width=800, height=700');return false;">${group.groupName}</a>   
      	</td>
      	<td class="text-center">
      		<a href="/user/getMyInfo?userId=${group.groupMaster}">${group.groupMaster}</a>   
